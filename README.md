@@ -10,7 +10,7 @@ Every payout, airdrop, bonus and dividend is governed by bots, enforced by smart
 
 ## 🔐 Core Contracts (BSC Mainnet)
 
-- GEN Token (GENc): [0xb0ad142296952305679f691D646B3F9e3d589349](https://bscscan.com/token/0x...)
+- GEN Token (GENc): [0xb0ad142296952305679f691D646B3F9e3d589349](https://bscscan.com/token/0xb0ad142296952305679f691D646B3F9e3d589349)
 - Pre-Sale Contract: [0x44f03E1EC6BDEf231cA7B654E5EaeFc2D79E36fa](https://bscscan.com/address/0x44f03E1EC6BDEf231cA7B654E5EaeFc2D79E36fa)
 - Public Sale Contract: *(Pending Mainnet Launch)*
 
