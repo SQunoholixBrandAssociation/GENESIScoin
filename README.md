@@ -123,7 +123,7 @@ Auto-burn is manual-only (via multisender), LP injection is automatic at swap th
 ## 🌐 Links
 
 - 🌍 Website: https://squnoholix.com  
-- 🧠 Twitter/X: https://x.com/GENconcenssus  
+- 🧠 Twitter/X: https://x.com/GENconcensus  
 - 🎥 YouTube: https://youtube.com/@SQUNOHOLIX_Impact
 - 👾 Reddit: https://www.reddit.com/user/SQUNOHOLIX_Impact/
 
