@@ -114,7 +114,7 @@ Auto-burn is manual-only (via multisender), LP injection is automatic at swap th
 
 ## 📁 Documentation & Proofs
 
-- [`White_Paper_GENESIScoin.pdf`](White_Paper_GENESIScoin.pdf)
+- [`WhitePaper_GENESIScoin.pdf`](WhitePaper_GENESIScoin.pdf)
 - [`Technical_Mechanics_GENESIScoin.pdf`](Technical_Mechanics_GENESIScoin.pdf)
 - [`GENESIScoin_Proof-Testnet.pdf`](GENESIScoin_Proof-Testnet.pdf)
 - JSON: ABI, eligible users, payout history, etc. — available via frontend
@@ -122,13 +122,13 @@ Auto-burn is manual-only (via multisender), LP injection is automatic at swap th
 
 ## 🌐 Links
 
-- 🌍 Website: https://squnoholix.com  
-- 🧠 Twitter/X: https://x.com/GENconcensus  
-- 🎥 YouTube: https://youtube.com/@SQUNOHOLIX_Impact
-- 👾 Reddit: https://www.reddit.com/user/SQUNOHOLIX_Impact/
-
+- Website: https://squnoholix.com
+- GENESIScoin: https://squnoholix.com/genesiscoin/
+- X/Twitter: https://x.com/GENconcensus  
+- YouTube: https://youtube.com/@SQUNOHOLIX_Impact
+- Reddit: https://www.reddit.com/user/SQUNOHOLIX_Impact/
 
 ---
 
 > “GENc doesn’t ask for trust. It proves itself block by block.”  
-> — DW. SYSROOT LOG 001 | SBA Formation 2025
+> — DL. SYSROOT LOG 001 | SBA Formation 2025
