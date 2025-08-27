@@ -115,7 +115,7 @@ Auto-burn is manual-only (via multisender), LP injection is automatic at swap th
 ## 📁 Documentation & Proofs
 
 - [`WhitePaper_GENESIScoin.pdf`](WhitePaper_GENESIScoin.pdf)
-- [`Technical_Mechanics_GENESIScoin.pdf`](Technical_Mechanics_GENESIScoin.pdf)
+- [`TechnicalMechanics_GENESIScoin.pdf`](Technical_Mechanics_GENESIScoin.pdf)
 - [`GENESIScoin_Proof-Testnet.pdf`](GENESIScoin_Proof-Testnet.pdf)
 - JSON: ABI, eligible users, payout history, etc. — available via frontend
 
