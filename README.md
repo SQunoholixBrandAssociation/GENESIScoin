@@ -1,4 +1,4 @@
-# GENESIScoin (GENc) – The Autonomous Token System of SBA Formation 2025
+# GENESIScoin (GENc) – The Autonomous Token System of SBA Digital LAB 2025
 
 GENESIScoin (GENc) is the first engineered unit of the SQUNOHOLIX BRAND ASSOCIATION (SBA) — a modular, autonomous, and fully verifiable token system running on the BNB Smart Chain.
 
