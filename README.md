@@ -131,4 +131,4 @@ Auto-burn is manual-only (via multisender), LP injection is automatic at swap th
 ---
 
 > “GENc doesn’t ask for trust. It proves itself block by block.”  
-> — DL. SYSROOT LOG 001 | SBA Formation 2025
+> — DL. SYSROOT LOG 003 | SBA Formation 2025
