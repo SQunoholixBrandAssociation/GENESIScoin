@@ -132,8 +132,7 @@ Auto-burn is manual-only (via multisender), LP injection is automatic at swap th
 ## 🔒 Audit & Security
 
 - All contracts are fully verified on **BscScan**.  
-- GENESIScoin core contract was deployed via certified Ventileb infrastructure.  
-- External third-party audit: **pending** (to be published in `/audits/` once available).  
+- Deployment via 20lab token generator.”- External third-party audit: **pending**.  
 - Security features include:
   - Non-mintable total supply  
   - Manual-only auto-burn  
