@@ -155,6 +155,11 @@ Auto-burn is manual-only (via multisender), LP injection is automatic at swap th
 - **No License** applies to GENESIScoin.sol. This contract is released only for transparency and auditing purposes.  
 - The repository is therefore **mixed-license**: MIT for sale modules, restricted license for the GEN core.  
 
+### ABI
+
+The Application Binary Interface (ABI) is not included in this repository.  
+For transparency and accuracy, the verified ABI is always available directly via [BscScan](https://bscscan.com/token/0xb0ad142296952305679f691D646B3F9e3d589349) under the **Contract → Code** tab.  
+This ensures developers always work with the canonical, verified interface.
 ---
 
 > “GENc doesn’t ask for trust. It proves itself block by block.”  
