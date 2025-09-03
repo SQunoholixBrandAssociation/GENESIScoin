@@ -3,7 +3,7 @@
 GENESIScoin (GENc) is the first engineered unit of the SQUNOHOLIX BRAND ASSOCIATION (SBA) — a modular, autonomous, and fully verifiable token system running on the BNB Smart Chain.
 
 No promises. Just proof.
-
+ 
 Every payout, airdrop, bonus and dividend is governed by bots, enforced by smart contracts, and written immutably into chain history.
 
 ---
