@@ -117,7 +117,6 @@ Auto-burn is manual-only (via multisender), LP injection is automatic at swap th
 - [`WhitePaper_GENESIScoin.pdf`](WhitePaper_GENESIScoin.pdf)
 - [`TechnicalMechanics_GENESIScoin.pdf`](TechnicalMechanics_GENESIScoin.pdf)
 - [`GENESIScoin_Proof-Testnet.pdf`](GENESIScoin_Proof-Testnet.pdf)
-- JSON: ABI, eligible users, payout history, etc. — available via frontend
 
 
 ## 🌐 Links
@@ -127,6 +126,35 @@ Auto-burn is manual-only (via multisender), LP injection is automatic at swap th
 - X/Twitter: https://x.com/GENconcensus  
 - YouTube: https://youtube.com/@SQUNOHOLIX_Impact
 - Reddit: https://www.reddit.com/user/SQUNOHOLIX_Impact/
+
+---
+
+## 🔒 Audit & Security
+
+- All contracts are fully verified on **BscScan**.  
+- GENESIScoin core contract was deployed via certified Ventileb infrastructure.  
+- External third-party audit: **pending** (to be published in `/audits/` once available).  
+- Security features include:
+  - Non-mintable total supply  
+  - Manual-only auto-burn  
+  - Excluded system addresses from dividend/airdrop trackers  
+  - Max wallet and max transaction limits  
+  - Event-driven bots enforcing payouts and governance  
+
+---
+
+## Contracts & License
+
+| Contract           | Address                                      | SPDX License | Notes |
+|--------------------|----------------------------------------------|--------------|-------|
+| GENESIScoin.sol    | 0xb0ad142296952305679f691D646B3F9e3d589349   | No License   | Core token contract. Published for verification and audit purposes only. Reuse not permitted. |
+| PreSaleGENc.sol    | 0x44f03E1EC6BDEf231cA7B654E5EaeFc2D79E36fa   | MIT          | Pre-Sale contract. Open-source. |
+| PublicSaleGENc.sol | 0x0C10f15B226526Bad708010C4632CFA1f6a44FC1   | MIT          | Public Sale contract. Open-source. |
+
+### License Policy
+- **MIT License** applies to PreSaleGENc.sol and PublicSaleGENc.sol.  
+- **No License** applies to GENESIScoin.sol. This contract is released only for transparency and auditing purposes.  
+- The repository is therefore **mixed-license**: MIT for sale modules, restricted license for the GEN core.  
 
 ---
 
