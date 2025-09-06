@@ -121,11 +121,15 @@ Auto-burn is manual-only (via multisender), LP injection is automatic at swap th
 
 ## 🌐 Links
 
-- Website: https://squnoholix.com
-- GENESIScoin: https://squnoholix.com/genesiscoin/
-- X/Twitter: https://x.com/GENconcensus  
-- YouTube: https://youtube.com/@SQUNOHOLIX_Impact
-- Reddit: https://www.reddit.com/user/SQUNOHOLIX_Impact/
+- 🌐 Website: [https://squnoholix.com](https://squnoholix.com)
+- 🌐 GENESIScoin: [https://squnoholix.com/genesiscoin](https://squnoholix.com/genesiscoin)
+
+-  X (Twitter): [https://x.com/GENcProtocol](https://x.com/GENcProtocol)
+-  YouTube: [https://www.youtube.com/@SQUNOHOLIX_Impact](https://www.youtube.com/@SQUNOHOLIX_Impact)
+-  Reddit: [https://www.reddit.com/r/SQ_LAB/](https://www.reddit.com/r/SQ_LAB/)
+-  Reddit: [https://www.reddit.com/r/SBAholix/](https://www.reddit.com/r/SBAholix/)
+-  Medium: [https://medium.com/@squnoholix.brand.association](https://medium.com/@squnoholix.brand.association)
+-  GitHub: [https://github.com/SQunoholixBrandAssociation/GENESIScoin](https://github.com/SQunoholixBrandAssociation/GENESIScoin)
 
 ---
 
