@@ -100,6 +100,42 @@ Auto-burn is manual-only (via multisender), LP injection is automatic at swap th
 
 ---
 
+📑 System Allocation Addresses (BSC Mainnet)
+
+All initial allocations (1,000,000,000,000 GENc) are distributed to predefined system wallets.  
+These addresses are excluded from dividends, airdrops, and bonus eligibility.
+
+| Role / Allocation     | Address                                    | Notes              |
+|-----------------------|--------------------------------------------|--------------------|
+| Owner (no fee)        | 0x969E4A73407684495d6EaF7e2db2B1A9b7265652 | GENc Owner         |
+| Deployer (no fee)     | 0xE16888dc939e3fE0837A4DF6e8B54615823E37B3 | Deployer wallet    |
+| DevG                  | 0xF744D5516026abb2F62A2D37b8846488894B5485 | Development        |
+| TeamG                 | 0xBBb1d5323e89bafCF41e1ff1695ce4bE7b07eea5 | Team allocation    |
+| LP                    | 0x436945Ec6b1d8d64b6081d403B704d6850BbA71C | Liquidity pool     |
+| Marketing             | 0x49a94bc3a17E857dC2f0DE1fd4Dc7cdF8115967a | Marketing fund     |
+| Community             | 0xBC6b28715e4c9fe375110ce1D894dFDE41F04D4C | Community fund     |
+| Secure / Audit        | 0x3B9fA0D1069CE2c77b47116EF0bFee459FeA2F28 | Security reserve   |
+| Level UP              | 0xF637f2cfb94155D0fDf38D867d3B7A09b6C1d69e | Future scaling     |
+| Project Expansion     | 0x5718dAacFe5dEbd008715aFB492CbdcfC8e14b53 | Expansion fund     |
+| B100D Fee - gas Ops   | 0xE1a86188C2FCc15B4D92526bC5bb4694De2EC9b3 | Ops gas reserve    |
+| Burn                  | 0x544d271A6148bC360c881fB13DcDd184db73e00b | Burn wallet        |
+| Dividend Pool         | 0xF20b08f5912F88248a6B14641240E47e6D7Ecf43 | BNB dividends      |
+| Airdrop Pool          | 0x4360F93ad9aAC1AA1a3A88cbA5E4413B864510c6 | Airdrops           |
+| LP Backup             | 0xe3CAD52409d75B19D328FC106654054EF474Edef | Reserve LP         |
+| LP Main               | 0xAa8C86ab32f38b39da1a93ab52F0f62Ba41d5108 | Primary LP         |
+| Future Project / SBA  | 0x36B7F9d8aAEA18EE6C3beD5c8AB22B3c570794C3 | SBA exp./GENc evol.|
+| Project Partners      | 0x9CBFB132eB3101c211ed831e611248dF16156b9E | Partnerships       |
+| Event / Expo          | 0x641B8885776D2DaeB74CFD2e26F1F5ac79a2fACF | Events, expos      |
+| DevG GENc             | 0xEc73057B30F89465d20a8E690E2905eA515EabFc | Development GENc   |
+| TeamG GENc            | 0x2C09f7Cd841FdE308Ab823745d25649A6Ef8469A | Team GENc          |
+| Marketing GENc        | 0x74b56c00aD719F39D84d1d01A496F1df3866d44E | Marketing GENc     |
+
+🔒 All above are **excluded** from dividend/airdrop trackers and marked as `nofee` system addresses.
+
+⏳ Current Status
+All allocation funds are already in their destination wallets.
+A 3-month lock on system allocation wallets is planned, giving enough time to deliver the first version of the Asset Manager — taking over custody and timed releases.
+
 ## 🧱 Modular Infrastructure
 
 - 🔥 Asset Manager planned for full LP custody automation  
