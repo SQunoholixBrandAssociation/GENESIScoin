@@ -170,8 +170,11 @@ A 3-month lock on system allocation wallets is planned, giving enough time to de
 
 ## 🔒 Audit & Security
 
-- All contracts are fully verified on **BscScan**.  
-- Deployment via 20lab token generator.”- External third-party audit: **pending**.  
+- All contracts are fully verified on BscScan.  
+- Token core (GENESIScoin) deployed via 20lab generator.  
+- Additional system contracts (Pre-Sale, Public-Sale, B100D, bots) fully custom-built and verified.  
+- External third-party audit: **pending**.  
+
 - Security features include:
   - Non-mintable total supply  
   - Manual-only auto-burn  
