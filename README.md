@@ -155,17 +155,16 @@ A 3-month lock on system allocation wallets is planned, giving enough time to de
 - [`GENESIScoin_Proof-Testnet.pdf`](GENESIScoin_Proof-Testnet.pdf)
 
 
-## 🌐 Links
+## Official Links
 
-- 🌐 Website: [https://squnoholix.com](https://squnoholix.com)
-- 🌐 GENESIScoin: [https://squnoholix.com/genesiscoin](https://squnoholix.com/genesiscoin)
+- 🌐 **Website:** [https://squnoholix.com](https://squnoholix.com)  
+- 🌐 **GENESIScoin Page:** [https://squnoholix.com/genesiscoin](https://squnoholix.com/genesiscoin)  
 
--  X (Twitter): [https://x.com/GENcProtocol](https://x.com/GENcProtocol)
--  YouTube: [https://www.youtube.com/@SQUNOHOLIX_Impact](https://www.youtube.com/@SQUNOHOLIX_Impact)
--  Reddit: [https://www.reddit.com/r/SQ_LAB/](https://www.reddit.com/r/SQ_LAB/)
--  Reddit: [https://www.reddit.com/r/SBAholix/](https://www.reddit.com/r/SBAholix/)
--  Medium: [https://medium.com/@squnoholix.brand.association](https://medium.com/@squnoholix.brand.association)
--  GitHub: [https://github.com/SQunoholixBrandAssociation/GENESIScoin](https://github.com/SQunoholixBrandAssociation/GENESIScoin)
+- **X (Twitter):** [https://x.com/GENcProtocol](https://x.com/GENcProtocol)  
+- **YouTube:** [https://www.youtube.com/@SQUNOHOLIX_Impact](https://www.youtube.com/@SQUNOHOLIX_Impact)  
+- **Telegram (SBA Launchpad):** [https://t.me/SBAlaunch](https://t.me/SBAlaunch)  
+- **Medium:** [https://medium.com/@squnoholix.brand.association](https://medium.com/@squnoholix.brand.association)  
+- **GitHub:** [https://github.com/SQunoholixBrandAssociation/GENESIScoin](https://github.com/SQunoholixBrandAssociation/GENESIScoin) 
 
 ---
 
