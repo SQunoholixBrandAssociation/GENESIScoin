@@ -161,11 +161,11 @@ A 3-month lock on system allocation wallets is planned, giving enough time to de
 - 🌐 **GENESIScoin Page:** [https://squnoholix.com/genesiscoin](https://squnoholix.com/genesiscoin)  
 
 - **X (Twitter):** [https://x.com/GENcProtocol](https://x.com/GENcProtocol)  
-- **YouTube:** [https://www.youtube.com/@SQUNOHOLIX_Impact](https://www.youtube.com/@SQUNOHOLIX_Impact)  
-- **Telegram (SBA Launchpad):** [https://t.me/SBAlaunch](https://t.me/SBAlaunch)  
+- **Telegram (SBA Launchpad):** [https://t.me/SBAlaunch](https://t.me/SBAlaunch)
+- **LinkedIn:** [https://www.linkedin.com/in/squno](https://www.linkedin.com/in/squno)
 - **Medium:** [https://medium.com/@squnoholix.brand.association](https://medium.com/@squnoholix.brand.association)  
 - **GitHub:** [https://github.com/SQunoholixBrandAssociation/GENESIScoin](https://github.com/SQunoholixBrandAssociation/GENESIScoin) 
-
+- **YouTube:** [https://www.youtube.com/@SQUNOHOLIX_Impact](https://www.youtube.com/@SQUNOHOLIX_Impact)  
 ---
 
 ## 🔒 Audit & Security
