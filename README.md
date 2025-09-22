@@ -1,2 +1,8 @@
+<p align="center">
+  <img src="assets/GENcoin_logo.png" alt="GENESIScoin logo" width="200"/>
+</p>
+
 # GENESIScoin
-GENESIScoin (GENc) — non-mintable BSC token. Verified Pre-Sale/Public-Sale contracts,  complete tokenomics and on-chain documentation. Repository includes smart contracts,  Hardhat scripts, deployment proofs, and GENc logo.
+GENESIScoin (GENc) — non-mintable BSC token. Verified Pre-Sale/Public-Sale contracts, 
+complete tokenomics and on-chain documentation. Repository includes smart contracts, 
+Hardhat scripts, deployment proofs, and GENc logo.
