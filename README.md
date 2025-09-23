@@ -94,5 +94,5 @@ The contract is **strictly non-mintable** — no `_mint()` function exists, maki
 ## License
 
 - Repository content (documentation, scripts, assets): **MIT**  
-- GENESIScoin (GENc) token contract: **NOT open-source licensed** — deployed and certified by **20LAB**.  
+- GENESIScoin (GENc) token contract: **NOT open-source licensed**.  
   The contract is verified on BSC but is **not covered by MIT or any permissive license**.
