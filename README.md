@@ -2,7 +2,78 @@
   <img src="assets/GENcoin_logo.png" alt="GENESIScoin logo" width="200"/>
 </p>
 
-# GENESIScoin
-GENESIScoin (GENc) — non-mintable BSC token. Verified Pre-Sale/Public-Sale contracts, 
-complete tokenomics and on-chain documentation. Repository includes smart contracts, 
-Hardhat scripts, deployment proofs, and GENc logo.
+# GENESIScoin (GENc)
+
+**GENESIScoin (GENc)** is the flagship project of **SQUNOHOLIX BRAND ASSOCIATION Digital LAB**, operating on Binance Smart Chain with a **fixed supply of 100 billion GENc**.  
+The contract is **strictly non-mintable** — no `_mint()` function exists, making GENc fully inflation-resistant.
+
+---
+
+## Key Features
+
+- **Fixed Supply:** 100,000,000,000 GENc (non-mintable).  
+- **Tokenomics:** Modular Tax Model v1.0 (Buy 7% / Sell 10% / Transfer 2%).  
+- **Auto-Burn:** Disabled by default, manually triggerable.  
+- **Liquidity Injection:** Dynamic LP funding system.  
+- **Dual Dividend System:**  
+  - Rewards in BNB from transaction taxes.  
+  - DividendGENc Pool with progressive cycle logic.  
+- **B100D Loyalty Program:** 100 days of daily GENc payouts + proportional final bonus.  
+- **Public Sale Bonus:** 4 phases, daily bonus with rollover logic.  
+- **Airdrop System:** Up to 5B GENc distributed via tracker (`airT`) and console (`airdropConsole`).  
+
+---
+
+## Repository Structure
+
+- **contracts/** – GENc, Pre-Sale, and Public-Sale smart contracts.  
+- **docs/** – Official documentation:  
+  - *White_Paper_GENESIScoin.pdf*  
+  - *TechnicalMechanics_GENESIScoin.pdf*  
+- **assets/** – Logos and graphical materials.  
+- **scripts/** – Auxiliary files (Hardhat, automation).  
+
+---
+
+## Documentation
+
+- [White Paper](docs/WhitePaper_GENESIScoin.pdf) – vision, tokenomics, governance.  
+- [Technical Mechanics](docs/TechnicalMechanics_GENESIScoin.pdf) – full contract and bot logic.  
+
+---
+
+## Community & Channels
+
+- X (Twitter): [@GENcoinCore](https://x.com/GENcoinCore)  
+- Reddit (Communities):  
+  - [r/SQ_LAB](https://www.reddit.com/r/SQ_LAB/) – blockchain laboratory, dev logs, testing  
+  - [r/SBAholix](https://www.reddit.com/r/SBAholix/) – community hub, announcements, updates  
+- Telegram (Announcements): [SBAlaunch](https://t.me/SBAlaunch)  
+- Telegram (Discussion): [GENcAgora](https://t.me/GENcAgora)  
+- YouTube: [@SQUNOHOLIX_Impact](https://www.youtube.com/@SQUNOHOLIX_Impact)
+- LinkedIn: [squno](https://www.linkedin.com/in/squno/)  
+- Medium: [SQUNOHOLIX Brand Association](https://medium.com/@squnoholix.brand.association)  
+
+---
+
+## Contact
+
+- 📧 genesis@squnoholix.com  
+- 📧 sba@squnoholix.com  
+
+---
+
+## Website
+
+- Main: [squnoholix.com](https://squnoholix.com)  
+- GENESIScoin: [squnoholix.com/genesiscoin](https://squnoholix.com/genesiscoin)  
+- Pre-Sale: [squnoholix.com/gencoin](https://squnoholix.com/gencoin)  
+- SBA Digital LAB: [squnoholix.com/sbadl](https://squnoholix.com/sbadl)  
+
+---
+
+## License
+
+- Repository content (documentation, scripts, assets): **MIT**  
+- GENESIScoin (GENc) token contract: **NOT open-source licensed** — deployed and certified by **20LAB**.  
+  The contract is verified on BSC but is **not covered by MIT or any permissive license**.
