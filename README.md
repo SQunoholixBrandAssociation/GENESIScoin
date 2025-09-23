@@ -9,6 +9,25 @@ The contract is **strictly non-mintable** — no `_mint()` function exists, maki
 
 ---
 
+## Contracts
+
+- **GENESIScoin (GENc)**  
+  Address: `0x8d9f95Dd624F581803e06652623897DfeCB82CA6`  
+  [View on BscScan](https://bscscan.com/address/0x8d9f95Dd624F581803e06652623897DfeCB82CA6)  
+  Source: [contracts/GENESIScoin.sol](contracts/GENESIScoin.sol) (byte-identical to verified code)
+
+- **PreSaleGENc**  
+  Address: `0x019A2D76D825914B5b52552e1A1D09F024CC4C58`  
+  [View on BscScan](https://bscscan.com/address/0x019A2D76D825914B5b52552e1A1D09F024CC4C58)  
+  Source: [contracts/PreSaleModule.sol](contracts/PreSaleModule.sol)
+
+- **PublicSaleGENc**  
+  Address: `0x74eb74d66e8bd29226228536307BF5588168A8b7`  
+  [View on BscScan](https://bscscan.com/address/0x74eb74d66e8bd29226228536307BF5588168A8b7)  
+  Source: [contracts/PublicSaleModule.sol](contracts/PublicSaleModule.sol)
+
+---
+
 ## Key Features
 
 - **Fixed Supply:** 100,000,000,000 GENc (non-mintable).  
