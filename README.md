@@ -57,16 +57,15 @@ The contract is **strictly non-mintable** — no `_mint()` function exists, maki
 ## Documentation
 
 - [White Paper](docs/WhitePaper_GENESIScoin.pdf) – vision, tokenomics, governance.  
-- [Technical Mechanics](docs/TechnicalMechanics_GENESIScoin.pdf) – full contract and bot logic.  
+- [Technical Mechanics](docs/TechnicalMechanics_GENESIScoin.pdf) – full contract and bot logic.
+- [Lock & Vesting](docs/Lock&Vesting_GENESIScoin.pdf) – allocations, lock mechanics, and release schedules.  
 
 ---
 
 ## Community & Channels
 
 - X (Twitter): [@GENcoinCore](https://x.com/GENcoinCore)  
-- Reddit (Communities):  
-  - [r/SQ_LAB](https://www.reddit.com/r/SQ_LAB/) – blockchain laboratory, dev logs, testing  
-  - [r/SBAholix](https://www.reddit.com/r/SBAholix/) – community hub, announcements, updates  
+- Discord: [GENESIScoin Community](https://discord.gg/9q22NAVm)  
 - Telegram (Announcements): [SBAlaunch](https://t.me/SBAlaunch)  
 - Telegram (Discussion): [GENcAgora](https://t.me/GENcAgora)  
 - YouTube: [@SQUNOHOLIX_Impact](https://www.youtube.com/@SQUNOHOLIX_Impact)
