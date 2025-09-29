@@ -47,8 +47,9 @@ The contract is **strictly non-mintable** — no `_mint()` function exists, maki
 
 - **contracts/** – GENc, Pre-Sale, and Public-Sale smart contracts.  
 - **docs/** – Official documentation:  
-  - *White_Paper_GENESIScoin.pdf*  
-  - *TechnicalMechanics_GENESIScoin.pdf*  
+  - *WhitePaper_GENESIScoin.pdf*  
+  - *TechnicalMechanics_GENESIScoin.pdf*
+  - *Lock&Vesting_GENESIScoin.pdf*
 - **assets/** – Logos and graphical materials.  
 - **scripts/** – Auxiliary files (Hardhat, automation).  
 
