@@ -59,6 +59,7 @@ The contract is **strictly non-mintable** — no `_mint()` function exists, maki
 
 - [White Paper](docs/WhitePaper_GENESIScoin.pdf) – vision, tokenomics, governance.  
 - [Technical Mechanics](docs/TechnicalMechanics_GENESIScoin.pdf) – full contract and bot logic.
+- [System Layer](/docs/SystemLayer_GENESIScoin.pdf) – Full breakdown of the architecture, automation, and verified autonomy layers.
 - [Lock & Vesting](docs/Lock&Vesting_GENESIScoin.pdf) – allocations, lock mechanics, and release schedules.  
 
 ---
