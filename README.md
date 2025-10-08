@@ -49,6 +49,7 @@ The contract is **strictly non-mintable** — no `_mint()` function exists, maki
 - **docs/** – Official documentation:  
   - *WhitePaper_GENESIScoin.pdf*  
   - *TechnicalMechanics_GENESIScoin.pdf*
+  - *SystemLayer_GENESIScoin.pdf*
   - *Lock&Vesting_GENESIScoin.pdf*
 - **assets/** – Logos and graphical materials.  
 - **scripts/** – Auxiliary files (Hardhat, automation).  
