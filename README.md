@@ -51,6 +51,7 @@ The contract is **strictly non-mintable** — no `_mint()` function exists, maki
   - *TechnicalMechanics_GENESIScoin.pdf*
   - *SystemLayer_GENESIScoin.pdf*
   - *Lock&Vesting_GENESIScoin.pdf*
+  - *ITL vs GENc — Theory Proven On-Chain.pdf*
 - **assets/** – Logos and graphical materials.  
 - **scripts/** – Auxiliary files (Hardhat, automation).  
 
@@ -61,7 +62,8 @@ The contract is **strictly non-mintable** — no `_mint()` function exists, maki
 - [White Paper](docs/WhitePaper_GENESIScoin.pdf) – vision, tokenomics, governance.  
 - [Technical Mechanics](docs/TechnicalMechanics_GENESIScoin.pdf) – full contract and bot logic.
 - [System Layer](/docs/SystemLayer_GENESIScoin.pdf) – Full breakdown of the architecture, automation, and verified autonomy layers.
-- [Lock & Vesting](docs/Lock&Vesting_GENESIScoin.pdf) – allocations, lock mechanics, and release schedules.  
+- [Lock & Vesting](docs/Lock&Vesting_GENESIScoin.pdf) – allocations, lock mechanics, and release schedules.
+- [ITL vs GENc](docs/ITL%20vs%20GENc%20%E2%80%94%20Theory%20Proven%20On-Chain.pdf) – Comparative paper bridging theoretical Internet Trust Layer (ITL) with on-chain implementation in GENESIScoin.
 
 ---
 
