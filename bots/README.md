@@ -49,6 +49,7 @@ Bots do not control each other — every decision is derived directly from the b
 
 ## Directory Structure
 
+```bash
 bots/
 ├── oracleBot/
 │   ├── oracle.js
@@ -70,4 +71,3 @@ bots/
 └── finalBBot/
     ├── finB.js
     └── .env.example
-
