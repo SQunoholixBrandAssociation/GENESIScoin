@@ -57,6 +57,19 @@ The contract is **strictly non-mintable** — no `_mint()` function exists, maki
 
 ---
 
+## Autonomous Bots
+
+The GENESIScoin ecosystem operates through a set of autonomous, event-driven bots that interact with the verified smart contracts on Binance Smart Chain.
+Each bot performs a specific, permission-bounded function such as Oracle control, dividend verification, airdrop distribution, or loyalty tracking — forming the off-chain automation layer of the System Layer.
+
+Full directory structure and bot-level documentation are available in:
+➡️ /bots/README.md
+
+Note: Source files include intentional placeholders and redacted logic to protect the internal automation architecture of the SBA Digital LAB system.
+For security review or audit requests, contact:
+📧 genesis@squnoholix.com
+📧 sba@squnoholix.com
+
 ## Documentation
 
 - [White Paper](docs/WhitePaper_GENESIScoin.pdf) – vision, tokenomics, governance.  
