@@ -24,6 +24,7 @@ Bots do not control each other — every decision is derived directly from the b
 | **eligibleBot**  | `eliB.js`                  | Handles daily LP purchase bonuses across 4 Public Sale phases. Fully event-driven.                                                                                                  |
 | **b100dBot**     | `b100d.js`                 | Controls the B100D 100-day reward program: whitelist management, participant validation, and stage monitoring.                                                                      |
 | **finalBBot**    | `finB.js`                  | Executes the final bonus distribution after the B100D program concludes.                                                                                                            |
+| **generalBot**   | `generalAM.js`             | Monitors the AssetManager contract after WhitelistClosed. Checks pools (ID 1–6) and automatically releases vesting steps when due. Fully autonomous — no manual calls.              |
 
 ---
 
