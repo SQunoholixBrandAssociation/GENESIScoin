@@ -27,9 +27,10 @@ The contract is **strictly non-mintable** — no `_mint()` function exists, maki
   Source: [contracts/PublicSaleModule.sol](contracts/PublicSaleModule.sol)
 
 - **AssetManager(AM)**
-  Address: 0x673eC5B98bC6d8A3b633F8D900B4C0832850423D
+  Address: `0x673eC5B98bC6d8A3b633F8D900B4C0832850423D`
   [View on BscScan](https://bscscan.com/address/0x673eC5B98bC6d8A3b633F8D900B4C0832850423D)  
   Source: [contracts/AssetMenager.sol](contracts/AssetMenager.sol)
+
 ---
 
 ## Key Features
