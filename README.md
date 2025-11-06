@@ -106,7 +106,7 @@ For security review or audit requests, contact:
 - GENESIScoin: [squnoholix.com/genesiscoin](https://squnoholix.com/genesiscoin)  
 - Pre-Sale: [squnoholix.com/gencoin](https://squnoholix.com/gencoin)  
 - SBA Digital LAB: [squnoholix.com/sbadl](https://squnoholix.com/sbadl)  
-- Official InfoDocs portal: [https://squnoholix.com/infodocs](https://squnoholix.com/infodocs)
+- Official InfoDocs portal: [squnoholix.com/infodocs](https://squnoholix.com/infodocs)
 
 ---
 
