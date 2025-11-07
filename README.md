@@ -8,6 +8,16 @@
 The contract is **strictly non-mintable** — no `_mint()` function exists, making GENc fully inflation-resistant.
 
 ---
+Official Note — Trading Status
+
+Trading for GENESIScoin (GENc) is currently disabled by design.
+The token contract allows activation of trading only once, permanently.
+This safeguard ensures system integrity during the Pre-Sale and Whitelist phases.
+
+Once the Oracle closes the Pre-Sale and the Whitelist period (24h) ends,
+the Public Sale Module will be initialized — and trading will be activated.
+After that moment, trading cannot be paused or disabled again.
+---
 
 ## Contracts
 
