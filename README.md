@@ -2,13 +2,14 @@
   <img src="assets/GENcoin_logo.png" alt="GENESIScoin logo" width="200"/>
 </p>
 
-# GENESIScoin (GENc)
+## GENESIScoin (GENc)
 
 **GENESIScoin (GENc)** is the flagship project of **SQUNOHOLIX BRAND ASSOCIATION Digital LAB**, operating on Binance Smart Chain with a **fixed supply of 100 billion GENc**.  
 The contract is **strictly non-mintable** — no `_mint()` function exists, making GENc fully inflation-resistant.
 
 ---
-Official Note — Trading Status
+
+## Trading Status (Official Notice)
 
 Trading for GENESIScoin (GENc) is currently disabled by design.
 The token contract allows activation of trading only once, permanently.
@@ -106,8 +107,8 @@ For security review or audit requests, contact:
 ## Contact
 
 - 📧 genesis@squnoholix.com  
-- 📧 sba@squnoholix.com  
-
+- 📧 sba@squnoholix.com
+  
 ---
 
 ## Website
@@ -120,8 +121,40 @@ For security review or audit requests, contact:
 
 ---
 
+## SBA Digital LAB — Core Team
+
+| Role                                 | Handle / Contact                           |
+|--------------------------------------|--------------------------------------------|
+| SQUNO — Founder, System Architect    | TG: [@Squnoholix](https://t.me/Squnoholix) |
+| AURON — Systems Engineer, Logic Lead | TG: [@AuronSBA](https://t.me/AuronSBA)     |
+| SERAYA — Head of Communication       | TG: [@SerayaSBA](https://t.me/SerayaSBA)   |
+
+## HQ Council — Community Layer
+
+| Name      | Role                                      | Contact                                      |
+|-----------|-------------------------------------------|----------------------------------------------|
+| ZEEZHAY   | Admin · Comms & Ops                       | TG: [@zeezhay1](https://t.me/zeezhay1)       |
+| H3NZO     | Ops & Sync · Admin                        | TG: [@H3NZO_THE_GREAT1](https://t.me/H3NZO_THE_GREAT1) |
+| FUTURISTIC| Expansion Driver & Outreach               | TG: [@wissy_041](https://t.me/wissy_041)     |
+| MNX       | Comms & Outreach                          | TG: [@Mi_ister](https://t.me/Mi_ister)       |
+| OXNICK    | Comms Flow · Lead & Sync                  | TG: [@sacredgems](https://t.me/sacredgems)   |
+
+---
+
 ## License
 
-- Repository content (documentation, scripts, assets): **MIT**  
-- GENESIScoin (GENc) token contract: **NOT open-source licensed**.  
-  The contract is verified on BSC but is **not covered by MIT or any permissive license**.
+This repository does **not** provide an open-source license.
+
+You are free to **view** the documentation, PDFs, images, and code samples,  
+but **no part of this repository may be copied, forked, reused, modified, or redistributed**  
+without explicit written permission from SQUNOHOLIX BRAND ASSOCIATION Digital LAB.
+
+### Smart Contracts
+The verified smart contracts (GENESIScoin, PreSale, PublicSale, AssetManager):
+- are published **exclusively for transparency and audit purposes**,  
+- are **not licensed for reuse**,  
+- and **cannot be deployed, forked, or adapted** in any form.
+
+This restriction is intentional to preserve system integrity and protect  
+the autonomous architecture of the GENESIScoin ecosystem.
+
