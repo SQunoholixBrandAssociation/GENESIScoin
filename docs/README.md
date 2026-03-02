@@ -7,9 +7,6 @@ This folder contains formal project documentation and verification proofs.
 - **WhitePaper_GENESIScoin.pdf** – Official whitepaper of GENESIScoin (GENc).  
   Full narrative of the project, tokenomics, governance model, and roadmap. Serves as the primary reference for investors and community members.  
 
-- **Lock&Vesting_GENESIScoin.pdf** – Allocation and vesting schedules.  
-  Details of token distribution, lock mechanics, treasury management, and release timelines for all wallets and pools.  
-
 - **TechnicalMechanics_GENESIScoin.pdf** – System architecture and mechanics.  
   Explains smart contract logic, Pre-Sale & Public Sale flow, B100D, dual dividend system, airdrop rules and mile stones, and integration of bots and trackers.  
 
