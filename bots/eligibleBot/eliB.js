@@ -2,6 +2,7 @@ require('dotenv').config();
 const fs   = require('fs');
 const { ethers } = require('ethers');
 
+/* === ENV === */
 const {
   WSSURL, PRIVATE_KEY, GEN_TOKEN_ADDRESS, PUBLIC_SALE_ADDRESS, LP_PAIR_ADDRESS,
 
@@ -10,29 +11,31 @@ const {
   DAILY_BONUS_AMOUNT_PHASE3, DAILY_BONUS_AMOUNT_PHASE4,
   BONUS_PER_DAY_PHASE1, BONUS_PER_DAY_PHASE2,
   BONUS_PER_DAY_PHASE3, BONUS_PER_DAY_PHASE4,
-  RESET_INTERVAL_SECONDS = 'PLACEHOLDER'
+  RESET_INTERVAL_SECONDS = '1800'
 } = process.env;
 
+/* === SETUP === */
 const provider = new ethers.providers.WebSocketProvider(WSSURL);
 const wallet   = new ethers.Wallet(PRIVATE_KEY, provider);
 
 const GEN = new ethers.Contract(
   GEN_TOKEN_ADDRESS,
-  ['PLACEHOLDER(address indexed from,address indexed to,uint256 value)'],
+  ['event Transfer(address indexed from,address indexed to,uint256 value)'],
   provider
 );
 
 const SALE = new ethers.Contract(
   PUBLIC_SALE_ADDRESS,
   [
-    'PLACEHOLDER(address,uint256) external',
-    'PLACEHOLDER() view returns(uint256)',
-    'PLACEHOLDER() view returns(uint256)',
-    'PLACEHOLDER() view returns(uint256)'
+    'function processDailyBonus(address,uint256) external',
+    'function publicSaleStartTimestamp() view returns(uint256)',
+    'function publicSaleBonusPoolGENc() view returns(uint256)',
+    'function getCurrentDay() view returns(uint256)'
   ],
   wallet
 );
 
+/* === FILES & HELPERS === */
 const F = {
   daily :'bonus-daily.json',
   log1  :'log-phase1.json',
@@ -50,6 +53,7 @@ const toBig = v => BigInt(v ?? "0");
 const mustBigInt = (v,n)=>{ if(!v) throw`${n} not set`; return BigInt(v); };
 const mustInt    = (v,n)=>{ const x=Number(v); if(Number.isNaN(x)) throw`${n} NaN`; return x; };
 
+/* === CONSTANTS FROM .env === */
 const MIN   = {1:mustBigInt(MIN_BUY_PHASE1,'MIN1'), 2:mustBigInt(MIN_BUY_PHASE2,'MIN2'),
                3:mustBigInt(MIN_BUY_PHASE3,'MIN3'), 4:mustBigInt(MIN_BUY_PHASE4,'MIN4')};
 const BONUS = {1:mustBigInt(DAILY_BONUS_AMOUNT_PHASE1,'BON1'),2:mustBigInt(DAILY_BONUS_AMOUNT_PHASE2,'BON2'),
@@ -57,9 +61,11 @@ const BONUS = {1:mustBigInt(DAILY_BONUS_AMOUNT_PHASE1,'BON1'),2:mustBigInt(DAILY
 const CAP   = {1:mustInt(BONUS_PER_DAY_PHASE1,'CAP1'),2:mustInt(BONUS_PER_DAY_PHASE2,'CAP2'),
                3:mustInt(BONUS_PER_DAY_PHASE3,'CAP3'),4:mustInt(BONUS_PER_DAY_PHASE4,'CAP4')};
 
+/* === STATE === */
 let state = { rolloverTokens:"0", phase:1, ...read(F.state,{}) };
 let daily = read(F.daily,{});
 
+/* === BOOTSTRAP === */
 (async()=>{
   const ts = Number((await SALE.publicSaleStartTimestamp()).toString());
   if(!ts){ console.log('🛑 PublicSale not started'); return; }
@@ -77,6 +83,7 @@ let daily = read(F.daily,{});
   scheduleReset();
 })();
 
+/* === EVENT LISTENER === */
 GEN.on('Transfer', async(from,to,value)=>{
   if(from.toLowerCase() !== LP_PAIR_ADDRESS.toLowerCase()) return;
 
@@ -101,6 +108,7 @@ GEN.on('Transfer', async(from,to,value)=>{
   }catch(e){ console.error('❌ tx error', e.reason || e); }
 });
 
+/* === TIMER / RESET === */
 function nextResetTimestamp(){
   const elapsed = now() - state.saleStart;
   const periods = Math.ceil(elapsed / DAY);
@@ -126,6 +134,7 @@ async function dailyReset() {
   const sent  = Object.keys(daily).length;
   const cap   = effectiveCap(phase, true);
 
+  // === rollover logic ===
   if (phase <= 3 && sent < cap) {
     const leftover = toBig(cap - sent) * bonusA;
     state.rolloverTokens = (toBig(state.rolloverTokens) + leftover).toString();
@@ -155,15 +164,16 @@ async function dailyReset() {
   console.log(`🔄Daily reset → day ${day}, phase ${phase}, sent ${sent}/${cap}`);
 }
 
+/* === HELPERS === */
 async function getCurrentDay(){
   return Number((await SALE.getCurrentDay()).toString());
 }
 function getPhaseFromDay(day) {
   let newPhase;
 
-  if      (day < PLACEHOLDER)  newPhase = 1;     
-  else if (day < PLACEHOLDER)  newPhase = 2;     
-  else if (day < PLACEHOLDER)  newPhase = 3;    
+  if      (day < 100)  newPhase = 1;    
+  else if (day < 200)  newPhase = 2;    
+  else if (day < 300)  newPhase = 3;    
   else                newPhase = 4;     
 
   if (state.phase !== newPhase) {
