@@ -5,25 +5,25 @@ const { ethers } = require("ethers");
 const EXCLUDED = process.env.EXCLUDED_ADDRESSES
   ? process.env.EXCLUDED_ADDRESSES.split(",").map(x => x.toLowerCase())
   : [];
-const MIN_HOLD = ethers.utils.parseUnits("PLACEHOLDER", 18);
+const MIN_HOLD = ethers.utils.parseUnits("100000", 18);
 const LP_ADDRESS = process.env.LP_ADDRESS.toLowerCase();
 
 const LAST_BLOCK_FILE = "lastProcessedBlock.json";
 const TRACKED_FILE = "trackedHolders.json";
-const provider = new ethers.providers.WebSocketProvider(process.env.WSS_URL); 
+const provider = new ethers.providers.WebSocketProvider(process.env.WSS_URL);
 
 const token = new ethers.Contract(process.env.GEN_TOKEN_ADDRESS, [
-  "PLACEHOLDER(address indexed from, address indexed to, uint256 value)",
-  "PLACEHOLDER(address account) view returns (uint256)"
+  "event Transfer(address indexed from, address indexed to, uint256 value)",
+  "function balanceOf(address account) view returns (uint256)"
 ], provider);
 
 const presale = new ethers.Contract(process.env.PRE_SALE_ADDRESS, [
-  "PLACEHOLDER(address indexed buyer, uint256 tokensAmount, uint256 bonusAmount, uint256 totalHoldingAfter)",
-  "PLACEHOLDER(uint256 indexed stage, uint256 timestamp)",
-  "PLACEHOLDER(uint256 stageId, uint256 tokensLeft, uint256 threshold, uint256 timestamp)",
-  "PLACEHOLDER(uint256 timestamp)", 
-  "PLACEHOLDER() view returns (uint256)",
-  "PLACEHOLDER() view returns (bool)"
+  "event TokensPurchased(address indexed buyer, uint256 tokensAmount, uint256 bonusAmount, uint256 totalHoldingAfter)",
+  "event StageSoldOut(uint256 indexed stage, uint256 timestamp)",
+  "event ForceStageCloseByOwner(uint256 stageId, uint256 tokensLeft, uint256 threshold, uint256 timestamp)",
+  "event WhitelistClosed(uint256 timestamp)",
+  "function preSaleEndTime() view returns (uint256)",
+  "function preSaleEnded() view returns (bool)"
 ], provider);
 
 let tracked = {};
@@ -46,7 +46,7 @@ function addHolder(address, rawBalance) {
     }
 
   try {
-    const balance = BigInt(rawBalance.toString()); 
+    const balance = BigInt(rawBalance.toString());
     console.log(`📦 Checking ${address} balance: ${balance}`);
     console.log(`🧮 Required: ${MIN_HOLD.toString()} | Has: ${balance.toString()}`);
 
@@ -103,6 +103,7 @@ async function processPastTransfers(fromBlock) {
   }
 }
 
+
 (async () => {
   try {
     const presaleEndTime = await presale.preSaleEndTime();
@@ -124,6 +125,7 @@ async function processPastTransfers(fromBlock) {
 })();
 
 
+
 function startPresaleTracking() {
   presale.on("TokensPurchased", (buyer, amount, bonus, totalHold) => {
     console.log("🎯 EVENT: TokensPurchased");
@@ -143,6 +145,33 @@ function startPresaleTracking() {
     startPostSaleTracking();
   });
 
+  token.on("Transfer", async (from, to, value) => {
+    const addresses = [from.toLowerCase(), to.toLowerCase()];
+    const min = BigInt(MIN_HOLD.toString());
+
+    for (const addr of addresses) {
+      if (!tracked[addr]) continue;
+      if (EXCLUDED.includes(addr)) continue;
+
+      try {
+        const bal = BigInt((await token.balanceOf(addr)).toString());
+
+        if (bal >= min) {
+          tracked[addr].balance = bal.toString();
+          tracked[addr].timestamp = Date.now();
+          console.log(`🔁 [PreSale] Updated: ${addr} → ${bal}`);
+        } else {
+          delete tracked[addr];
+          console.log(`❌ [PreSale] Removed (below MIN): ${addr} → ${bal}`);
+        }
+
+        save();
+      } catch (err) {
+        console.warn(`⚠️ [PreSale] balanceOf error for ${addr}: ${err.message}`);
+      }
+    }
+  });
+  console.log("🔥 Pre-sale mode active — TokensPurchased + Transfer (update-only).");
 }
 
 function startPostSaleTracking () {
