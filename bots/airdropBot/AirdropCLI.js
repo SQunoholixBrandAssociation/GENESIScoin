@@ -7,34 +7,33 @@ const ethers = require("ethers");
 const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL);
 const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider);
 
-
 const TOKEN_ADDRESS = process.env.GEN_TOKEN_ADDRESS;
 const CONTRACT_ADDRESS = process.env.PUBLIC_SALE_ADDRESS;
 
 const GEN_ABI = [
   {
-    name: "PLACEHOLDER",
-    type: "PLACEHOLDER",
+    name: "balanceOf",
+    type: "function",
     stateMutability: "view",
-    inputs: [{ name: "PLACEHOLDER", type: "PLACEHOLDER" }],
-    outputs: [{ name: "PLACEHOLDER", type: "uint256" }]
+    inputs: [{ name: "account", type: "address" }],
+    outputs: [{ name: "", type: "uint256" }]
   }
 ];
 
 const AIRDROP_ABI = [
   {
-    name: "PLACEHOLDER",
-    type: "PLACEHOLDER",
+    name: "airdropByList",
+    type: "function",
     stateMutability: "nonpayable",
     inputs: [
-      { name: "PLACEHOLDER", type: "PLACEHOLDER" },
-      { name: "PLACEHOLDER", type: "uint256[]" }
+      { name: "recipients", type: "address[]" },
+      { name: "amounts", type: "uint256[]" }
     ],
     outputs: []
   },
   {
-    name: "PLACEHOLDER",
-    type: "PLACEHOLDER",
+    name: "airdropPoolGENc",
+    type: "function",
     stateMutability: "view",
     inputs: [],
     outputs: [{ name: "", type: "uint256" }]
