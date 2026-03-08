@@ -2,28 +2,32 @@ require('dotenv').config();
 const fs = require('fs');
 const { ethers } = require('ethers');
 
+/* === PROVIDER === */
 const provider = new ethers.providers.WebSocketProvider(process.env.WSSURL);
 
+/* === ABI === */
 const ABI = [
-  'PLACEHOLDER(uint256)',
-  'PLACEHOLDER(uint256)',
-  'PLACEHOLDER(address indexed,uint256)',
-  'PLACEHOLDER(address) view returns (uint256,bool)',
-  'PLACEHOLDER(address)',
-  'PLACEHOLDER() view returns (uint256)',
-  'PLACEHOLDER() view returns (uint256)',
-  'PLACEHOLDER() view returns (uint256)'
+  'event WhitelistOpened(uint256)',
+  'event WhitelistClosed(uint256)',
+  'event B100DRegistered(address indexed,uint256)',
+  'function b100dParticipants(address) view returns (uint256,bool)',
+  'function ejectFromWhitelist(address)',
+  'function b100dWhitelistStartTime() view returns (uint256)',
+  'function b100dWhitelistCloseTime() view returns (uint256)',
+  'function b100dStartTime() view returns (uint256)'
 ];
 
 const GEN_ABI = [
-  'PLACEHOLDER(address) view returns (uint256)',
-  'PLACEHOLDER(address indexed,address indexed,uint256)'
+  'function balanceOf(address) view returns (uint256)',
+  'event Transfer(address indexed,address indexed,uint256)'
 ];
 
+/* === CONTRACTS === */
 const contract = new ethers.Contract(process.env.CONTRACT_ADDRESS, ABI, provider);
 const token    = new ethers.Contract(process.env.GEN_TOKEN_ADDRESS, GEN_ABI, provider);
 const wallet   = new ethers.Wallet(process.env.BOT_PRIVATE_KEY, provider);
 
+/* === STATE === */
 const FILE = 'b100dParticipants.json';
 let users = load(FILE);
 const tracked = new Set(Object.keys(users).map(a => a.toLowerCase()));
@@ -32,9 +36,11 @@ let whitelistClosed = false;
 let b100dStarted = false;
 let transferLive = false;
 
+/* === HELPERS === */
 function load(p){ try { return JSON.parse(fs.readFileSync(p,'utf8')); } catch { return {}; } }
 function save(){ fs.writeFileSync(FILE, JSON.stringify(users,null,2)); }
 
+/* === TRANSFER LISTENER === */
 function startTransfer(){
   if (transferLive) return;
   transferLive = true;
@@ -48,6 +54,7 @@ function startTransfer(){
   console.log('🔌 Transfer listener active (B100D started)');
 }
 
+/* === VERIFY === */
 async function verify(addr){
   if (!users[addr]) return;
   const init = BigInt(users[addr]);
@@ -65,6 +72,7 @@ async function verify(addr){
   }
 }
 
+/* === SYNC PARTICIPANTS === */
 async function syncFromContractByAddresses(){
   console.log('🔄 Syncing participants via contract view…');
   const addrs = Array.from(new Set([...Object.keys(users), ...tracked]));
@@ -101,6 +109,7 @@ async function syncFromContractByAddresses(){
   console.log('✅ Participant sync done.');
 }
 
+/* === CHECK ALL === */
 async function checkParticipants(){
   console.log('🔍 Verifying all participants…');
   for(const [addr, initStr] of Object.entries(users)){
@@ -122,6 +131,7 @@ async function checkParticipants(){
   }
 }
 
+/* === EVENTS === */
 contract.on('WhitelistOpened', async (ts) => {
   if (whitelistOpen) return;
   whitelistOpen = true;
@@ -155,6 +165,7 @@ contract.on('WhitelistClosed', async (ts) => {
   }, delay * 1000);
 });
 
+/* === START === */
 (async () => {
   console.log('🚀 B100D Bot running');
   try {
