@@ -11,7 +11,7 @@ const {
   DAILY_BONUS_AMOUNT_PHASE3, DAILY_BONUS_AMOUNT_PHASE4,
   BONUS_PER_DAY_PHASE1, BONUS_PER_DAY_PHASE2,
   BONUS_PER_DAY_PHASE3, BONUS_PER_DAY_PHASE4,
-  RESET_INTERVAL_SECONDS = '1800'
+  RESET_INTERVAL_SECONDS = '86400'
 } = process.env;
 
 /* === SETUP === */
@@ -192,3 +192,4 @@ function effectiveCap(phase,raw=false){
 function saveState(){
   write(F.state,state);
 }
+
