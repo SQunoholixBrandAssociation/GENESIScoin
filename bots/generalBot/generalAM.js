@@ -1,6 +1,6 @@
 // ===== MODULE 1 — deps =====
 require('dotenv').config();
-const { ethers } = require('ethers'); // v5
+const { ethers } = require('ethers');
 
 process.on('unhandledRejection', (e) => {
   console.error('[UNHANDLED]', e);
@@ -101,7 +101,7 @@ function bindEvent() {
 }
 
 // ===== MODULE 7 — on-chain actions =====
-const pending = {}; // mapa blokad per ID
+const pending = {}; 
 
 async function sendWasteStart(ts) {
   const populated = await am.populateTransaction.setWasteStart(ts);
@@ -136,7 +136,6 @@ let firstTickDone = false;
 async function tickOnce() {
   if (!armed) { console.log('[LOOP] waiting for WhitelistClosed…'); return; }
 
-  // jeśli trwa poprzedni tick, pomiń
   if (tickOnce.running) return;
   tickOnce.running = true;
 
