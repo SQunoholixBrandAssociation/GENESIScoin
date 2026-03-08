@@ -4,7 +4,7 @@ const { ethers } = require("ethers");
 
 const provider = new ethers.providers.WebSocketProvider(process.env.WSS_URL);
 const LP_ADDRESS = process.env.LP_ADDRESS.toLowerCase();
-const MIN_HOLD = ethers.utils.parseUnits(process.env.MIN_HOLD || "PLACEHOLDER", 18);
+const MIN_HOLD = ethers.utils.parseUnits(process.env.MIN_HOLD || "5000000", 18);
 const EXCLUDED = (process.env.EXCLUDED_ADDRESSES || "")
   .split(",")
   .map(a => a.trim().toLowerCase());
@@ -67,17 +67,17 @@ async function updateHolder(addr) {
 }
 
 const GEN = new ethers.Contract(process.env.GEN_TOKEN_ADDRESS, [
-  "PLACEHOLDER(address indexed from, address indexed to, uint256 value)",
-  "PLACEHOLDER(address) view returns (uint256)"
+  "event Transfer(address indexed from, address indexed to, uint256 value)",
+  "function balanceOf(address) view returns (uint256)"
 ], provider);
 
 const PRESALE = new ethers.Contract(process.env.PRE_SALE_ADDRESS, [
-  "PLACEHOLDER(address indexed buyer, uint256, uint256, uint256)",
-  "PLACEHOLDER(uint256, uint256)",
-  "PLACEHOLDER(uint256, uint256, uint256, uint256)",
-  "PLACEHOLDER(uint256 timestamp)",
-  "PLACEHOLDER() view returns (uint256)",
-  "PLACEHOLDER() view returns (bool)"
+  "event TokensPurchased(address indexed buyer, uint256, uint256, uint256)",
+  "event StageSoldOut(uint256, uint256)",
+  "event ForceStageCloseByOwner(uint256, uint256, uint256, uint256)",
+  "event WhitelistClosed(uint256 timestamp)",
+  "function preSaleEndTime() view returns (uint256)",
+  "function preSaleEnded() view returns (bool)"
 ], provider);
 
 async function processPastTransfers(fromBlock) {
@@ -117,7 +117,7 @@ function startPresaleTracking() {
 }
 
 function startPostSaleTracking() {
-  const lpAddress = process.env.LP_ADDRESS.toLowerCase();   
+  const lpAddress = process.env.LP_ADDRESS.toLowerCase();  
 
   GEN.on("Transfer", async (from, to, value) => {
     const fromLC = from.toLowerCase();
@@ -131,7 +131,7 @@ function startPostSaleTracking() {
         && !isExcluded(to)) {
       console.log(`🛒 Purchase from LP: ${from} → ${to}, value: ${value.toString()}`);
       await updateHolder(to);    
-      return;                    
+      return;                   
     }
 
     if (trackedFrom && !isExcluded(from)) await updateHolder(from);
@@ -141,6 +141,7 @@ function startPostSaleTracking() {
   console.log("📈 Post-sale mode active. New users tracked only after LP purchase, all tracked addresses updated on transfer.");
 }
 
+// === INIT ===
 (async () => {
   const fromBlock = loadLastProcessedBlock() || await provider.getBlockNumber();
   await processPastTransfers(fromBlock + 1);
