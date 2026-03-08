@@ -9,26 +9,26 @@ const {
   PRE_SALE_ADDRESS,
   PUBLIC_SALE_ADDRESS,
   GEN_TOKEN_ADDRESS,
-  COOLDOWN_HOURS     = 'PLACEHOLDER',   
-  payoutIn_Hours_min = 'PLACEHOLDER',
-  payoutIn_Hours_max = 'PLACEHOLDER',
-  MIN_HOLD           = 'PLACEHOLDER'    
+  COOLDOWN_HOURS     = '240',   
+  payoutIn_Hours_min = '504',
+  payoutIn_Hours_max = '672',
+  MIN_HOLD           = '5000000'          
 } = process.env;
 
 const provider = new ethers.providers.WebSocketProvider(WSS_URL);
 const wallet   = new ethers.Wallet(PRIVATE_KEY, provider);
 
 const GEN_ABI = [
-  'PLACEHOLDER(address indexed from,address indexed to,uint256 value)',
-  'PLACEHOLDER(address) view returns(uint256)'
+  'event Transfer(address indexed from,address indexed to,uint256 value)',
+  'function balanceOf(address) view returns(uint256)'
 ];
 const PRESALE_ABI = [
-  'PLACEHOLDER() view returns(bool)',
-  'PLACEHOLDER() view returns(uint256)'
+  'function preSaleEnded() view returns(bool)',
+  'function preSaleEndTime() view returns(uint256)'
 ];
 const PUBLIC_ABI = [
-  'PLACEHOLDER() view returns(uint256)',
-  'PLACEHOLDER(address[],uint256[]) external'
+  'function dividendPoolGENc() view returns(uint256)',
+  'function distributeDividendsAdjusted(address[],uint256[]) external'
 ];
 
 const GEN         = new ethers.Contract(GEN_TOKEN_ADDRESS,  GEN_ABI,    provider);
@@ -67,7 +67,7 @@ async function startVerifier() {
 
   if (meta.length === 0) {
     const end  = Number(await PRESALE.preSaleEndTime());
-    const wait = end + Number(COOLDOWN_HOURS) * PLACEHOLDER;
+    const wait = end + Number(COOLDOWN_HOURS) * 3600;
     if (now() < wait) {
       const minLeft = Math.ceil((wait - now()) / 60);
       console.log(`⚠️ Cool-down active: ${minLeft} minutes remaining`);
@@ -100,7 +100,7 @@ async function createNewCycle() {
   const nr        = meta.length + 1;
   const tNow      = now();
   const hours     = rnd(+payoutIn_Hours_min, +payoutIn_Hours_max);
-  const payoutTS  = tNow + hours * PLACEHOLDER;
+  const payoutTS  = tNow + hours * 3600;
   const snapshot  = {};
 
   for (const addr of addresses) {
@@ -113,7 +113,7 @@ async function createNewCycle() {
           initialHold        : bal.toString(),
           entryCycle         : nr,          
           holdProofStart     : null,   
-          holdProofCompleted : nr,     
+          holdProofCompleted : nr,          
           progress           : 0
         };
 
@@ -270,7 +270,7 @@ async function finalizeAndPayout(cycle) {
       await (await PUBLIC_SALE.distributeDividendsAdjusted(
         chunk.map(p => p.address),
         chunk.map(p => p.amount.toString()),
-        { gasLimit: PLACEHOLDER }
+        { gasLimit: 6_000_000 }
       )).wait();
 
       poolLeft -= subtotal;
