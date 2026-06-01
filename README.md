@@ -4,7 +4,7 @@
 
 ## GENESIScoin (GENc)
 
-**GENESIScoin (GENc)** is the flagship project of **SQUNOHOLIX BRAND ASSOCIATION Digital LAB**, operating on Binance Smart Chain with a **fixed supply of 100 billion GENc**.  
+**GENESIScoin (GENc)** is the flagship project of **SQUNOHOLIX BRAND ASSOCIATION Deterministic LAB**, operating on Binance Smart Chain with a **fixed supply of 100 billion GENc**.  
 The contract is **strictly non-mintable** — no `_mint()` function exists, making GENc fully inflation-resistant.
 
 ---
