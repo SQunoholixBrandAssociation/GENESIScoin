@@ -172,7 +172,7 @@ GENESIScoin/
 | GENESIScoin | [squnoholix.com/genesiscoin](https://squnoholix.com/genesiscoin) |
 | Pre-Sale | [squnoholix.com/gencoin](https://squnoholix.com/gencoin) |
 | SBA Digital LAB | [squnoholix.com/sbadl](https://squnoholix.com/sbadl) |
-| InfoDocs | [squnoholix.com/infodocs](https://squnoholix.com/infodocs) |
+| PBP - Analyzer | [squnoholix.com/pbp-analyzer](https://squnoholix.com/pbp-analyzer) |
 
 ---
 
