@@ -1,28 +1,27 @@
 # GENESIScoin Public Documentation
 
-This directory contains the public documentation stack for GENESIScoin.
+This repository contains the public documentation reference stack for GENESIScoin.
 
-GENESIScoin is a deterministic on-chain execution system built on BNB Smart Chain under the SBA Digital Lab / Proof Before Promise standard.
+The same documentation is also available through the public website links below.
 
-## Documents
+## Public Documentation Links
 
-| File | Purpose |
+| Document | Public Link |
 |---|---|
-| `GENESIScoin_Whitepaper_v2.0_Public_System.pdf` | Main public whitepaper / system paper |
-| `GENESIScoin_Whitepaper_v2.0_interactive.html` | Interactive HTML version of the whitepaper |
-| `risk-disclosure.pdf` | Public risk disclosure |
-| `token-rights-no-rights.pdf` | Token rights / no-rights disclosure |
-| `presale-trading-unlock.pdf` | Presale and trading unlock explanation |
-| `control-surface.pdf` | Control surface and permission disclosure |
-| `GENESIScoin_Proof-Testnet.pdf` | Historical / testnet proof reference |
+| Whitepaper PDF | https://squnoholix.com/docs/genesiscoin/GENESIScoin_Whitepaper_v2.0_Public_System.pdf |
+| Interactive Whitepaper | https://squnoholix.com/docs/genesiscoin/GENESIScoin_Whitepaper_v2.0_interactive.html |
+| Risk Disclosure | https://squnoholix.com/docs/genesiscoin/risk-disclosure.pdf |
+| Token Rights / No-Rights Disclosure | https://squnoholix.com/docs/genesiscoin/token-rights-no-rights.pdf |
+| Presale & Trading Unlock | https://squnoholix.com/docs/genesiscoin/presale-trading-unlock.pdf |
+| Control Surface | https://squnoholix.com/docs/genesiscoin/control-surface.pdf |
 
 ## Verification Principle
 
-These documents are intended to explain the public system structure, visible contract behavior, allocation logic, risk boundaries, and user-facing disclosures.
+These documents explain the public system structure, visible contract behavior, allocation logic, risk boundaries, and user-facing disclosures.
 
 They do not replace direct verification.
 
-Users should verify contract state, holders, transactions, and deployed addresses directly through public explorers.
+Users should verify contract state, holders, transactions, deployed addresses, and execution surfaces directly through public explorers.
 
 ## Core Standard
 
@@ -34,14 +33,6 @@ Assumptions should not replace verification.
 
 ## Repository
 
-Public repository:
-
 `github.com/SQunoholixBrandAssociation/GENESIScoin`
-
-## Notes
-
-Document names may be updated as the public documentation stack is normalized.
-
-If a document link changes, the website should be updated to point to the current canonical file path.
 
 # ProofBeforePromise
