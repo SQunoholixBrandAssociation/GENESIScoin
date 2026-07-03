@@ -1,20 +1,47 @@
-# GENESIScoin Documentation (/docs)
+# GENESIScoin Public Documentation
 
-This folder contains formal project documentation and verification proofs.
+This directory contains the public documentation stack for GENESIScoin.
 
-## Included Documents
+GENESIScoin is a deterministic on-chain execution system built on BNB Smart Chain under the SBA Digital Lab / Proof Before Promise standard.
 
-- **WhitePaper_GENESIScoin.pdf** – Official whitepaper of GENESIScoin (GENc).  
-  Full narrative of the project, tokenomics, governance model, and roadmap. Serves as the primary reference for investors and community members.  
+## Documents
 
-- **TechnicalMechanics_GENESIScoin.pdf** – System architecture and mechanics.  
-  Explains smart contract logic, Pre-Sale & Public Sale flow, B100D, dual dividend system, airdrop rules and mile stones, and integration of bots and trackers.  
+| File | Purpose |
+|---|---|
+| `GENESIScoin_Whitepaper_v2.0_Public_System.pdf` | Main public whitepaper / system paper |
+| `GENESIScoin_Whitepaper_v2.0_interactive.html` | Interactive HTML version of the whitepaper |
+| `risk-disclosure.pdf` | Public risk disclosure |
+| `token-rights-no-rights.pdf` | Token rights / no-rights disclosure |
+| `presale-trading-unlock.pdf` | Presale and trading unlock explanation |
+| `control-surface.pdf` | Control surface and permission disclosure |
+| `GENESIScoin_Proof-Testnet.pdf` | Historical / testnet proof reference |
 
-- **Verification Proofs (PNG)** – Screenshots confirming contract verification on BscScan:
-  - [PreSaleGENc Contract on BscScan](https://bscscan.com/address/0x019A2D76D825914B5b52552e1A1D09F024CC4C58#code)  
-  - [PublicSaleGENc Contract on BscScan](https://bscscan.com/address/0x74eb74d66e8bd29226228536307BF5588168A8b7#code)
+## Verification Principle
 
-## Purpose
+These documents are intended to explain the public system structure, visible contract behavior, allocation logic, risk boundaries, and user-facing disclosures.
 
-These documents serve as transparent, on-chain proof of deployment, verification, and system integrity for GENESIScoin (GENc).  
-They provide investors, auditors, and the community with direct access to all verified contracts and supporting materials.
+They do not replace direct verification.
+
+Users should verify contract state, holders, transactions, and deployed addresses directly through public explorers.
+
+## Core Standard
+
+Proof Before Promise.
+
+Execution first.  
+Claims must be checkable.  
+Assumptions should not replace verification.
+
+## Repository
+
+Public repository:
+
+`github.com/SQunoholixBrandAssociation/GENESIScoin`
+
+## Notes
+
+Document names may be updated as the public documentation stack is normalized.
+
+If a document link changes, the website should be updated to point to the current canonical file path.
+
+# ProofBeforePromise
