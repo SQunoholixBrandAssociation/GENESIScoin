@@ -14,6 +14,7 @@ The same documentation is also available through the public website links below.
 | Token Rights / No-Rights Disclosure | https://squnoholix.com/docs/genesiscoin/token-rights-no-rights.pdf |
 | Presale & Trading Unlock | https://squnoholix.com/docs/genesiscoin/presale-trading-unlock.pdf |
 | Control Surface | https://squnoholix.com/docs/genesiscoin/control-surface.pdf |
+| Testnet Proof Reference | https://squnoholix.com/docs/genesiscoin/GENESIScoin_Proof-Testnet.pdf |
 
 ## Verification Principle
 
