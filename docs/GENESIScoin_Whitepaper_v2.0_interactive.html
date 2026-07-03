@@ -1,0 +1,4631 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GENESIScoin Whitepaper v2.0 — Interactive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#080b0a; --bg2:#0c110f; --panel:#0f1613; --line:#1c2723;
+  --ink:#e8f2ee; --muted:#8199912; --muted:#7f9990; --dim:#5c706a;
+  --acc:#00e5a0; --acc-dim:#0b6b50; --warn:#ffcf6b;
+  --mono:"Space Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --disp:"Syne",system-ui,sans-serif;
+  --body:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+  --sb:312px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);
+  font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(1200px 600px at 82% -8%,rgba(0,229,160,.06),transparent 60%),
+             radial-gradient(900px 500px at -5% 12%,rgba(0,229,160,.035),transparent 55%)}
+a{color:var(--acc);text-decoration:none}
+
+/* progress scanline */
+#progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:60;
+  background:linear-gradient(90deg,var(--acc-dim),var(--acc));box-shadow:0 0 12px rgba(0,229,160,.6)}
+
+/* ---------- SIDEBAR ---------- */
+#sidebar{position:fixed;top:0;left:0;width:var(--sb);height:100vh;z-index:40;
+  background:linear-gradient(180deg,#0a0f0d,#080b0a);border-right:1px solid var(--line);
+  display:flex;flex-direction:column}
+.brand{padding:22px 22px 16px;border-bottom:1px solid var(--line)}
+.brand .rule{width:46px;height:4px;background:var(--acc);margin-bottom:14px;border-radius:2px}
+.brand .k{font-family:var(--mono);font-size:10px;letter-spacing:.32em;color:var(--acc);text-transform:uppercase}
+.brand h1{font-family:var(--disp);font-weight:800;font-size:26px;margin:6px 0 2px;letter-spacing:-.5px}
+.brand .v{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.search{padding:14px 18px 6px}
+.search input{width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--ink);
+  font-family:var(--mono);font-size:12.5px;padding:10px 12px;border-radius:9px;outline:none}
+.search input:focus{border-color:var(--acc-dim);box-shadow:0 0 0 3px rgba(0,229,160,.08)}
+.search .hint{font-family:var(--mono);font-size:10px;color:var(--dim);padding:6px 2px 0;letter-spacing:.04em}
+nav{flex:1;overflow-y:auto;padding:8px 10px 40px;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+nav::-webkit-scrollbar{width:8px}nav::-webkit-scrollbar-thumb{background:var(--line);border-radius:8px}
+.toc-ch{margin:1px 0}
+.toc-ch>a{display:flex;gap:10px;align-items:baseline;padding:8px 10px;border-radius:8px;
+  color:var(--muted);font-size:13.5px;font-weight:500;transition:.15s}
+.toc-ch>a .n{font-family:var(--mono);font-size:11px;color:var(--dim);min-width:20px}
+.toc-ch>a:hover{background:var(--panel);color:var(--ink)}
+.toc-ch.active>a{color:var(--ink);background:var(--panel)}
+.toc-ch.active>a .n{color:var(--acc)}
+.toc-sub{max-height:0;overflow:hidden;transition:max-height .28s ease;margin-left:30px;
+  border-left:1px solid var(--line)}
+.toc-ch.active .toc-sub{max-height:900px}
+.toc-sub a{display:block;padding:5px 12px;color:var(--dim);font-size:12px;line-height:1.4;transition:.12s}
+.toc-sub a:hover{color:var(--ink)}
+.toc-sub a.active{color:var(--acc)}
+.toc-empty{padding:18px;color:var(--dim);font-family:var(--mono);font-size:11px}
+
+/* ---------- MAIN ---------- */
+main{margin-left:var(--sb);position:relative;z-index:1}
+.reader{max-width:860px;margin:0 auto;padding:0 40px 140px}
+
+/* cover */
+.cover{min-height:78vh;display:flex;flex-direction:column;justify-content:center;padding:60px 0 40px;
+  border-bottom:1px solid var(--line)}
+.cover .ey{font-family:var(--mono);font-size:11px;letter-spacing:.34em;color:var(--acc);text-transform:uppercase}
+.cover h1.big{font-family:var(--disp);font-weight:800;font-size:clamp(48px,8vw,92px);line-height:.96;
+  letter-spacing:-2px;margin:16px 0 8px}
+.cover .sub{font-size:18px;color:var(--muted);margin-bottom:40px}
+.cover .meta{display:grid;grid-template-columns:1fr 1fr;gap:0 34px;max-width:640px}
+.cover .meta .row{display:flex;justify-content:space-between;gap:14px;padding:11px 0;border-bottom:1px solid var(--line)}
+.cover .meta .mk{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;color:var(--dim);text-transform:uppercase}
+.cover .meta .mv{font-family:var(--mono);font-size:12.5px;color:var(--ink);text-align:right}
+.cover .motto{margin-top:38px;border-left:3px solid var(--acc);padding-left:16px}
+.cover .motto .m1{font-family:var(--disp);font-weight:800;font-size:20px;color:var(--acc)}
+.cover .motto .m2{font-family:var(--mono);font-size:12px;color:var(--muted)}
+
+/* chapter sections */
+section.level1{padding-top:46px;scroll-margin-top:20px}
+.chapter-head{display:flex;align-items:baseline;gap:16px;border-bottom:2px solid var(--line);
+  padding-bottom:14px;margin-bottom:8px;cursor:pointer;position:relative}
+.chapter-head::after{content:"–";position:absolute;right:2px;top:2px;font-family:var(--mono);
+  color:var(--dim);font-size:20px;transition:.2s}
+section.level1.collapsed .chapter-head::after{content:"+";color:var(--acc)}
+.chapter-num{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--acc);
+  border:1px solid var(--acc-dim);border-radius:7px;padding:5px 9px;letter-spacing:.05em;flex:none}
+.chapter-head h1{font-family:var(--disp);font-weight:800;font-size:clamp(26px,3.4vw,38px);
+  letter-spacing:-.6px;margin:0;line-height:1.05}
+.chapter-body{overflow:hidden}
+section.level1.collapsed .chapter-body{display:none}
+
+h2{font-family:var(--disp);font-weight:700;font-size:20px;letter-spacing:-.2px;
+  margin:34px 0 8px;padding-left:16px;position:relative;scroll-margin-top:16px}
+h2::before{content:"";position:absolute;left:0;top:.55em;width:9px;height:9px;background:var(--acc);border-radius:2px}
+h3{font-family:var(--mono);font-weight:700;font-size:13.5px;letter-spacing:.02em;color:var(--acc);
+  text-transform:none;margin:26px 0 6px;scroll-margin-top:16px}
+p{margin:9px 0}
+strong{color:#fff;font-weight:700}
+section.level2,section.level3{scroll-margin-top:16px}
+
+ul,ol{margin:8px 0 12px;padding-left:22px}
+li{margin:3px 0}
+li::marker{color:var(--acc-dim)}
+ol li::marker{color:var(--acc);font-family:var(--mono);font-size:12px}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;margin:16px 0 20px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:13px}
+thead th{background:#0b100e;color:var(--ink);text-align:left;font-family:var(--mono);font-size:11px;
+  letter-spacing:.05em;text-transform:uppercase;padding:11px 14px;border-bottom:2px solid var(--acc-dim);white-space:nowrap}
+tbody td{padding:10px 14px;border-top:1px solid var(--line);vertical-align:top}
+tbody tr:hover td{background:rgba(0,229,160,.03)}
+td[align="right"],th[align="right"]{text-align:right;font-family:var(--mono)}
+
+/* address chips */
+.addr{font-family:var(--mono);font-size:11.5px;color:var(--acc);background:rgba(0,229,160,.07);
+  border:1px solid var(--acc-dim);border-radius:6px;padding:2px 7px;cursor:pointer;
+  word-break:break-all;transition:.15s;display:inline-block}
+.addr:hover{background:rgba(0,229,160,.16)}
+.addr.copied{background:var(--acc);color:#04120d;border-color:var(--acc)}
+
+/* search highlight + dimming */
+mark{background:rgba(0,229,160,.28);color:#eafff8;border-radius:3px;padding:0 2px}
+body.searching section.level1:not(.has-hit){display:none}
+body.searching .cover{opacity:.25}
+
+/* footer */
+.doc-foot{max-width:860px;margin:40px auto 0;padding:26px 40px;border-top:1px solid var(--line);
+  font-family:var(--mono);font-size:11px;color:var(--dim);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* mobile */
+#menu-btn{display:none}
+@media(max-width:920px){
+  :root{--sb:0px}
+  #sidebar{transform:translateX(-100%);transition:transform .28s;width:300px;box-shadow:0 0 40px rgba(0,0,0,.6)}
+  body.nav-open #sidebar{transform:none}
+  main{margin-left:0}
+  .reader{padding:0 20px 120px}
+  #menu-btn{display:flex;position:fixed;z-index:50;top:14px;left:14px;width:46px;height:46px;
+    align-items:center;justify-content:center;background:var(--panel);border:1px solid var(--line);
+    border-radius:11px;color:var(--acc);font-size:20px;cursor:pointer}
+  .cover{padding-top:72px}
+  .cover .meta{grid-template-columns:1fr}
+  #scrim{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:35;opacity:0;pointer-events:none;transition:.25s}
+  body.nav-open #scrim{opacity:1;pointer-events:auto}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}}
+
+
+/* =========================================================
+   COMPACT RESPONSIVE PATCH — 2026-07-03
+   Purpose: reduce oversized hero/sidebar/content and remove page-wide horizontal overflow.
+   ========================================================= */
+html,body{overflow-x:hidden;max-width:100%}
+:root{--sb:284px}
+body{font-size:14.2px;line-height:1.54}
+main{overflow-x:hidden;max-width:100vw}
+#sidebar{width:var(--sb)}
+.brand{padding:18px 18px 13px}
+.brand .rule{width:42px;height:3px;margin-bottom:12px}
+.brand .k{font-size:9px;letter-spacing:.28em}
+.brand h1{font-size:21px;letter-spacing:-.4px;margin:5px 0 1px;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.brand .v{font-size:10px}
+.search{padding:12px 14px 5px}
+.search input{font-size:11.5px;padding:8px 10px;border-radius:8px}
+.search .hint{font-size:9.5px;line-height:1.45}
+nav{padding:7px 8px 34px}
+.toc-ch>a{padding:7px 8px;gap:8px;font-size:12.5px;line-height:1.35}
+.toc-ch>a .n{font-size:10px;min-width:18px}
+.toc-sub{margin-left:26px}
+.toc-sub a{padding:4px 10px;font-size:11.2px}
+.reader{max-width:760px;margin:0 auto;padding:0 30px 110px}
+.cover{min-height:auto;padding:42px 0 32px;border-bottom:1px solid var(--line)}
+.cover .ey{font-size:9.5px;letter-spacing:.28em;line-height:1.6;max-width:100%}
+.cover h1.big{font-size:clamp(34px,5.4vw,64px);line-height:.94;letter-spacing:-1.15px;margin:12px 0 8px;max-width:100%;white-space:normal;overflow-wrap:normal;word-break:normal}
+.cover .sub{font-size:15px;line-height:1.45;margin-bottom:28px;max-width:680px}
+.cover .meta{max-width:100%;grid-template-columns:1fr 1fr;gap:0 24px}
+.cover .meta .row{gap:10px;padding:8px 0}
+.cover .meta .mk{font-size:9px;letter-spacing:.1em}
+.cover .meta .mv{font-size:11px;line-height:1.35}
+.cover .motto{margin-top:28px;padding-left:13px}
+.cover .motto .m1{font-size:18px;line-height:1.2}
+.cover .motto .m2{font-size:11px}
+section.level1{padding-top:34px;scroll-margin-top:16px}
+.chapter-head{gap:12px;padding-bottom:11px;margin-bottom:7px}
+.chapter-num{font-size:11px;padding:4px 8px;border-radius:6px}
+.chapter-head h1{font-size:clamp(23px,2.5vw,31px);letter-spacing:-.45px;line-height:1.08}
+h2{font-size:18px;margin:25px 0 7px;padding-left:14px;line-height:1.18}
+h2::before{width:7px;height:7px;top:.56em}
+h3{font-size:12.3px;margin:20px 0 5px;line-height:1.35}
+p{margin:7px 0}
+ul,ol{margin:7px 0 10px;padding-left:20px}
+li{margin:2px 0}
+.tbl-wrap{margin:12px 0 16px;border-radius:10px;max-width:100%;overflow-x:auto}
+table{font-size:11.6px;line-height:1.35;min-width:0}
+thead th{font-size:9.3px;padding:8px 10px;white-space:normal;line-height:1.25}
+tbody td{padding:7px 10px;line-height:1.35}
+.addr{font-size:10px;padding:2px 6px;max-width:100%;overflow-wrap:anywhere}
+.doc-foot{max-width:760px;padding:22px 30px;font-size:10px}
+#menu-btn{width:42px;height:42px}
+
+@media(max-width:1100px){
+  :root{--sb:270px}
+  .reader{max-width:720px;padding-left:26px;padding-right:26px}
+  .cover h1.big{font-size:clamp(32px,5.1vw,58px)}
+}
+
+@media(max-width:920px){
+  :root{--sb:0px}
+  #sidebar{width:286px}
+  .reader{max-width:760px;padding:0 20px 100px}
+  .cover{padding-top:68px}
+  .cover h1.big{font-size:clamp(38px,11vw,56px)}
+  .cover .sub{font-size:14.5px;margin-bottom:24px}
+  .cover .meta{grid-template-columns:1fr}
+  .chapter-head h1{font-size:clamp(22px,7vw,30px)}
+}
+
+@media(max-width:560px){
+  body{font-size:13.6px;line-height:1.52}
+  .reader{padding:0 15px 92px}
+  .cover{padding-top:64px;padding-bottom:26px}
+  .cover .ey{font-size:8.5px;letter-spacing:.22em}
+  .cover h1.big{font-size:clamp(31px,13.5vw,43px);letter-spacing:-.8px;line-height:.98}
+  .cover .sub{font-size:13.5px;margin-bottom:20px}
+  .cover .meta .row{padding:7px 0}
+  .cover .meta .mk{font-size:8.4px}
+  .cover .meta .mv{font-size:10.2px}
+  .cover .motto .m1{font-size:16px}
+  section.level1{padding-top:28px}
+  .chapter-head{gap:9px;padding-bottom:9px}
+  .chapter-num{font-size:10px;padding:3px 7px}
+  h2{font-size:16.5px;margin:22px 0 6px}
+  h3{font-size:11.6px;margin:18px 0 5px}
+  table{font-size:10.8px}
+  thead th{font-size:8.7px;padding:7px 8px}
+  tbody td{padding:6px 8px}
+}
+
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<button id="menu-btn" aria-label="Menu">☰</button>
+<div id="scrim"></div>
+
+<aside id="sidebar">
+  <div class="brand">
+    <div class="rule"></div>
+    <div class="k">D_LAB · Whitepaper</div>
+    <h1>GENESIScoin</h1>
+    <div class="v">v2.0 · BNB Smart Chain</div>
+  </div>
+  <div class="search">
+    <input id="q" type="search" placeholder="Search the whitepaper…  ( / )" autocomplete="off" spellcheck="false">
+    <div class="hint">20 chapters · press / to focus · Esc to clear</div>
+  </div>
+  <nav id="toc">
+<div class="toc-ch" data-for="introduction">
+<a href="#introduction"><span class="n">01</span><span class="t">Introduction</span></a>
+</div>
+<div class="toc-ch" data-for="proof-before-promise">
+<a href="#proof-before-promise"><span class="n">02</span><span class="t">Proof Before Promise</span></a>
+</div>
+<div class="toc-ch" data-for="genesiscoin-overview">
+<a href="#genesiscoin-overview"><span class="n">03</span><span class="t">GENESIScoin Overview</span></a>
+</div>
+<div class="toc-ch" data-for="token-overview">
+<a href="#token-overview"><span class="n">04</span><span class="t">Token Overview</span></a>
+<div class="toc-sub">
+<a href="#token-identity">4.1 Token Identity</a>
+<a href="#supply-model">4.2 Supply Model</a>
+<a href="#token-function-inside-the-system">4.3 Token Function Inside the System</a>
+</div>
+</div>
+<div class="toc-ch" data-for="token-fee-and-trading-activation-model">
+<a href="#token-fee-and-trading-activation-model"><span class="n">05</span><span class="t">Token Fee and Trading Activation Model</span></a>
+</div>
+<div class="toc-ch" data-for="modular-system-architecture">
+<a href="#modular-system-architecture"><span class="n">06</span><span class="t">Modular System Architecture</span></a>
+<div class="toc-sub">
+<a href="#genesiscoin-token-contract">6.1 GENESIScoin Token Contract</a>
+<a href="#presalegenc">6.2 PreSaleGENc</a>
+<a href="#publicsalegenc">6.3 PublicSaleGENc</a>
+<a href="#asset-manager-v1">6.4 Asset Manager v1</a>
+<a href="#asset-manager-v2">6.5 Asset Manager v2</a>
+<a href="#rm01">6.6 RM01</a>
+<a href="#liquidity-allocations">6.7 Liquidity Allocations</a>
+<a href="#automation-layer">6.8 Automation Layer</a>
+<a href="#architecture-summary">6.9 Architecture Summary</a>
+</div>
+</div>
+<div class="toc-ch" data-for="original-allocation-model">
+<a href="#original-allocation-model"><span class="n">07</span><span class="t">Original Allocation Model</span></a>
+<div class="toc-sub">
+<a href="#original-genc-allocation">7.1 Original GENc Allocation</a>
+<a href="#allocation-by-system-purpose">7.2 Allocation by System Purpose</a>
+<a href="#deployment-aware-allocation-view">7.3 Deployment-Aware Allocation View</a>
+<a href="#allocation-vs-custody">7.4 Allocation vs Custody</a>
+<a href="#allocation-documentation-rule">7.5 Allocation Documentation Rule</a>
+</div>
+</div>
+<div class="toc-ch" data-for="current-deployed-system-state">
+<a href="#current-deployed-system-state"><span class="n">08</span><span class="t">Current Deployed System State</span></a>
+<div class="toc-sub">
+<a href="#deployed-core-modules">8.1 Deployed Core Modules</a>
+<a href="#current-visible-custody-snapshot">8.3 Current Visible Custody Snapshot</a>
+<a href="#current-module-roles">8.4 Current Module Roles</a>
+<a href="#current-system-statement">8.5 Current System Statement</a>
+<a href="#interpretation-rule">8.6 Interpretation Rule</a>
+<a href="#publication-check-requirement">8.7 Publication Check Requirement</a>
+</div>
+</div>
+<div class="toc-ch" data-for="presale-system">
+<a href="#presale-system"><span class="n">09</span><span class="t">PreSale System</span></a>
+<div class="toc-sub">
+<a href="#presale-purpose">9.1 PreSale Purpose</a>
+<a href="#stage-model">9.2 Stage Model</a>
+<a href="#stage-1-initial-threshold">9.3 Stage 1 — Initial Threshold</a>
+<a href="#stages-24-timed-or-sold-out-progression">9.4 Stages 2–4 — Timed or Sold-Out Progression</a>
+<a href="#presale-end-and-whitelist-close">9.6 PreSale End and Whitelist Close</a>
+<a href="#b100d-connection">9.7 B100D Connection</a>
+<a href="#oracle-role-in-presale">9.8 Oracle Role in PreSale</a>
+<a href="#bnb-distribution">9.9 BNB Distribution</a>
+<a href="#presale-summary">9.10 PreSale Summary</a>
+</div>
+</div>
+<div class="toc-ch" data-for="publicsale-system">
+<a href="#publicsale-system"><span class="n">10</span><span class="t">PublicSale System</span></a>
+<div class="toc-sub">
+<a href="#publicsale-purpose">10.1 PublicSale Purpose</a>
+<a href="#publicsale-activation">10.2 PublicSale Activation</a>
+<a href="#daily-bonus-system">10.3 Daily Bonus System</a>
+<a href="#publicsale-phases">10.4 PublicSale Phases</a>
+<a href="#dividendgenc-connection">10.5 DividendGENc Connection</a>
+<a href="#airdrop-connection">10.6 Airdrop Connection</a>
+<a href="#contract-executed-bot-triggered-model">10.7 Contract-Executed, Bot-Triggered Model</a>
+<a href="#publicsale-summary">10.8 PublicSale Summary</a>
+</div>
+</div>
+<div class="toc-ch" data-for="b100d-loyalty-system">
+<a href="#b100d-loyalty-system"><span class="n">11</span><span class="t">B100D Loyalty System</span></a>
+<div class="toc-sub">
+<a href="#b100d-purpose">11.1 B100D Purpose</a>
+<a href="#b100d-entry-flow">11.2 B100D Entry Flow</a>
+<a href="#initialhold">11.3 InitialHold</a>
+<a href="#b100d-balance-enforcement">11.4 B100D Balance Enforcement</a>
+<a href="#daily-b100d-payout">11.5 Daily B100D Payout</a>
+<a href="#final-b100d-bonus">11.6 Final B100D Bonus</a>
+<a href="#b100d-summary">11.7 B100D Summary</a>
+</div>
+</div>
+<div class="toc-ch" data-for="dividendgenc-system">
+<a href="#dividendgenc-system"><span class="n">12</span><span class="t">DividendGENc System</span></a>
+<div class="toc-sub">
+<a href="#dividendgenc-purpose">12.1 DividendGENc Purpose</a>
+<a href="#two-different-reward-layers">12.2 Two Different Reward Layers</a>
+<a href="#dividendtracker">12.3 DividendTracker</a>
+<a href="#dividendverifier">12.4 DividendVerifier</a>
+<a href="#initialhold-and-balance-maintenance">12.5 InitialHold and Balance Maintenance</a>
+<a href="#adjusted-balance-rule">12.6 Adjusted Balance Rule</a>
+<a href="#payout-execution">12.7 Payout Execution</a>
+<a href="#dividendgenc-summary">12.8 DividendGENc Summary</a>
+</div>
+</div>
+<div class="toc-ch" data-for="airdrop-system">
+<a href="#airdrop-system"><span class="n">13</span><span class="t">Airdrop System</span></a>
+<div class="toc-sub">
+<a href="#airdrop-purpose">13.1 Airdrop Purpose</a>
+<a href="#airdrop-tracker">13.2 Airdrop Tracker</a>
+<a href="#airdrop-console">13.3 Airdrop Console</a>
+<a href="#airdrop-execution-model">13.4 Airdrop Execution Model</a>
+<a href="#airdrop-summary">13.5 Airdrop Summary</a>
+</div>
+</div>
+<div class="toc-ch" data-for="asset-manager-v1-1">
+<a href="#asset-manager-v1-1"><span class="n">14</span><span class="t">Asset Manager v1</span></a>
+<div class="toc-sub">
+<a href="#asset-manager-v1-purpose">14.1 Asset Manager v1 Purpose</a>
+<a href="#full-funding-principle">14.2 Full-Funding Principle</a>
+<a href="#wastestart-anchor">14.3 WasteStart Anchor</a>
+<a href="#release-execution">14.4 Release Execution</a>
+<a href="#id1id6-release-schedules">14.5 ID1–ID6 Release Schedules</a>
+<a href="#origin-based-release-model">14.6 Origin-Based Release Model</a>
+<a href="#bot-loop">14.7 Bot Loop</a>
+<a href="#asset-manager-v1-summary">14.8 Asset Manager v1 Summary</a>
+</div>
+</div>
+<div class="toc-ch" data-for="asset-manager-v2-1">
+<a href="#asset-manager-v2-1"><span class="n">15</span><span class="t">Asset Manager v2</span></a>
+<div class="toc-sub">
+<a href="#amv2-purpose">15.1 AMv2 Purpose</a>
+<a href="#amv2-pool-structure">15.2 AMv2 Pool Structure</a>
+<a href="#amv2-accounting-model">15.3 AMv2 Accounting Model</a>
+<a href="#stage-airdrop-pool">15.4 Stage Airdrop Pool</a>
+<a href="#stage-pass-path">15.5 Stage PASS Path</a>
+<a href="#stage-fail-path">15.6 Stage FAIL Path</a>
+<a href="#stage-routing-summary">15.7 Stage Routing Summary</a>
+<a href="#milestone-pool">15.8 Milestone Pool</a>
+<a href="#partners-pool">15.9 Partners Pool</a>
+<a href="#contest-promotional-pool">15.10 Contest / Promotional Pool</a>
+<a href="#multisig-approval-model">15.11 Multisig Approval Model</a>
+<a href="#amv2-roles-and-destinations">15.12 AMv2 Roles and Destinations</a>
+<a href="#pool-sealing-interpretation">15.13 Pool Sealing Interpretation</a>
+<a href="#amv2-and-rm01-separation">15.14 AMv2 and RM01 Separation</a>
+<a href="#amv2-execution-summary">15.15 AMv2 Execution Summary</a>
+</div>
+</div>
+<div class="toc-ch" data-for="rm01-2">
+<a href="#rm01-2"><span class="n">16</span><span class="t">RM01</span></a>
+<div class="toc-sub">
+<a href="#rm01-purpose">16.1 RM01 Purpose</a>
+<a href="#rm01-identity">16.2 RM01 Identity</a>
+<a href="#rm01-funding-and-seal">16.3 RM01 Funding and Seal</a>
+<a href="#rm01-tge">16.4 RM01 TGE</a>
+<a href="#rm01-release-schedule">16.5 RM01 Release Schedule</a>
+<a href="#rm01-execution">16.6 RM01 Execution</a>
+<a href="#rm01-separation-rule">16.7 RM01 Separation Rule</a>
+<a href="#rm01-summary">16.8 RM01 Summary</a>
+</div>
+</div>
+<div class="toc-ch" data-for="liquidity-layer">
+<a href="#liquidity-layer"><span class="n">17</span><span class="t">Liquidity Layer</span></a>
+<div class="toc-sub">
+<a href="#lp-main">17.1 LP Main</a>
+<a href="#lp-backup">17.2 LP Backup</a>
+<a href="#liquidity-allocation-vs-active-lp">17.3 Liquidity Allocation vs Active LP</a>
+<a href="#stage-1-liquidity-trading-threshold">17.4 Stage 1 Liquidity / Trading Threshold</a>
+<a href="#lp-manager">17.5 LP Manager</a>
+<a href="#liquidity-layer-summary">17.6 Liquidity Layer Summary</a>
+</div>
+</div>
+<div class="toc-ch" data-for="execution-model">
+<a href="#execution-model"><span class="n">18</span><span class="t">Execution Model</span></a>
+<div class="toc-sub">
+<a href="#contract-layer">18.1 Contract Layer</a>
+<a href="#bot-layer">18.2 Bot Layer</a>
+<a href="#operator-layer">18.3 Operator Layer</a>
+<a href="#phase-dependent-automation">18.4 Phase-Dependent Automation</a>
+<a href="#runtime-interpretation">18.5 Runtime Interpretation</a>
+<a href="#execution-summary">18.6 Execution Summary</a>
+</div>
+</div>
+<div class="toc-ch" data-for="risks-and-limitations">
+<a href="#risks-and-limitations"><span class="n">19</span><span class="t">Risks and Limitations</span></a>
+<div class="toc-sub">
+<a href="#smart-contract-risk">19.1 Smart Contract Risk</a>
+<a href="#automation-risk">19.2 Automation Risk</a>
+<a href="#oracle-and-external-data-risk">19.3 Oracle and External Data Risk</a>
+<a href="#tracking-and-file-state-risk">19.4 Tracking and File-State Risk</a>
+<a href="#liquidity-risk">19.5 Liquidity Risk</a>
+<a href="#lp-manager-pending-status">19.6 LP Manager Pending Status</a>
+<a href="#market-and-participation-risk">19.7 Market and Participation Risk</a>
+<a href="#no-outcome-guarantee">19.8 No Outcome Guarantee</a>
+</div>
+</div>
+<div class="toc-ch" data-for="closing-statement">
+<a href="#closing-statement"><span class="n">20</span><span class="t">Closing Statement</span></a>
+</div>
+</nav>
+  <div class="toc-empty" id="toc-empty" style="display:none">No matches. Try another term.</div>
+</aside>
+
+<main>
+  <div class="reader">
+    
+<header class="cover" id="cover">
+  <div class="ey">Public System Whitepaper · SQUNOHOLIX Brand Association — D_LAB</div>
+  <h1 class="big">GENESIScoin</h1>
+  <div class="sub">Whitepaper v2.0 — a modular on-chain system on BNB Smart Chain.</div>
+  <div class="meta">
+    <div class="row"><span class="mk">Version</span><span class="mv">v2.0 Public Release</span></div>
+    <div class="row"><span class="mk">Network</span><span class="mv">BNB Smart Chain</span></div>
+    <div class="row"><span class="mk">Token</span><span class="mv">GENESIScoin</span></div>
+    <div class="row"><span class="mk">Symbol</span><span class="mv">GENc</span></div>
+    <div class="row"><span class="mk">Core Standard</span><span class="mv">Proof Before Promise</span></div>
+    <div class="row"><span class="mk">Public Principle</span><span class="mv">Don't Assume. Verify.</span></div>
+    <div class="row"><span class="mk">Token Contract</span><span class="mv"><span class="addr" data-addr="0x8d9f95Dd624F581803e06652623897DfeCB82CA6" role="button" tabindex="0">0x8d9f…B82CA6</span></span></div>
+    <div class="row"><span class="mk">Standard</span><span class="mv">BEP-20 / ERC-20</span></div>
+  </div>
+  <div class="motto">
+    <div class="m1">#ProofBeforePromise</div>
+    <div class="m2">Don't Assume. Verify.</div>
+  </div>
+</header>
+
+    <section id="introduction" class="level1" data-chapter="introduction"><div class="chapter-head"><span class="chapter-num">01</span><h1>Introduction</h1></div><div class="chapter-body">
+<p>GENESIScoin is a modular on-chain system deployed on BNB Smart
+Chain.</p>
+<p>It is not only a token contract.</p>
+<p>GENESIScoin is built as a connected system of smart contracts,
+allocation modules, distribution mechanisms, automated trigger processes
+and long-term release structures. Each component has a defined role
+inside the ecosystem.</p>
+<p>The system is designed around one core principle:</p>
+<p><strong>Proof Before Promise.</strong></p>
+<p>This means that GENESIScoin does not rely on theoretical claims as
+its foundation. The project prioritizes deployed infrastructure, visible
+contract state and verifiable execution before public narrative.</p>
+<p>The GENESIScoin architecture separates the ecosystem into dedicated
+modules:</p>
+<ul>
+<li>the GENESIScoin token contract,</li>
+<li>the PreSaleGENc distribution module,</li>
+<li>the PublicSaleGENc distribution module,</li>
+<li>Asset Manager v1 for fixed-schedule treasury releases,</li>
+<li>Asset Manager v2 for conditional operational execution,</li>
+<li>RM01 as a separate strategic release module,</li>
+<li>defined liquidity allocations for LP Main and LP Backup,</li>
+<li>and a future LP Manager / liquidity-governance smart-contract
+layer.</li>
+</ul>
+<p>The purpose of this whitepaper is to present the current GENESIScoin
+system as it exists now: its architecture, allocation model, deployed
+modules, execution logic and development standard.</p>
+<p>This document is not a technical audit. It is not a legal document.
+It is not a promise of future outcome.</p>
+<p>It is a public system overview.</p>
+<p>The source of truth is the deployed system and the public blockchain
+state.</p>
+</div></section>
+<section id="proof-before-promise" class="level1" data-chapter="proof-before-promise"><div class="chapter-head"><span class="chapter-num">02</span><h1>Proof Before Promise</h1></div><div class="chapter-body">
+<p>GENESIScoin follows the Proof Before Promise development
+standard.</p>
+<p>This standard is simple:</p>
+<p><strong>Do not ask people to believe what can be
+verified.</strong></p>
+<p>In Web3, claims are easy to make. Execution is harder to prove.
+GENESIScoin is structured around the opposite order:</p>
+<ol type="1">
+<li>build the system,</li>
+<li>deploy the contracts,</li>
+<li>define the rules,</li>
+<li>expose the structure,</li>
+<li>allow others to verify it.</li>
+</ol>
+<p>The system is designed so that critical rules are not presented only
+as written promises. They are implemented through deployed contracts,
+visible allocation structures, release schedules and
+transaction-triggered execution paths.</p>
+<p>This creates a different standard for project communication.</p>
+<p>GENESIScoin does not use Proof Before Promise as a slogan. It is
+applied as a system design rule:</p>
+<ul>
+<li>allocations should be visible,</li>
+<li>modules should be identifiable,</li>
+<li>contracts should define execution,</li>
+<li>automation should trigger only what the contracts allow,</li>
+<li>public claims should match verifiable state.</li>
+</ul>
+<p>This standard also connects directly to DAV:</p>
+<p><strong>Don’t Assume. Verify.</strong></p>
+<p>GENESIScoin is built for users, partners and external observers who
+want to inspect what exists instead of relying only on what is said.</p>
+<p>Proof Before Promise is the foundation. DAV is the behavior.</p>
+</div></section>
+<section id="genesiscoin-overview" class="level1" data-chapter="genesiscoin-overview"><div class="chapter-head"><span class="chapter-num">03</span><h1>GENESIScoin Overview</h1></div><div class="chapter-body">
+<p>GENESIScoin is the base asset and system token of the GENESIScoin
+ecosystem.</p>
+<p>It operates on BNB Smart Chain as a BEP-20 compatible token and
+connects to multiple system modules responsible for distribution,
+reserves, rewards, vesting, conditional operational execution and
+liquidity planning.</p>
+<p>The system is designed as a modular architecture.</p>
+<p>Instead of placing all logic inside one contract, GENESIScoin
+separates responsibilities across specialized contracts and execution
+layers. This makes each part of the system easier to understand, inspect
+and verify.</p>
+<p>The current architecture includes:</p>
+<ul>
+<li>a core token layer,</li>
+<li>a staged PreSale layer,</li>
+<li>a PublicSale and distribution layer,</li>
+<li>a treasury vesting layer,</li>
+<li>a conditional operational execution layer,</li>
+<li>a strategic release module,</li>
+<li>and a liquidity allocation layer.</li>
+</ul>
+<p>Each module serves a different function.</p>
+<p>The token is the asset layer. PreSale and PublicSale manage
+distribution. Asset Manager v1 controls fixed-schedule treasury release.
+Asset Manager v2 controls conditional operational execution and routing.
+RM01 controls a separate strategic release schedule. LP Main and LP
+Backup define liquidity allocations. Automation processes trigger
+transactions when system conditions are reached.</p>
+<p>The key model is:</p>
+<p><strong>contracts execute, bots trigger, operators
+activate.</strong></p>
+<p>This means that off-chain automation does not replace smart-contract
+logic. Bots and scripts observe conditions, submit transactions and
+support execution timing. The contracts themselves define what can
+happen and whether a transaction is valid.</p>
+</div></section>
+<section id="token-overview" class="level1" data-chapter="token-overview"><div class="chapter-head"><span class="chapter-num">04</span><h1>Token Overview</h1></div><div class="chapter-body">
+<section id="token-identity" class="level2">
+<h2>4.1 Token Identity</h2>
+<div class="tbl-wrap"><table>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Token name</td>
+<td>GENESIScoin</td>
+</tr>
+<tr class="even">
+<td>Symbol</td>
+<td>GENc</td>
+</tr>
+<tr class="odd">
+<td>Network</td>
+<td>BNB Smart Chain</td>
+</tr>
+<tr class="even">
+<td>Standard</td>
+<td>BEP-20 / ERC-20 compatible</td>
+</tr>
+<tr class="odd">
+<td>Decimals</td>
+<td>18</td>
+</tr>
+<tr class="even">
+<td>Token contract</td>
+<td><span class="addr" data-addr="0x8d9f95Dd624F581803e06652623897DfeCB82CA6" title="Click to copy" role="button" tabindex="0">0x8d9f95Dd624F581803e06652623897DfeCB82CA6</span></td>
+</tr>
+</tbody>
+</table></div>
+<p>GENc is the base token used across the GENESIScoin system.</p>
+<p>It is used inside the PreSale module, PublicSale module, treasury
+release modules, conditional operational execution modules, reward
+mechanisms, airdrop systems and liquidity allocation structure.</p>
+</section>
+<section id="supply-model" class="level2">
+<h2>4.2 Supply Model</h2>
+<p>The original GENESIScoin allocation model was built around a total
+allocation of:</p>
+<p><strong>100,000,000,000 GENc</strong></p>
+<p>This original allocation defines the intended structure of the
+ecosystem, including:</p>
+<ul>
+<li>PreSale distribution,</li>
+<li>B100D loyalty allocation,</li>
+<li>PublicSale bonus allocation,</li>
+<li>DividendGENc pool,</li>
+<li>treasury reserves,</li>
+<li>operational allocations,</li>
+<li>partner allocations,</li>
+<li>airdrop allocations,</li>
+<li>and liquidity allocations.</li>
+</ul>
+<p>GENESIScoin supply originates from deployment-time allocation. No
+external post-deployment minting path is presented in this whitepaper
+unless verified otherwise from the deployed source.</p>
+<p>The final public version of this whitepaper should always use the
+current on-chain total supply at the time of publication.</p>
+</section>
+<section id="token-function-inside-the-system" class="level2">
+<h2>4.3 Token Function Inside the System</h2>
+<p>GENc is not isolated from the rest of the architecture.</p>
+<p>It connects to:</p>
+<ul>
+<li>PreSaleGENc for staged token distribution,</li>
+<li>PublicSaleGENc for post-PreSale distribution mechanisms,</li>
+<li>Asset Manager v1 for treasury release schedules,</li>
+<li>Asset Manager v2 for conditional operational execution,</li>
+<li>RM01 for strategic scheduled release,</li>
+<li>tracker and verifier systems for distribution eligibility,</li>
+<li>and liquidity allocations connected to market activation.</li>
+</ul>
+<p>GENc acts as the system asset layer that all other modules operate
+around.</p>
+</section>
+</div></section>
+<section id="token-fee-and-trading-activation-model" class="level1" data-chapter="token-fee-and-trading-activation-model"><div class="chapter-head"><span class="chapter-num">05</span><h1>Token Fee and Trading Activation Model</h1></div><div class="chapter-body">
+<p>GENESIScoin includes token-level configuration surfaces connected to
+trading activation, AMM settings, fee handling, fee exclusions and
+dividend exclusions.</p>
+<p>These surfaces are part of the token control layer and should be
+understood separately from the PreSale, PublicSale, Asset Manager and
+release-module logic.</p>
+<p>The token contract may define or expose configuration paths related
+to:</p>
+<ul>
+<li>trading activation,</li>
+<li>automated market maker settings,</li>
+<li>transaction-fee handling,</li>
+<li>fee exclusions,</li>
+<li>dividend exclusions,</li>
+<li>reward-related fee configuration,</li>
+<li>liquidity-related fee configuration,</li>
+<li>burn-related fee configuration,</li>
+<li>and operational recipient configuration.</li>
+</ul>
+<p>The exact active configuration must always be verified against the
+deployed token contract before publication, integration or external
+analysis.</p>
+<p>Trading activation is also a separate state from liquidity
+allocation.</p>
+<p>LP Main and LP Backup define liquidity allocations. They do not, by
+themselves, prove that active liquidity has been deployed or that a live
+trading pair is active.</p>
+<p>Token-level trading activation, AMM configuration and liquidity
+deployment are connected, but they are not the same thing.</p>
+<p>The final documentation should not present a historical fee table as
+current active configuration unless it has been checked against the
+deployed token source and current chain state.</p>
+</div></section>
+<section id="modular-system-architecture" class="level1" data-chapter="modular-system-architecture"><div class="chapter-head"><span class="chapter-num">06</span><h1>Modular System Architecture</h1></div><div class="chapter-body">
+<p>GENESIScoin is structured as a modular system.</p>
+<p>Each module has a defined role and a separate responsibility. This
+separation makes the system easier to inspect because no single public
+explanation needs to hide different mechanisms under one generic
+label.</p>
+<p>The architecture is composed of the following core components.</p>
+<section id="genesiscoin-token-contract" class="level2">
+<h2>6.1 GENESIScoin Token Contract</h2>
+<p>The GENESIScoin token contract is the base asset layer of the
+ecosystem.</p>
+<p>It defines the GENc token and provides the transfer layer used by
+every other module.</p>
+<p>Core role:</p>
+<ul>
+<li>token accounting,</li>
+<li>transfer execution,</li>
+<li>token-level configuration surfaces,</li>
+<li>trading activation path,</li>
+<li>AMM configuration surfaces,</li>
+<li>fee and exclusion control surfaces,</li>
+<li>integration with distribution and reward mechanisms.</li>
+</ul>
+<p>The token contract is not the full system by itself.</p>
+<p>It is the asset layer that the rest of the GENESIScoin architecture
+operates around.</p>
+<p>The token contract may also hold a changing operational GENc balance
+connected to transfer, buy, sell or fee-related routing mechanics. That
+balance should not be interpreted as a fixed allocation pool.</p>
+</section>
+<section id="presalegenc" class="level2">
+<h2>6.2 PreSaleGENc</h2>
+<p>PreSaleGENc is the staged initial distribution module.</p>
+<p>It manages the PreSale process and connects several early-system
+mechanics, including stage progression, whitelist timing and B100D
+entry.</p>
+<p>Core role:</p>
+<ul>
+<li>staged PreSale structure,</li>
+<li>stage progression,</li>
+<li>purchase limits,</li>
+<li>BNB price update path,</li>
+<li>whitelist opening and closing,</li>
+<li>B100D registration,</li>
+<li>B100D daily payout logic,</li>
+<li>final bonus trigger path,</li>
+<li>BNB proceeds distribution.</li>
+</ul>
+<p>PreSaleGENc is contract-executed and oracle-supported.</p>
+<p>The contract defines the rules. The Oracle triggers selected
+transitions. Bots support timing and participant-state enforcement.</p>
+<p>PreSaleGENc is also an important timing anchor for downstream modules
+because whitelist closure is used by later execution layers.</p>
+</section>
+<section id="publicsalegenc" class="level2">
+<h2>6.3 PublicSaleGENc</h2>
+<p>PublicSaleGENc is the post-PreSale distribution module.</p>
+<p>It becomes relevant after the required PreSale and whitelist
+conditions are satisfied.</p>
+<p>Core role:</p>
+<ul>
+<li>PublicSale activation,</li>
+<li>daily bonus execution,</li>
+<li>PublicSale bonus pool custody,</li>
+<li>DividendGENc pool custody,</li>
+<li>airdrop pool custody,</li>
+<li>list-based airdrop execution,</li>
+<li>adjusted GENc distribution execution.</li>
+</ul>
+<p>PublicSaleGENc holds and transfers post-PreSale distribution
+pools.</p>
+<p>Eligibility observation and list preparation may happen outside the
+contract through dedicated scripts, but final token transfers are
+executed by the contract.</p>
+<p>This means PublicSaleGENc is the execution layer for multiple
+post-PreSale distribution mechanisms.</p>
+</section>
+<section id="asset-manager-v1" class="level2">
+<h2>6.4 Asset Manager v1</h2>
+<p>Asset Manager v1 is the fixed-schedule treasury release module.</p>
+<p>The deployed contract name is AssetMenager.</p>
+<p>It controls long-term treasury and ecosystem reserve allocations
+through predefined release schedules.</p>
+<p>Core role:</p>
+<ul>
+<li>Team allocation release schedule,</li>
+<li>Marketing allocation release schedule,</li>
+<li>Development allocation release schedule,</li>
+<li>Event / Expo allocation release schedule,</li>
+<li>Future Project allocation release schedule,</li>
+<li>SBA reserve release schedule.</li>
+</ul>
+<p>Asset Manager v1 follows a time-based model.</p>
+<p>Its release logic is anchored to WasteStart, which is set after the
+PreSale whitelist close condition.</p>
+<p>Once WasteStart is set, releases follow predefined schedules and
+destination paths.</p>
+<p>Asset Manager v1 should be understood as the deterministic treasury
+release layer.</p>
+<p>It does not operate as a dynamic operational controller.</p>
+</section>
+<section id="asset-manager-v2" class="level2">
+<h2>6.5 Asset Manager v2</h2>
+<p>Asset Manager v2 is the conditional operational execution
+controller.</p>
+<p>The deployed contract name is AssetManagerV2.</p>
+<p>It is separate from Asset Manager v1.</p>
+<p>Asset Manager v1 controls fixed treasury release schedules. Asset
+Manager v2 controls dynamic operational execution paths.</p>
+<p>Core role:</p>
+<ul>
+<li>Stage Airdrop Pool execution,</li>
+<li>stage PASS routing,</li>
+<li>stage FAIL routing,</li>
+<li>Milestone Pool execution,</li>
+<li>Partners Pool execution,</li>
+<li>Contest / Promotional Pool execution.</li>
+</ul>
+<p>Asset Manager v2 is not a passive reserve wallet.</p>
+<p>It controls how selected GENc pools can move depending on system
+outcome, approved operations and contract-defined conditions.</p>
+<p>For stage-based execution:</p>
+<ul>
+<li>a successful stage routes the defined stage allocation to the
+airdrop wallet,</li>
+<li>a failed eligible stage routes the defined stage allocation through
+the fail path,</li>
+<li>the fail path redirects GENc into burn and DividendGENc-related
+technical distribution routes.</li>
+</ul>
+<p>This makes Asset Manager v2 a conditional routing layer.</p>
+<p>Milestone, partner and contest-related operations use proposal,
+approval and execution paths where required.</p>
+<p>The full AMv2 mechanics are described separately in the Asset Manager
+v2 section of this whitepaper.</p>
+</section>
+<section id="rm01" class="level2">
+<h2>6.6 RM01</h2>
+<p>RM01 is a separate deployed strategic release module.</p>
+<p>It is not Asset Manager v1. It is not Asset Manager v2. It is not LP
+Main. It is not LP Backup. It is not the LP Manager.</p>
+<p>RM01 controls a dedicated 50,000,000 GENc strategic release
+schedule.</p>
+<p>Core role:</p>
+<ul>
+<li>sealed strategic pool,</li>
+<li>TGE trigger,</li>
+<li>scheduled release execution,</li>
+<li>hardcoded recipient path,</li>
+<li>RM_BOT-triggered execution.</li>
+</ul>
+<p>RM01 is deployed as its own contract.</p>
+<p>It was funded from the Partners wallet / Partners allocation path and
+sealed after full funding.</p>
+<p>Allocation-wise, RM01 belongs to the RM01–RM10 reserve inside the
+3,000,000,000 GENc Partners allocation.</p>
+<p>Contract-wise, RM01 is separate from Asset Manager v2.</p>
+<p>This distinction prevents double-counting and prevents RM01 from
+being incorrectly described as an AMv2 internal pool.</p>
+</section>
+<section id="liquidity-allocations" class="level2">
+<h2>6.7 Liquidity Allocations</h2>
+<p>GENESIScoin includes two defined liquidity allocations:</p>
+<ul>
+<li>LP Main — 10,000,000,000 GENc,</li>
+<li>LP Backup — 10,000,000,000 GENc.</li>
+</ul>
+<p>Together, these represent the liquidity allocation layer of the
+original system model.</p>
+<p>LP Main and LP Backup are allocation wallets.</p>
+<p>They are not the same as:</p>
+<ul>
+<li>an active LP pair,</li>
+<li>a locked liquidity contract,</li>
+<li>an LP Manager contract,</li>
+<li>Asset Manager v1,</li>
+<li>Asset Manager v2,</li>
+<li>RM01.</li>
+</ul>
+<p>The LP Manager remains a future liquidity-governance smart-contract
+module until it is deployed and funded on-chain.</p>
+<p>Until then, LP Main and LP Backup must be described as liquidity
+allocation wallets.</p>
+<p>Active liquidity deployment must be verified through actual on-chain
+liquidity transactions and pair state.</p>
+</section>
+<section id="automation-layer" class="level2">
+<h2>6.8 Automation Layer</h2>
+<p>GENESIScoin uses automation scripts and bots to support execution
+timing.</p>
+<p>These processes do not rewrite contract rules.</p>
+<p>They:</p>
+<ul>
+<li>observe events,</li>
+<li>read contract state,</li>
+<li>check timing conditions,</li>
+<li>submit transactions,</li>
+<li>and support staged execution.</li>
+</ul>
+<p><strong>contracts execute, bots trigger, operators
+activate.</strong></p>
+<p>Some bots are expected to run during broad system phases.</p>
+<p>Some bots are phase-driven and activated before they are needed.</p>
+<p>Some scripts are manual CLI tools and are not persistent daemons.</p>
+<p>This distinction matters because runtime state does not define the
+whole system.</p>
+<p>A stopped bot outside its activation window does not mean a function
+does not exist.</p>
+<p>It means that process is not active in that phase.</p>
+</section>
+<section id="architecture-summary" class="level2">
+<h2>6.9 Architecture Summary</h2>
+<p>GENESIScoin is designed as a system of connected but separated
+modules.</p>
+<div class="tbl-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Layer</th>
+<th>Module</th>
+<th>Main role</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Asset layer</td>
+<td>GENESIScoin Token</td>
+<td>Base GENc token</td>
+</tr>
+<tr class="even">
+<td>Initial distribution</td>
+<td>PreSaleGENc</td>
+<td>Staged PreSale and B100D</td>
+</tr>
+<tr class="odd">
+<td>Public distribution</td>
+<td>PublicSaleGENc</td>
+<td>PublicSale, bonus, DividendGENc and airdrop pools</td>
+</tr>
+<tr class="even">
+<td>Fixed treasury release</td>
+<td>Asset Manager v1</td>
+<td>ID1–ID6 fixed-schedule releases</td>
+</tr>
+<tr class="odd">
+<td>Conditional operational execution</td>
+<td>Asset Manager v2</td>
+<td>Stage, milestone, partners and contest routing</td>
+</tr>
+<tr class="even">
+<td>Strategic release</td>
+<td>RM01</td>
+<td>First 50M GENc RM release module</td>
+</tr>
+<tr class="odd">
+<td>Liquidity allocation</td>
+<td>LP Main / LP Backup</td>
+<td>Liquidity reserve wallets</td>
+</tr>
+<tr class="even">
+<td>Future liquidity governance</td>
+<td>LP Manager / liquidity-governance smart-contract layer</td>
+<td>Future liquidity-governance contract layer</td>
+</tr>
+<tr class="odd">
+<td>Automation</td>
+<td>Bots / scripts</td>
+<td>Trigger layer for contract-defined actions</td>
+</tr>
+</tbody>
+</table></div>
+<p>This modular structure allows GENESIScoin to separate long-term
+allocation, operational distribution, public participation, strategic
+releases, treasury vesting and liquidity planning into distinct system
+components.</p>
+<p>The system standard remains:</p>
+<p><strong>Proof Before Promise.</strong> <strong>Don’t Assume.
+Verify.</strong></p>
+</section>
+</div></section>
+<section id="original-allocation-model" class="level1" data-chapter="original-allocation-model"><div class="chapter-head"><span class="chapter-num">07</span><h1>Original Allocation Model</h1></div><div class="chapter-body">
+<p>The original GENESIScoin allocation model was structured around a
+total allocation of:</p>
+<p><strong>100,000,000,000 GENc</strong></p>
+<p>This allocation defines the original tokenomics structure of the
+system.</p>
+<p>It separates GENc supply into public distribution, holder
+distribution systems, treasury reserves, ecosystem reserves, partner
+allocation and liquidity allocation.</p>
+<p>The original allocation model should not be confused with current
+custody.</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr class="header">
+<th>View</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Original allocation</td>
+<td>What each supply segment was intended for</td>
+</tr>
+<tr class="even">
+<td>Current custody</td>
+<td>Where GENc currently sits</td>
+</tr>
+<tr class="odd">
+<td>Deployed module</td>
+<td>Which contract or wallet controls a system path</td>
+</tr>
+<tr class="even">
+<td>Release logic</td>
+<td>How an allocation moves over time</td>
+</tr>
+</tbody>
+</table></div>
+<p>Both views matter.</p>
+<p>The original allocation explains purpose. Current custody explains
+present location. Execution logic explains movement.</p>
+<section id="original-genc-allocation" class="level2">
+<h2>7.1 Original GENc Allocation</h2>
+<div class="tbl-wrap"><table>
+<thead>
+<tr class="header">
+<th>Allocation</th>
+<th style="text-align: right;">Amount</th>
+<th style="text-align: right;">Share</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Pre-Sale + Bonus</td>
+<td style="text-align: right;">35,800,000,000 GENc</td>
+<td style="text-align: right;">35.8%</td>
+</tr>
+<tr class="even">
+<td>B100D Loyalty Pool</td>
+<td style="text-align: right;">3,000,000,000 GENc</td>
+<td style="text-align: right;">3.0%</td>
+</tr>
+<tr class="odd">
+<td>DividendGENc Pool</td>
+<td style="text-align: right;">10,000,000,000 GENc</td>
+<td style="text-align: right;">10.0%</td>
+</tr>
+<tr class="even">
+<td>Public Sale Bonus Pool</td>
+<td style="text-align: right;">3,000,000,000 GENc</td>
+<td style="text-align: right;">3.0%</td>
+</tr>
+<tr class="odd">
+<td>DevG</td>
+<td style="text-align: right;">1,000,000,000 GENc</td>
+<td style="text-align: right;">1.0%</td>
+</tr>
+<tr class="even">
+<td>Partners</td>
+<td style="text-align: right;">3,000,000,000 GENc</td>
+<td style="text-align: right;">3.0%</td>
+</tr>
+<tr class="odd">
+<td>Event / Expo</td>
+<td style="text-align: right;">3,000,000,000 GENc</td>
+<td style="text-align: right;">3.0%</td>
+</tr>
+<tr class="even">
+<td>Airdrop</td>
+<td style="text-align: right;">5,000,000,000 GENc</td>
+<td style="text-align: right;">5.0%</td>
+</tr>
+<tr class="odd">
+<td>Marketing</td>
+<td style="text-align: right;">5,000,000,000 GENc</td>
+<td style="text-align: right;">5.0%</td>
+</tr>
+<tr class="even">
+<td>TeamG</td>
+<td style="text-align: right;">5,000,000,000 GENc</td>
+<td style="text-align: right;">5.0%</td>
+</tr>
+<tr class="odd">
+<td>Future Project</td>
+<td style="text-align: right;">6,200,000,000 GENc</td>
+<td style="text-align: right;">6.2%</td>
+</tr>
+<tr class="even">
+<td>LP Backup</td>
+<td style="text-align: right;">10,000,000,000 GENc</td>
+<td style="text-align: right;">10.0%</td>
+</tr>
+<tr class="odd">
+<td>LP Main</td>
+<td style="text-align: right;">10,000,000,000 GENc</td>
+<td style="text-align: right;">10.0%</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Total:</strong> 100,000,000,000 GENc</p>
+</section>
+<section id="allocation-by-system-purpose" class="level2">
+<h2>7.2 Allocation by System Purpose</h2>
+<p>The original allocation model can be grouped into five functional
+categories:</p>
+<div class="tbl-wrap"><table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Category</th>
+<th>Allocation areas</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Public distribution</td>
+<td>Pre-Sale + Bonus, Public Sale Bonus Pool, Airdrop</td>
+</tr>
+<tr class="even">
+<td>Holder distribution systems</td>
+<td>B100D Loyalty Pool, DividendGENc Pool</td>
+</tr>
+<tr class="odd">
+<td>Treasury and ecosystem reserves</td>
+<td>DevG, Marketing, TeamG, Event / Expo, Future Project</td>
+</tr>
+<tr class="even">
+<td>Partner and operational allocation</td>
+<td>Partners allocation, partner-related execution paths, RM01–RM10
+reserve</td>
+</tr>
+<tr class="odd">
+<td>Liquidity allocation</td>
+<td>LP Main, LP Backup</td>
+</tr>
+</tbody>
+</table></div>
+<p>This purpose-based view explains why each allocation exists.</p>
+<section id="public-distribution" class="level3">
+<h3>7.2.1 Public Distribution</h3>
+<p>Public distribution includes allocations used for direct ecosystem
+participation and token distribution.</p>
+<div class="tbl-wrap"><table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Allocation</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Pre-Sale + Bonus</td>
+<td>Initial staged distribution</td>
+</tr>
+<tr class="even">
+<td>Public Sale Bonus Pool</td>
+<td>Daily bonus mechanism connected to PublicSale</td>
+</tr>
+<tr class="odd">
+<td>Airdrop</td>
+<td>Holder, campaign and ecosystem distribution</td>
+</tr>
+</tbody>
+</table></div>
+<p>These allocations are connected to participant distribution
+mechanics.</p>
+<p>They are not treasury allocations.</p>
+</section>
+<section id="holder-distribution-systems" class="level3">
+<h3>7.2.2 Holder Distribution Systems</h3>
+<p>Holder distribution systems are technical GENc distribution
+mechanisms.</p>
+<div class="tbl-wrap"><table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Allocation</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>B100D Loyalty Pool</td>
+<td>Daily and final bonus distribution for eligible PreSale-connected
+participants</td>
+</tr>
+<tr class="even">
+<td>DividendGENc Pool</td>
+<td>Cycle-based GENc token distribution from a dedicated pool</td>
+</tr>
+</tbody>
+</table></div>
+<p>DividendGENc is a technical system label for GENc token
+distribution.</p>
+<p>It should not be interpreted as:</p>
+<ul>
+<li>a legal dividend,</li>
+<li>ownership right,</li>
+<li>profit share,</li>
+<li>yield product,</li>
+<li>income promise.</li>
+</ul>
+<p>B100D is also a technical loyalty mechanism.</p>
+<p>It is based on registration, initialHold tracking and continued
+holding behavior.</p>
+</section>
+<section id="treasury-and-ecosystem-reserves" class="level3">
+<h3>7.2.3 Treasury and Ecosystem Reserves</h3>
+<p>Treasury and ecosystem reserves support long-term development,
+operations and ecosystem continuity.</p>
+<div class="tbl-wrap"><table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Allocation</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>DevG</td>
+<td>Development reserve</td>
+</tr>
+<tr class="even">
+<td>Marketing</td>
+<td>Marketing reserve</td>
+</tr>
+<tr class="odd">
+<td>TeamG</td>
+<td>Team allocation</td>
+</tr>
+<tr class="even">
+<td>Event / Expo</td>
+<td>Event and ecosystem promotion reserve</td>
+</tr>
+<tr class="odd">
+<td>Future Project</td>
+<td>Future project development and SBA reserve structure</td>
+</tr>
+</tbody>
+</table></div>
+<p>In the current modular architecture, the 6,200,000,000 GENc Future
+Project allocation is structurally split into:</p>
+<ul>
+<li>Future Project Development,</li>
+<li>SBA ecosystem reserve.</li>
+</ul>
+<p>These allocations are controlled through the fixed-schedule treasury
+release layer.</p>
+<p>The relevant deployed module for this category is:</p>
+<p><strong>Asset Manager v1 / AssetMenager</strong></p>
+<p>Asset Manager v1 controls the ID1–ID6 fixed-schedule release
+model.</p>
+</section>
+<section id="partner-and-operational-allocation" class="level3">
+<h3>7.2.4 Partner and Operational Allocation</h3>
+<p>The Partners allocation is:</p>
+<p><strong>3,000,000,000 GENc</strong></p>
+<p>This allocation supports partner-related ecosystem paths and
+strategic release structures.</p>
+<p>In the deployed system, partner-related execution must be separated
+into three different layers:</p>
+<div class="tbl-wrap"><table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Layer</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Partners allocation</td>
+<td>3B GENc original tokenomics allocation</td>
+</tr>
+<tr class="even">
+<td>AMv2 Partners Pool execution path</td>
+<td>Contract-controlled partner-related operational route</td>
+</tr>
+<tr class="odd">
+<td>RM01–RM10 reserve</td>
+<td>500M GENc strategic release reserve inside the Partners
+allocation</td>
+</tr>
+</tbody>
+</table></div>
+<p>These layers are connected, but they are not the same thing.</p>
+<p>Asset Manager v2 may route partner-related GENc through its Partners
+Pool execution path to the Partners wallet. RM modules are separate
+release contracts. RM modules are not internal AMv2 pools.</p>
+<p><strong>RM01–RM10 Reserve</strong></p>
+<p>Inside the 3,000,000,000 GENc Partners allocation, 500,000,000 GENc
+is reserved for the RM01–RM10 strategic release module sequence.</p>
+<p>Each RM module is structured around 50,000,000 GENc.</p>
+<div class="tbl-wrap"><table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 40%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>RM Layer</th>
+<th style="text-align: right;">Amount</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>RM01</td>
+<td style="text-align: right;">50,000,000 GENc</td>
+<td>Deployed / verified / funded / sealed</td>
+</tr>
+<tr class="even">
+<td>RM02–RM10</td>
+<td style="text-align: right;">450,000,000 GENc</td>
+<td>Reserved for future RM modules</td>
+</tr>
+<tr class="odd">
+<td>Total RM01–RM10 reserve</td>
+<td style="text-align: right;">500,000,000 GENc</td>
+<td>Sub-allocation inside Partners allocation</td>
+</tr>
+</tbody>
+</table></div>
+<p>This means RM01–RM10 are not additional allocation outside the 3B
+Partners allocation.</p>
+<p>They are a reserved strategic release layer inside the Partners
+allocation.</p>
+<p>The remaining Partners allocation after the RM01–RM10 reserve is:</p>
+<p><strong>2,500,000,000 GENc</strong></p>
+<p>The RM01–RM10 reserve is a tokenomics-level sub-allocation.</p>
+<p>RM01 is not extra supply.</p>
+<p>RM01 is the first deployed release module from the RM01–RM10 reserve
+inside the Partners allocation.</p>
+</section>
+<section id="liquidity-allocation" class="level3">
+<h3>7.2.5 Liquidity Allocation</h3>
+<p>GENESIScoin includes two dedicated liquidity allocations.</p>
+<div class="tbl-wrap"><table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 40%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Allocation</th>
+<th style="text-align: right;">Amount</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>LP Main</td>
+<td style="text-align: right;">10,000,000,000 GENc</td>
+<td>Primary liquidity allocation</td>
+</tr>
+<tr class="even">
+<td>LP Backup</td>
+<td style="text-align: right;">10,000,000,000 GENc</td>
+<td>Backup / secondary liquidity allocation</td>
+</tr>
+</tbody>
+</table></div>
+<p>Together, LP Main and LP Backup form the liquidity allocation
+layer.</p>
+<p>At the current stage, they must be described as liquidity allocation
+wallets unless and until a deployed LP Manager or another verified
+liquidity-governance structure takes custody of those balances
+on-chain.</p>
+<p>A liquidity allocation is not the same as active liquidity.</p>
+<p>Active liquidity must be verified through actual liquidity
+transactions and pair state.</p>
+</section>
+</section>
+<section id="deployment-aware-allocation-view" class="level2">
+<h2>7.3 Deployment-Aware Allocation View</h2>
+<p>As the system evolved, the original allocation model was mapped into
+deployed modules and defined custody structures.</p>
+<div class="tbl-wrap"><table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Allocation Area</th>
+<th>Current System Layer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Pre-Sale + Bonus</td>
+<td>PreSaleGENc</td>
+</tr>
+<tr class="even">
+<td>B100D Loyalty Pool</td>
+<td>PreSaleGENc</td>
+</tr>
+<tr class="odd">
+<td>Public Sale Bonus Pool</td>
+<td>PublicSaleGENc</td>
+</tr>
+<tr class="even">
+<td>DividendGENc Pool</td>
+<td>PublicSaleGENc</td>
+</tr>
+<tr class="odd">
+<td>Airdrop execution paths</td>
+<td>PublicSaleGENc / Asset Manager v2 / tracker layer</td>
+</tr>
+<tr class="even">
+<td>TeamG</td>
+<td>Asset Manager v1</td>
+</tr>
+<tr class="odd">
+<td>Marketing</td>
+<td>Asset Manager v1</td>
+</tr>
+<tr class="even">
+<td>DevG</td>
+<td>Asset Manager v1</td>
+</tr>
+<tr class="odd">
+<td>Event / Expo</td>
+<td>Asset Manager v1</td>
+</tr>
+<tr class="even">
+<td>Future Project</td>
+<td>Asset Manager v1</td>
+</tr>
+<tr class="odd">
+<td>SBA Reserve</td>
+<td>Asset Manager v1</td>
+</tr>
+<tr class="even">
+<td>Stage Airdrop Pool</td>
+<td>Asset Manager v2</td>
+</tr>
+<tr class="odd">
+<td>Milestone Pool</td>
+<td>Asset Manager v2</td>
+</tr>
+<tr class="even">
+<td>Partners Pool execution path</td>
+<td>Asset Manager v2 / Partners wallet path</td>
+</tr>
+<tr class="odd">
+<td>Contest / Promotional Pool</td>
+<td>Asset Manager v2</td>
+</tr>
+<tr class="even">
+<td>Partners allocation</td>
+<td>3B GENc tokenomics allocation</td>
+</tr>
+<tr class="odd">
+<td>RM01–RM10 strategic release reserve</td>
+<td>500M GENc sub-allocation inside the 3B Partners allocation</td>
+</tr>
+<tr class="even">
+<td>RM01 strategic release module</td>
+<td>First deployed 50M GENc module from the RM01–RM10 reserve</td>
+</tr>
+<tr class="odd">
+<td>LP Main</td>
+<td>Liquidity allocation wallet</td>
+</tr>
+<tr class="even">
+<td>LP Backup</td>
+<td>Liquidity allocation wallet</td>
+</tr>
+<tr class="odd">
+<td>LP Manager</td>
+<td>Future liquidity-governance contract layer</td>
+</tr>
+</tbody>
+</table></div>
+<p>RM01 is documented as a separate deployed release module because it
+has its own contract, pool, seal state, recipient path and
+RM_BOT-triggered schedule.</p>
+<p>Allocation-wise, RM01 belongs to the RM01–RM10 reserve inside the 3B
+GENc Partners allocation.</p>
+<p>Contract-wise, RM01 is separate from Asset Manager v2.</p>
+<p>It must not be counted as additional supply outside the original
+allocation model.</p>
+</section>
+<section id="allocation-vs-custody" class="level2">
+<h2>7.4 Allocation vs Custody</h2>
+<p>The original allocation model and current custody view are different
+layers.</p>
+<div class="tbl-wrap"><table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>View</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Original allocation</td>
+<td>Intended tokenomics structure</td>
+</tr>
+<tr class="even">
+<td>Current custody</td>
+<td>Where GENc currently sits</td>
+</tr>
+<tr class="odd">
+<td>Deployed module</td>
+<td>Contract that controls or executes a system path</td>
+</tr>
+<tr class="even">
+<td>Allocation wallet</td>
+<td>Wallet holding an allocation outside a deployed module</td>
+</tr>
+<tr class="odd">
+<td>Release logic</td>
+<td>How an allocation moves over time</td>
+</tr>
+<tr class="even">
+<td>Automation</td>
+<td>How contract-defined actions are triggered</td>
+</tr>
+</tbody>
+</table></div>
+<p>This distinction matters because a current holder balance does not
+automatically explain the full tokenomics model.</p>
+<p>The final GENESIScoin documentation must show:</p>
+<ul>
+<li>what was allocated,</li>
+<li>where it currently sits,</li>
+<li>what contract or wallet controls it,</li>
+<li>and what logic governs movement.</li>
+</ul>
+</section>
+<section id="allocation-documentation-rule" class="level2">
+<h2>7.5 Allocation Documentation Rule</h2>
+<p>The final GENESIScoin documentation must keep the following rule
+clear:</p>
+<p>Original allocation is the tokenomics model. Current custody is the
+deployed or wallet-held state. Release logic is how allocation moves.
+Operational automation is how contract-defined actions are
+triggered.</p>
+<p>This prevents one of the most common documentation errors: presenting
+an original allocation table as if it also proves current custody.</p>
+<p>GENESIScoin v2.0 documentation must present both layers clearly.</p>
+</section>
+</div></section>
+<section id="current-deployed-system-state" class="level1" data-chapter="current-deployed-system-state"><div class="chapter-head"><span class="chapter-num">08</span><h1>Current Deployed System State</h1></div><div class="chapter-body">
+<p>GENESIScoin has moved beyond a single-token model into a deployed
+modular system.</p>
+<p>The current system includes deployed contracts, allocation wallets,
+execution paths and operational balances. These layers must be separated
+because they do not mean the same thing.</p>
+<p>This section explains the current deployed state of the system
+through four views:</p>
+<ul>
+<li>deployed modules,</li>
+<li>token contract behavior,</li>
+<li>visible custody snapshot,</li>
+<li>execution interpretation.</li>
+</ul>
+<p>A deployed module shows system architecture.</p>
+<p>A custody snapshot shows where GENc balances are currently
+visible.</p>
+<p>An allocation model explains intended purpose.</p>
+<p>Execution logic explains how tokens move.</p>
+<p>These views must not be merged.</p>
+<section id="deployed-core-modules" class="level2">
+<h2>8.1 Deployed Core Modules</h2>
+<div class="tbl-wrap"><table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Module</th>
+<th>Address</th>
+<th>Status</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>GENESIScoin Token</td>
+<td><span class="addr" data-addr="0x8d9f95Dd624F581803e06652623897DfeCB82CA6" title="Click to copy" role="button" tabindex="0">0x8d9f95Dd624F581803e06652623897DfeCB82CA6</span></td>
+<td>Deployed</td>
+<td>Base token contract and asset layer</td>
+</tr>
+<tr class="even">
+<td>PreSaleGENc</td>
+<td><span class="addr" data-addr="0x019A2D76D825914B5b52552e1A1D09F024CC4C58" title="Click to copy" role="button" tabindex="0">0x019A2D76D825914B5b52552e1A1D09F024CC4C58</span></td>
+<td>Deployed / verified</td>
+<td>Staged PreSale execution module</td>
+</tr>
+<tr class="odd">
+<td>PublicSaleGENc</td>
+<td><span class="addr" data-addr="0x74eb74d66e8bd29226228536307BF5588168A8b7" title="Click to copy" role="button" tabindex="0">0x74eb74d66e8bd29226228536307BF5588168A8b7</span></td>
+<td>Deployed / verified</td>
+<td>Post-PreSale distribution module</td>
+</tr>
+<tr class="even">
+<td>Asset Manager v1 / AssetMenager</td>
+<td><span class="addr" data-addr="0x673eC5B98bC6d8A3b633F8D900B4C0832850423D" title="Click to copy" role="button" tabindex="0">0x673eC5B98bC6d8A3b633F8D900B4C0832850423D</span></td>
+<td>Deployed / verified</td>
+<td>Fixed-schedule treasury release module</td>
+</tr>
+<tr class="odd">
+<td>Asset Manager v2 / AssetManagerV2</td>
+<td><span class="addr" data-addr="0xA0e6e93cFc4507Fc2687FA3aA943F238C28Bee97" title="Click to copy" role="button" tabindex="0">0xA0e6e93cFc4507Fc2687FA3aA943F238C28Bee97</span></td>
+<td>Deployed / verified</td>
+<td>Conditional operational execution controller</td>
+</tr>
+<tr class="even">
+<td>RM01</td>
+<td><span class="addr" data-addr="0x40A830b22E4C39D16B8b17e8beD4ED0f7C29E547" title="Click to copy" role="button" tabindex="0">0x40A830b22E4C39D16B8b17e8beD4ED0f7C29E547</span></td>
+<td>Deployed / verified / funded / sealed</td>
+<td>Strategic release module</td>
+</tr>
+</tbody>
+</table></div>
+<p>The GENESIScoin token contract is the base asset layer.</p>
+<p>PreSaleGENc, PublicSaleGENc, Asset Manager v1, Asset Manager v2 and
+RM01 are deployed system modules.</p>
+<p>LP Main and LP Backup are not listed as deployed modules because they
+are liquidity allocation wallets. They are shown separately in the
+custody snapshot.</p>
+</section>
+<section id="genesiscoin-token-contract-balance-behavior"
+class="level2">
+<h2>8.2 GENESIScoin Token Contract Balance Behavior</h2>
+<p>The GENESIScoin token contract address may hold a variable GENc
+balance.</p>
+<p>This balance should not be interpreted as a fixed allocation
+pool.</p>
+<p>The token contract balance can change because of token-level
+mechanics such as:</p>
+<ul>
+<li>transfer-related routing,</li>
+<li>internal token flow,</li>
+<li>fee accumulation if enabled,</li>
+<li>temporary holding before later routing,</li>
+<li>operational token movement connected to transfer, buy or sell
+logic.</li>
+</ul>
+<p>At the current stage, buy and sell paths may not yet be active, while
+transfer-related mechanics can still affect the token contract
+balance.</p>
+<p>This means the GENESIScoin token contract balance is dynamic and
+operational.</p>
+<p>It is not:</p>
+<ul>
+<li>a treasury pool,</li>
+<li>a static allocation,</li>
+<li>a locked reserve,</li>
+<li>or a separate tokenomics category.</li>
+</ul>
+<p>The token contract is therefore shown as a deployed module, not as a
+fixed custody allocation.</p>
+</section>
+<section id="current-visible-custody-snapshot" class="level2">
+<h2>8.3 Current Visible Custody Snapshot</h2>
+<p>The holder view shows where major GENc balances are visible at the
+time of observation.</p>
+<p>This is a custody snapshot.</p>
+<p>It does not replace the original allocation model.</p>
+<div class="tbl-wrap"><table>
+<colgroup>
+<col style="width: 23%" />
+<col style="width: 23%" />
+<col style="width: 30%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Holder / Allocation</th>
+<th>Address / Label</th>
+<th style="text-align: right;">Current visible GENc balance</th>
+<th>Classification</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>PreSaleGENc</td>
+<td><span class="addr" data-addr="0x019A2D76D825914B5b52552e1A1D09F024CC4C58" title="Click to copy" role="button" tabindex="0">0x019A2D76D825914B5b52552e1A1D09F024CC4C58</span></td>
+<td style="text-align: right;">38,793,884,953.9616 GENc</td>
+<td>Deployed contract custody</td>
+</tr>
+<tr class="even">
+<td>Asset Manager v1 / AssetMenager</td>
+<td><span class="addr" data-addr="0x673eC5B98bC6d8A3b633F8D900B4C0832850423D" title="Click to copy" role="button" tabindex="0">0x673eC5B98bC6d8A3b633F8D900B4C0832850423D</span></td>
+<td style="text-align: right;">20,200,000,000 GENc</td>
+<td>Deployed contract custody</td>
+</tr>
+<tr class="odd">
+<td>PublicSaleGENc</td>
+<td><span class="addr" data-addr="0x74eb74d66e8bd29226228536307BF5588168A8b7" title="Click to copy" role="button" tabindex="0">0x74eb74d66e8bd29226228536307BF5588168A8b7</span></td>
+<td style="text-align: right;">13,100,000,000 GENc</td>
+<td>Deployed contract custody</td>
+</tr>
+<tr class="even">
+<td>LP Backup</td>
+<td><span class="addr" data-addr="0x5807804228dc9AbD8b6FFddA7C5226CBe5AD9d86" title="Click to copy" role="button" tabindex="0">0x5807804228dc9AbD8b6FFddA7C5226CBe5AD9d86</span></td>
+<td style="text-align: right;">10,000,000,000 GENc</td>
+<td>Liquidity allocation wallet</td>
+</tr>
+<tr class="odd">
+<td>LP Main</td>
+<td><span class="addr" data-addr="0xc627BDd1B91E69981E7b59635d0154C0678A6991" title="Click to copy" role="button" tabindex="0">0xc627BDd1B91E69981E7b59635d0154C0678A6991</span></td>
+<td style="text-align: right;">10,000,000,000 GENc</td>
+<td>Liquidity allocation wallet</td>
+</tr>
+<tr class="even">
+<td>Asset Manager v2 / AssetManagerV2</td>
+<td><span class="addr" data-addr="0xA0e6e93cFc4507Fc2687FA3aA943F238C28Bee97" title="Click to copy" role="button" tabindex="0">0xA0e6e93cFc4507Fc2687FA3aA943F238C28Bee97</span></td>
+<td style="text-align: right;">7,630,000,000 GENc</td>
+<td>Deployed contract custody</td>
+</tr>
+<tr class="odd">
+<td>RM01</td>
+<td><span class="addr" data-addr="0x40A830b22E4C39D16B8b17e8beD4ED0f7C29E547" title="Click to copy" role="button" tabindex="0">0x40A830b22E4C39D16B8b17e8beD4ED0f7C29E547</span></td>
+<td style="text-align: right;">50,000,000 GENc</td>
+<td>Deployed / sealed strategic release module</td>
+</tr>
+<tr class="even">
+<td>Airdrop wallet</td>
+<td>Airdrop GENc</td>
+<td style="text-align: right;">30,938,500 GENc</td>
+<td>Airdrop allocation wallet</td>
+</tr>
+</tbody>
+</table></div>
+<p>This table separates deployed contract custody from allocation-wallet
+custody.</p>
+<p>LP Main and LP Backup are liquidity allocation wallets. They are not
+active LP pairs and are not LP Manager custody.</p>
+<p>RM01 is separate at contract level, but allocation-wise it belongs to
+the RM01–RM10 reserve inside the 3B GENc Partners allocation.</p>
+<p>The custody snapshot should be refreshed before final
+publication.</p>
+</section>
+<section id="current-module-roles" class="level2">
+<h2>8.4 Current Module Roles</h2>
+<section id="genesiscoin-token" class="level3">
+<h3>GENESIScoin Token</h3>
+<p>The GENESIScoin token is the base asset layer of the system.</p>
+<p>It provides the GENc token used by all distribution, release, reward,
+airdrop and liquidity-related modules.</p>
+<p>The token contract may also hold a changing operational balance
+connected to token-level routing mechanics. This balance is dynamic and
+should not be treated as a fixed allocation.</p>
+</section>
+<section id="presalegenc-1" class="level3">
+<h3>PreSaleGENc</h3>
+<p>PreSaleGENc is the staged initial distribution module.</p>
+<p>It controls the PreSale flow, stage progression, whitelist logic,
+B100D entry path, B100D payout logic and PreSale-related fund
+distribution mechanics.</p>
+<p>The current visible holder balance shows that PreSaleGENc remains the
+largest deployed contract custody module.</p>
+</section>
+<section id="publicsalegenc-1" class="level3">
+<h3>PublicSaleGENc</h3>
+<p>PublicSaleGENc is the post-PreSale distribution module.</p>
+<p>It controls PublicSale activation and executes daily bonus,
+DividendGENc and airdrop-related transfers.</p>
+<p>PublicSaleGENc is a deployed contract custody layer for post-PreSale
+distribution pools.</p>
+</section>
+<section id="asset-manager-v1-assetmenager" class="level3">
+<h3>Asset Manager v1 / AssetMenager</h3>
+<p>Asset Manager v1 controls fixed-schedule treasury allocations.</p>
+<p>It manages the ID1–ID6 release layer for long-term treasury and
+ecosystem reserves.</p>
+<p>Its logic is time-based.</p>
+<p>Once the release anchor is set, releases follow predefined schedules
+and destination paths.</p>
+</section>
+<section id="asset-manager-v2-assetmanagerv2" class="level3">
+<h3>Asset Manager v2 / AssetManagerV2</h3>
+<p>Asset Manager v2 is the conditional operational execution
+controller.</p>
+<p>It is more advanced than a passive reserve wallet.</p>
+<p>AMv2 controls conditional and approval-based operational flows,
+including:</p>
+<ul>
+<li>stage-based release or fail logic,</li>
+<li>milestone-based releases,</li>
+<li>partner-related execution paths,</li>
+<li>contest and promotional execution paths.</li>
+</ul>
+<p>The key distinction is that AMv2 does not only hold GENc.</p>
+<p>It determines how GENc is routed depending on system outcome or
+approved operation.</p>
+<p>For stage-based execution:</p>
+<ul>
+<li>a successful stage routes the defined stage amount to the airdrop
+wallet,</li>
+<li>a failed eligible stage routes the defined stage amount through the
+fail path.</li>
+</ul>
+<p>The fail path is structurally different from a normal release. It
+does not simply keep the tokens in the pool. It redirects the stage
+amount into burn and DividendGENc-related distribution paths according
+to the contract-defined logic.</p>
+<p>This makes AMv2 a conditional routing layer, not a simple operational
+wallet.</p>
+<p>A full AMv2 mechanics section is documented separately in the Asset
+Manager v2 section.</p>
+</section>
+<section id="rm01-1" class="level3">
+<h3>RM01</h3>
+<p>RM01 is the first deployed strategic release module from the
+RM01–RM10 reserve.</p>
+<p>It controls a 50,000,000 GENc sealed pool, funded from the Partners
+allocation or Partners wallet path and released according to its own
+contract-defined schedule.</p>
+<p>RM01 belongs allocation-wise to the 500,000,000 GENc RM01–RM10
+reserve inside the 3,000,000,000 GENc Partners allocation.</p>
+<p>RM01 is documented separately because it is deployed as its own
+release module.</p>
+<p>RM01 is not Asset Manager v2.</p>
+<p>Asset Manager v2 may control partner-related operational flows, but
+RM01 executes its own separate release schedule through its own
+contract.</p>
+</section>
+<section id="lp-main-and-lp-backup" class="level3">
+<h3>LP Main and LP Backup</h3>
+<p>LP Main and LP Backup are liquidity allocation wallets.</p>
+<p>They are not:</p>
+<ul>
+<li>active LP pairs,</li>
+<li>LP Manager custody,</li>
+<li>locked liquidity contracts,</li>
+<li>Asset Manager v1,</li>
+<li>Asset Manager v2,</li>
+<li>RM01.</li>
+</ul>
+<p>They represent reserved liquidity supply until active liquidity
+deployment or LP Manager custody can be verified on-chain.</p>
+</section>
+</section>
+<section id="current-system-statement" class="level2">
+<h2>8.5 Current System Statement</h2>
+<p>The current GENESIScoin system consists of:</p>
+<ul>
+<li>a deployed token layer,</li>
+<li>a deployed PreSale module,</li>
+<li>a deployed PublicSale module,</li>
+<li>a deployed fixed treasury release module,</li>
+<li>a deployed conditional operational execution controller,</li>
+<li>a deployed RM01 strategic release module,</li>
+<li>defined LP Main and LP Backup liquidity allocation wallets,</li>
+<li>an airdrop allocation wallet,</li>
+<li>and a future LP Manager / liquidity-governance smart-contract
+layer.</li>
+</ul>
+<p>This creates a modular system where each major function is
+separated:</p>
+<div class="tbl-wrap"><table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Area</th>
+<th>Current layer</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Base asset</td>
+<td>GENESIScoin Token</td>
+</tr>
+<tr class="even">
+<td>Initial staged distribution</td>
+<td>PreSaleGENc</td>
+</tr>
+<tr class="odd">
+<td>Post-PreSale distribution</td>
+<td>PublicSaleGENc</td>
+</tr>
+<tr class="even">
+<td>Fixed treasury releases</td>
+<td>Asset Manager v1</td>
+</tr>
+<tr class="odd">
+<td>Conditional operational routing</td>
+<td>Asset Manager v2</td>
+</tr>
+<tr class="even">
+<td>Strategic scheduled release</td>
+<td>RM01</td>
+</tr>
+<tr class="odd">
+<td>Liquidity allocation</td>
+<td>LP Main / LP Backup</td>
+</tr>
+<tr class="even">
+<td>Future liquidity governance</td>
+<td>LP Manager / liquidity-governance smart-contract layer</td>
+</tr>
+</tbody>
+</table></div>
+<p>The system should be read through both architecture and custody.</p>
+<p>Architecture shows what exists.</p>
+<p>Custody shows where visible balances currently sit.</p>
+<p>Execution logic explains how balances can move.</p>
+</section>
+<section id="interpretation-rule" class="level2">
+<h2>8.6 Interpretation Rule</h2>
+<p>The final documentation must preserve the following distinction:</p>
+<div class="tbl-wrap"><table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>View</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Deployed modules</td>
+<td>Shows the system architecture</td>
+</tr>
+<tr class="even">
+<td>Visible custody snapshot</td>
+<td>Shows where major GENc balances currently sit</td>
+</tr>
+<tr class="odd">
+<td>Original allocation model</td>
+<td>Shows intended tokenomics purpose</td>
+</tr>
+<tr class="even">
+<td>Release mechanics</td>
+<td>Shows how contract-held allocations move</td>
+</tr>
+<tr class="odd">
+<td>Operational automation</td>
+<td>Shows how contract-defined actions are triggered</td>
+</tr>
+</tbody>
+</table></div>
+<p>This prevents a major documentation error: treating a visible holder
+balance as if it were the entire allocation model.</p>
+<p>GENESIScoin v2.0 documentation should therefore separate:</p>
+<ul>
+<li>what was allocated,</li>
+<li>where it currently sits,</li>
+<li>which contract or wallet holds it,</li>
+<li>and what logic controls future movement.</li>
+</ul>
+</section>
+<section id="publication-check-requirement" class="level2">
+<h2>8.7 Publication Check Requirement</h2>
+<p>Before the final public release of this whitepaper, the following
+values must be checked against current on-chain state:</p>
+<ol type="1">
+<li>current total supply,</li>
+<li>current GENESIScoin token contract balance,</li>
+<li>current PreSaleGENc balance,</li>
+<li>current PublicSaleGENc balance,</li>
+<li>current Asset Manager v1 balance,</li>
+<li>current Asset Manager v2 balance,</li>
+<li>current RM01 balance and release state,</li>
+<li>current LP Main balance,</li>
+<li>current LP Backup balance,</li>
+<li>current airdrop wallet balance,</li>
+<li>PublicSale activation state,</li>
+<li>active LP pair status,</li>
+<li>LP Manager deployment status,</li>
+<li>RM01–RM10 reserve reconciliation inside the 3B GENc Partners
+allocation.</li>
+</ol>
+<p>This whitepaper should always align with the current blockchain state
+at the time of publication.</p>
+</section>
+</div></section>
+<section id="presale-system" class="level1" data-chapter="presale-system"><div class="chapter-head"><span class="chapter-num">09</span><h1>PreSale System</h1></div><div class="chapter-body">
+<p>PreSaleGENc is the staged initial distribution module of the
+GENESIScoin system.</p>
+<p>It defines the first major distribution path and connects multiple
+downstream system events, including Stage progression, B100D whitelist
+registration, B100D payout logic, PublicSale preparation and
+release-module anchors.</p>
+<p>The PreSale system is not only a purchase mechanism.</p>
+<p>It is one of the main execution anchors of the GENESIScoin
+architecture.</p>
+<section id="presale-purpose" class="level2">
+<h2>9.1 PreSale Purpose</h2>
+<p>The PreSale system is designed to:</p>
+<ul>
+<li>distribute GENc through defined stages,</li>
+<li>control early participation limits,</li>
+<li>apply stage-specific logic,</li>
+<li>connect Stage 5 to B100D whitelist registration,</li>
+<li>establish the PreSale end state,</li>
+<li>trigger the whitelist close window,</li>
+<li>support B100D activation,</li>
+<li>support PublicSale activation,</li>
+<li>and provide timing anchors for downstream system modules.</li>
+</ul>
+</section>
+<section id="stage-model" class="level2">
+<h2>9.2 Stage Model</h2>
+<p>The PreSale model is organized into five stages.</p>
+<p>Each stage exists as part of a larger system sequence.</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr class="header">
+<th>Stage</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Stage 1</td>
+<td>Initial threshold stage</td>
+</tr>
+<tr class="even">
+<td>Stage 2</td>
+<td>Timed or sold-out progression stage</td>
+</tr>
+<tr class="odd">
+<td>Stage 3</td>
+<td>Timed or sold-out progression stage</td>
+</tr>
+<tr class="even">
+<td>Stage 4</td>
+<td>Timed or sold-out progression stage</td>
+</tr>
+<tr class="odd">
+<td>Stage 5</td>
+<td>Final PreSale stage and B100D whitelist entry point</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section id="stage-1-initial-threshold" class="level2">
+<h2>9.3 Stage 1 — Initial Threshold</h2>
+<p>Stage 1 is the first major execution threshold.</p>
+<p>When 50% of Stage 1 is sold, the liquidity/trading activation path
+becomes relevant under the GENESIScoin staged model.</p>
+<p>This does not mean that public trading must activate immediately at
+that moment.</p>
+<p>It means that Stage 1 creates the first major system threshold
+connected to later liquidity and trading activation.</p>
+<p>Stage 1 50% sold is a structural liquidity/trading activation
+threshold.</p>
+</section>
+<section id="stages-24-timed-or-sold-out-progression" class="level2">
+<h2>9.4 Stages 2–4 — Timed or Sold-Out Progression</h2>
+<p>Stages 2–4 follow a bounded progression model.</p>
+<p>Each stage can progress through:</p>
+<ol type="1">
+<li>sold-out completion, or</li>
+<li>maximum duration expiry.</li>
+</ol>
+<p>The maximum duration model prevents these stages from remaining open
+indefinitely.</p>
+<p>The Oracle monitors active stages and can close a stage when the
+configured duration has expired.</p>
+<p>This creates a progression structure where Stages 2–4 are limited by
+either demand or time.</p>
+<p>Stages 2–4 are bounded stages: they can advance through sell-out or
+by reaching their maximum duration.</p>
+</section>
+<section id="stage-5-final-presale-stage-and-whitelist-open"
+class="level2">
+<h2>9.5 Stage 5 — Final PreSale Stage and Whitelist Open</h2>
+<p>Stage 5 is the final PreSale stage.</p>
+<p>When Stage 5 begins, the B100D whitelist registration path opens
+through the Oracle-triggered whitelist function.</p>
+<p>This creates a direct connection between the final PreSale phase and
+the B100D loyalty system.</p>
+<p>Stage 5 does not mean B100D has started.</p>
+<p>It means:</p>
+<p>the B100D whitelist registration window is open.</p>
+<p>B100D starts later, after PreSale completion, whitelist closure and
+the required delay.</p>
+</section>
+<section id="presale-end-and-whitelist-close" class="level2">
+<h2>9.6 PreSale End and Whitelist Close</h2>
+<p>When the PreSale reaches its ending condition, the system records the
+PreSale end state.</p>
+<p>After PreSale end, a 24-hour window leads into whitelist closure.</p>
+<p>The whitelist close event is a major system anchor.</p>
+<p>It affects:</p>
+<ul>
+<li>B100D start preparation,</li>
+<li>PublicSale activation path,</li>
+<li>Asset Manager v1 WasteStart anchor,</li>
+<li>RM01 TGE reference,</li>
+<li>post-PreSale tracking modes.</li>
+</ul>
+<p>Whitelist close is not only the end of registration.</p>
+<p>It becomes a structural timestamp used by multiple downstream
+modules.</p>
+</section>
+<section id="b100d-connection" class="level2">
+<h2>9.7 B100D Connection</h2>
+<p>B100D is integrated with the PreSale system.</p>
+<p>The B100D flow is:</p>
+<ol type="1">
+<li>Stage 5 begins,</li>
+<li>whitelist registration opens,</li>
+<li>eligible users register,</li>
+<li>PreSale ends,</li>
+<li>24h whitelist close window completes,</li>
+<li>whitelist closes,</li>
+<li>required delay passes,</li>
+<li>B100D starts,</li>
+<li>daily B100D payouts begin,</li>
+<li>participant holding condition is monitored,</li>
+<li>final bonus path becomes available after B100D completion.</li>
+</ol>
+<p>B100D is contract-executed and bot-supported.</p>
+<p>The contract records participant state and executes payout paths.</p>
+<p>The B100D bot observes balances and can trigger ejection when a
+participant’s balance falls below the required initialHold.</p>
+</section>
+<section id="oracle-role-in-presale" class="level2">
+<h2>9.8 Oracle Role in PreSale</h2>
+<p>The Oracle is the main trigger layer for PreSale transitions.</p>
+<p>It supports:</p>
+<ul>
+<li>BNB price updates,</li>
+<li>stage duration checks,</li>
+<li>stage closure,</li>
+<li>whitelist opening,</li>
+<li>whitelist closing,</li>
+<li>B100D start,</li>
+<li>daily B100D payout triggers,</li>
+<li>BNB proceeds distribution,</li>
+<li>PublicSale start.</li>
+</ul>
+<p>The Oracle does not replace the contract.</p>
+<p>The Oracle submits transactions to functions that the contract
+allows.</p>
+<p>The contract defines the rules. The Oracle triggers selected
+transitions.</p>
+</section>
+<section id="bnb-distribution" class="level2">
+<h2>9.9 BNB Distribution</h2>
+<p>The PreSale system includes contract-defined BNB routing logic.</p>
+<p>BNB raised through the PreSale is distributed through predefined
+operational categories.</p>
+<p>The historical model includes routing to:</p>
+<ul>
+<li>liquidity,</li>
+<li>team,</li>
+<li>development,</li>
+<li>marketing,</li>
+<li>community,</li>
+<li>SecureAudit,</li>
+<li>LevelUpVision,</li>
+<li>project expansion.</li>
+</ul>
+<p>Before final publication, the current deployed PreSale source and
+current recipient addresses must be checked to confirm the exact routing
+table.</p>
+<p>BNB routing follows contract-defined distribution logic.</p>
+</section>
+<section id="presale-summary" class="level2">
+<h2>9.10 PreSale Summary</h2>
+<p>PreSaleGENc is the first execution engine of the GENESIScoin
+system.</p>
+<p>It does more than process purchases.</p>
+<p>It creates the staged entry model, opens the B100D registration path,
+defines the PreSale end condition, anchors whitelist closure and
+supports downstream execution for B100D, PublicSale and release
+modules.</p>
+<p>PreSale is the first major proof layer of the GENESIScoin
+architecture.</p>
+</section>
+</div></section>
+<section id="publicsale-system" class="level1" data-chapter="publicsale-system"><div class="chapter-head"><span class="chapter-num">10</span><h1>PublicSale System</h1></div><div class="chapter-body">
+<p>PublicSaleGENc is the post-PreSale distribution module of the
+GENESIScoin system.</p>
+<p>It becomes relevant after PreSale and whitelist conditions are
+satisfied.</p>
+<p>The PublicSale module is responsible for distribution mechanics that
+operate after the initial PreSale phase, including PublicSale
+activation, daily bonus execution, DividendGENc pool distribution and
+airdrop execution.</p>
+<section id="publicsale-purpose" class="level2">
+<h2>10.1 PublicSale Purpose</h2>
+<p>PublicSaleGENc is designed to:</p>
+<ul>
+<li>activate the public distribution phase,</li>
+<li>execute daily bonus transfers,</li>
+<li>hold PublicSale bonus pool balances,</li>
+<li>hold DividendGENc pool balances,</li>
+<li>hold airdrop pool balances,</li>
+<li>execute list-based airdrop transfers,</li>
+<li>execute adjusted GENc distribution payouts,</li>
+<li>and support post-PreSale participation mechanics.</li>
+</ul>
+<p>The contract is the custody and execution layer.</p>
+<p>External automation supports observation, eligibility tracking and
+trigger timing.</p>
+</section>
+<section id="publicsale-activation" class="level2">
+<h2>10.2 PublicSale Activation</h2>
+<p>PublicSale activation occurs after the required PreSale and whitelist
+conditions have been reached.</p>
+<p>The Oracle checks the relevant state and triggers the PublicSale
+start function when the activation condition is satisfied.</p>
+<p>This creates an on-chain PublicSale start timestamp.</p>
+<p>PublicSale is activated through the Oracle trigger after the required
+PreSale and whitelist conditions are satisfied.</p>
+</section>
+<section id="daily-bonus-system" class="level2">
+<h2>10.3 Daily Bonus System</h2>
+<p>The PublicSale daily bonus system is connected to qualifying market
+activity.</p>
+<p>The eligible transaction flow is:</p>
+<ol type="1">
+<li>PublicSale is active,</li>
+<li>a token transfer is observed from the configured LP pair,</li>
+<li>eligibleBot checks the current PublicSale day and phase,</li>
+<li>eligibleBot checks the minimum buy requirement,</li>
+<li>eligibleBot checks the daily cap,</li>
+<li>eligibleBot checks available bonus pool balance,</li>
+<li>eligibleBot calls the PublicSale daily bonus function,</li>
+<li>PublicSaleGENc executes the bonus transfer.</li>
+</ol>
+<p>This means the daily bonus mechanism is:</p>
+<p>LP-purchase observed, bot-triggered and contract-executed.</p>
+<p>The bot observes and triggers.</p>
+<p>The contract executes.</p>
+</section>
+<section id="publicsale-phases" class="level2">
+<h2>10.4 PublicSale Phases</h2>
+<p>The PublicSale system uses phase-based participation logic.</p>
+<p>The historical model includes:</p>
+<ul>
+<li>four phases,</li>
+<li>scaling minimum buy requirements,</li>
+<li>daily bonus amounts,</li>
+<li>daily wallet caps,</li>
+<li>rollover logic for unused bonus capacity.</li>
+</ul>
+<p>The final public whitepaper should present exact phase values only
+after confirmation against the current deployed contract and current bot
+configuration.</p>
+<p>PublicSale phases define different participation thresholds and daily
+bonus conditions.</p>
+</section>
+<section id="dividendgenc-connection" class="level2">
+<h2>10.5 DividendGENc Connection</h2>
+<p>PublicSaleGENc also acts as the execution layer for DividendGENc
+distributions.</p>
+<p>DividendGENc is a technical distribution mechanism using:</p>
+<ul>
+<li>holder tracking,</li>
+<li>cycle snapshots,</li>
+<li>balance monitoring,</li>
+<li>initialHold logic,</li>
+<li>adjusted payout calculation,</li>
+<li>contract-executed GENc transfers.</li>
+</ul>
+<p>The off-chain verifier calculates and submits the payout list.</p>
+<p>The PublicSale contract executes the transfer.</p>
+<p>DividendGENc is a cycle-based GENc distribution mechanism executed
+through PublicSaleGENc.</p>
+</section>
+<section id="airdrop-connection" class="level2">
+<h2>10.6 Airdrop Connection</h2>
+<p>PublicSaleGENc also supports list-based airdrop execution.</p>
+<p>The airdrop system uses:</p>
+<ul>
+<li>holder tracking,</li>
+<li>prepared recipient lists,</li>
+<li>fixed or proportional distribution modes,</li>
+<li>batch execution through the PublicSale contract.</li>
+</ul>
+<p>This means the airdrop system can use automated tracking while final
+execution may be script-driven.</p>
+<p>Tracking can be automated, while final airdrop execution may be
+CLI/script-triggered.</p>
+</section>
+<section id="contract-executed-bot-triggered-model" class="level2">
+<h2>10.7 Contract-Executed, Bot-Triggered Model</h2>
+<p>The PublicSale system must be described with the same execution rule
+used across GENESIScoin:</p>
+<p>Contracts execute. Bots trigger. Operators activate.</p>
+<p>PublicSaleGENc holds the pools and performs transfers.</p>
+<p>Bots and scripts:</p>
+<ul>
+<li>observe LP purchases,</li>
+<li>build holder lists,</li>
+<li>calculate cycle payouts,</li>
+<li>prepare airdrop batches,</li>
+<li>and submit transactions.</li>
+</ul>
+<p>The contract defines what can be executed.</p>
+</section>
+<section id="publicsale-summary" class="level2">
+<h2>10.8 PublicSale Summary</h2>
+<p>PublicSaleGENc is the post-PreSale distribution module.</p>
+<p>It connects PublicSale activation, daily bonus logic, DividendGENc
+distributions and airdrop execution into one contract-controlled
+layer.</p>
+<p>It is not only a public sale contract.</p>
+<p>It is the distribution execution layer for multiple post-PreSale
+mechanisms.</p>
+<p>PublicSaleGENc holds and transfers post-PreSale distribution pools.
+Eligibility observation and list preparation may occur off-chain, but
+final transfer execution happens through the contract.</p>
+</section>
+</div></section>
+<section id="b100d-loyalty-system" class="level1" data-chapter="b100d-loyalty-system"><div class="chapter-head"><span class="chapter-num">11</span><h1>B100D Loyalty System</h1></div><div class="chapter-body">
+<p>B100D is the loyalty-based holding mechanism connected to the
+GENESIScoin PreSale system.</p>
+<p>It is designed to reward participants who enter the B100D whitelist,
+maintain their required holding condition and remain eligible through
+the active B100D period.</p>
+<p>B100D is not a separate token.</p>
+<p>It is a contract-connected loyalty mechanism using:</p>
+<ul>
+<li>PreSale state,</li>
+<li>whitelist registration,</li>
+<li>initialHold tracking,</li>
+<li>daily payout logic,</li>
+<li>balance verification,</li>
+<li>ejection logic,</li>
+<li>and final bonus distribution.</li>
+</ul>
+<p>B100D is contract-executed and bot-supported.</p>
+<p>The PreSale contract stores participant state and executes payout
+logic. The B100D bot observes balances and triggers ejection if a
+participant falls below the required holding condition.</p>
+<section id="b100d-purpose" class="level2">
+<h2>11.1 B100D Purpose</h2>
+<p>B100D exists to create a holding-based participation layer during the
+transition from PreSale into post-PreSale execution.</p>
+<p>It is designed around four core principles:</p>
+<ol type="1">
+<li>participants must register,</li>
+<li>participants must maintain their required holding level,</li>
+<li>eligible participants receive daily GENc distributions,</li>
+<li>eligible participants may receive a final bonus after the B100D
+period completes.</li>
+</ol>
+<p>The mechanism is not based only on registration.</p>
+<p>Registration is the entry point. Holding behavior is the
+condition.</p>
+</section>
+<section id="b100d-entry-flow" class="level2">
+<h2>11.2 B100D Entry Flow</h2>
+<p>The B100D entry flow begins during the final PreSale stage.</p>
+<p>The sequence is:</p>
+<ol type="1">
+<li>Stage 5 begins,</li>
+<li>Oracle opens the B100D whitelist,</li>
+<li>eligible participants register,</li>
+<li>the contract records participant data,</li>
+<li>PreSale later ends,</li>
+<li>whitelist close occurs after the required window,</li>
+<li>B100D starts after the required delay.</li>
+</ol>
+<p>Stage 5 does not mean B100D has started.</p>
+<p>Stage 5 means the B100D whitelist registration path is open.</p>
+<p>B100D itself starts later, after whitelist closure and the required
+timing condition.</p>
+</section>
+<section id="initialhold" class="level2">
+<h2>11.3 InitialHold</h2>
+<p>When a participant enters the B100D system, their holding condition
+is recorded as an initialHold reference.</p>
+<p>This initialHold becomes the baseline used to determine whether the
+participant remains eligible.</p>
+<p>If the participant’s balance later drops below the required
+initialHold condition, the participant can be removed from active B100D
+eligibility.</p>
+<p>This creates the core rule:</p>
+<p>B100D rewards holding consistency, not only entry.</p>
+</section>
+<section id="b100d-balance-enforcement" class="level2">
+<h2>11.4 B100D Balance Enforcement</h2>
+<p>The B100D bot supports participant enforcement.</p>
+<p>It observes registered participants and token transfer activity. If a
+tracked participant’s balance falls below their recorded initialHold,
+the bot calls the contract ejection function.</p>
+<p>The contract then updates the participant state.</p>
+<p>This means the enforcement model has two layers:</p>
+<div class="tbl-wrap"><table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Layer</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Contract</td>
+<td>Stores participant status and executes ejection state changes</td>
+</tr>
+<tr class="even">
+<td>B100D Bot</td>
+<td>Observes balances and triggers ejection transactions</td>
+</tr>
+</tbody>
+</table></div>
+<p>The contract defines and executes the participant state. The bot
+observes balance changes and triggers enforcement when required.</p>
+<p>The bot does not control the rules. It triggers the contract-defined
+enforcement path.</p>
+</section>
+<section id="daily-b100d-payout" class="level2">
+<h2>11.5 Daily B100D Payout</h2>
+<p>B100D includes a daily GENc payout path for active eligible
+participants.</p>
+<p>The Oracle is responsible for triggering the daily payout function
+when the required time condition is reached.</p>
+<p>The contract executes the payout logic.</p>
+<p>Daily B100D payouts are contract-executed and Oracle-triggered.</p>
+<p>The historical public description refers to a daily payout amount of
+15,000 GENc per participant and a final bonus proportional to
+initialHold. The final technical document should preserve the exact
+implemented day-count and payout logic from the deployed contract and
+automation layer.</p>
+</section>
+<section id="final-b100d-bonus" class="level2">
+<h2>11.6 Final B100D Bonus</h2>
+<p>After the B100D daily period reaches completion, the final bonus path
+becomes available.</p>
+<p>The final bonus is triggered by a dedicated final bonus bot after the
+completion condition and configured delay.</p>
+<p>The contract then processes the final bonus distribution.</p>
+<p>The final B100D bonus is triggered after B100D completion and
+executed through the PreSale contract.</p>
+<p>The final bonus is not a manual promise.</p>
+<p>It is part of the B100D execution path.</p>
+</section>
+<section id="b100d-summary" class="level2">
+<h2>11.7 B100D Summary</h2>
+<p>B100D is a holding-based loyalty mechanism integrated with the
+PreSale system.</p>
+<p>It combines:</p>
+<ul>
+<li>whitelist registration,</li>
+<li>initialHold recording,</li>
+<li>daily payout execution,</li>
+<li>balance monitoring,</li>
+<li>ejection if holding falls below the required baseline,</li>
+<li>and final bonus distribution.</li>
+</ul>
+<p>B100D rewards eligible participants who register, remain active and
+maintain the required holding condition through the B100D period.</p>
+</section>
+</div></section>
+<section id="dividendgenc-system" class="level1" data-chapter="dividendgenc-system"><div class="chapter-head"><span class="chapter-num">12</span><h1>DividendGENc System</h1></div><div class="chapter-body">
+<p>DividendGENc is a cycle-based GENc token distribution mechanism.</p>
+<p>It is not a legal dividend. It is not equity. It is not profit
+participation. It is not yield. It is not income rights.</p>
+<p>DividendGENc is a technical system label used for GENc distributions
+from a dedicated pool through a tracker, verifier and contract execution
+path.</p>
+<p>DividendGENc is a technical GENc distribution mechanism from a
+dedicated pool.</p>
+<section id="dividendgenc-purpose" class="level2">
+<h2>12.1 DividendGENc Purpose</h2>
+<p>DividendGENc exists to create a structured holder-based GENc
+distribution system.</p>
+<p>The mechanism is designed around:</p>
+<ul>
+<li>holder tracking,</li>
+<li>minimum holding requirements,</li>
+<li>cycle snapshots,</li>
+<li>initialHold references,</li>
+<li>balance monitoring,</li>
+<li>adjusted payout calculation,</li>
+<li>and contract-executed transfers.</li>
+</ul>
+<p>The system uses off-chain scripts to track and verify eligibility,
+while the PublicSale contract executes the final transfers.</p>
+</section>
+<section id="two-different-reward-layers" class="level2">
+<h2>12.2 Two Different Reward Layers</h2>
+<p>GENESIScoin has historically described two different reward
+layers:</p>
+<div class="tbl-wrap"><table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Layer</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Rewards in BNB</td>
+<td>Token-level reward mechanism connected to transaction-tax logic</td>
+</tr>
+<tr class="even">
+<td>DividendGENc</td>
+<td>Separate GENc distribution mechanism from a dedicated GENc pool</td>
+</tr>
+</tbody>
+</table></div>
+<p>These two mechanisms should not be merged.</p>
+<p>Rewards in BNB are part of the token-level economic model.</p>
+<p>DividendGENc is a separate cycle-based GENc distribution system using
+tracker and verifier scripts.</p>
+</section>
+<section id="dividendtracker" class="level2">
+<h2>12.3 DividendTracker</h2>
+<p>DividendTracker maintains the holder set used by the DividendGENc
+system.</p>
+<p>It observes relevant events and balance changes, including:</p>
+<ul>
+<li>PreSale purchase events,</li>
+<li>token transfer events,</li>
+<li>whitelist close / post-sale transition signals,</li>
+<li>balance updates,</li>
+<li>minimum holding filters,</li>
+<li>excluded addresses.</li>
+</ul>
+<p>The output of this tracking layer is a holder file used by the
+verifier.</p>
+<p>DividendTracker maintains the eligible holder dataset used by the
+DividendGENc verification layer.</p>
+</section>
+<section id="dividendverifier" class="level2">
+<h2>12.4 DividendVerifier</h2>
+<p>DividendVerifier creates and manages DividendGENc cycles.</p>
+<p>Its role is to:</p>
+<ol type="1">
+<li>create a cycle snapshot,</li>
+<li>read tracked holders,</li>
+<li>verify balances,</li>
+<li>record initialHold values,</li>
+<li>monitor balance changes during the cycle,</li>
+<li>remove users who fall below the required condition,</li>
+<li>apply adjusted initialHold logic where applicable,</li>
+<li>calculate payout amounts,</li>
+<li>submit the payout batch to PublicSaleGENc.</li>
+</ol>
+<p>The verifier does not hold the dividend pool.</p>
+<p>The PublicSale contract holds the pool and executes the transfer.</p>
+</section>
+<section id="initialhold-and-balance-maintenance" class="level2">
+<h2>12.5 InitialHold and Balance Maintenance</h2>
+<p>DividendGENc uses an initialHold model.</p>
+<p>At cycle entry, the user’s qualifying balance becomes the reference
+for that cycle.</p>
+<p>To remain eligible, the user must maintain the required balance
+condition through the active cycle.</p>
+<p>If the user falls below the required threshold or below their cycle
+reference, they can be removed from that cycle.</p>
+<p>DividendGENc eligibility is based on cycle entry, balance reference
+and continued holding during the cycle.</p>
+</section>
+<section id="adjusted-balance-rule" class="level2">
+<h2>12.6 Adjusted Balance Rule</h2>
+<p>DividendGENc includes an adjusted balance concept.</p>
+<p>If a holder significantly increases their balance during an active
+cycle, the system can update the initialHold reference to reflect the
+increased holding level.</p>
+<p>This means future payout calculations can use the updated balance
+reference rather than the original lower reference.</p>
+<p>DividendGENc can update a holder’s cycle reference when the holder
+materially increases their balance under the defined rule.</p>
+<p>This must be described as technical mechanics, not financial return
+language.</p>
+</section>
+<section id="payout-execution" class="level2">
+<h2>12.7 Payout Execution</h2>
+<p>DividendVerifier calculates the payout list.</p>
+<p>PublicSaleGENc executes the payout transfer.</p>
+<p>The model is:</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr class="header">
+<th>Layer</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>DividendTracker</td>
+<td>Maintains holder dataset</td>
+</tr>
+<tr class="even">
+<td>DividendVerifier</td>
+<td>Creates cycles and calculates payout lists</td>
+</tr>
+<tr class="odd">
+<td>PublicSaleGENc</td>
+<td>Holds the pool and executes GENc transfers</td>
+</tr>
+</tbody>
+</table></div>
+<p>DividendGENc payouts are verifier-calculated and
+contract-executed.</p>
+</section>
+<section id="dividendgenc-summary" class="level2">
+<h2>12.8 DividendGENc Summary</h2>
+<p>DividendGENc is a technical GENc distribution system.</p>
+<p>It combines off-chain eligibility tracking with on-chain payout
+execution.</p>
+<p>DividendGENc uses cycle snapshots, holder verification and PublicSale
+contract execution to distribute GENc from a dedicated pool to eligible
+holders.</p>
+</section>
+</div></section>
+<section id="airdrop-system" class="level1" data-chapter="airdrop-system"><div class="chapter-head"><span class="chapter-num">13</span><h1>Airdrop System</h1></div><div class="chapter-body">
+<p>The GENESIScoin airdrop system is a tracked-holder and list-based
+distribution mechanism.</p>
+<p>It combines automated holder tracking with script-based execution
+through the PublicSale contract.</p>
+<p>The system is not purely automatic.</p>
+<p>Tracking can be automated. Final execution may be
+CLI/script-triggered.</p>
+<p>The airdrop system tracks eligible holders and executes prepared
+distributions through PublicSaleGENc.</p>
+<section id="airdrop-purpose" class="level2">
+<h2>13.1 Airdrop Purpose</h2>
+<p>The airdrop system exists to support structured GENc distributions
+for:</p>
+<ul>
+<li>holder recognition,</li>
+<li>campaign participation,</li>
+<li>ecosystem activity,</li>
+<li>milestone-based distribution,</li>
+<li>selected distribution lists,</li>
+<li>proportional or fixed allocations.</li>
+</ul>
+<p>It is not a random emission mechanism.</p>
+<p>It is a controlled distribution path connected to tracked holder data
+and contract-executed transfer functions.</p>
+</section>
+<section id="airdrop-tracker" class="level2">
+<h2>13.2 Airdrop Tracker</h2>
+<p>The airdrop tracker observes holder activity and maintains a tracked
+holder dataset.</p>
+<p>It can track users from:</p>
+<ul>
+<li>PreSale purchase activity,</li>
+<li>token transfers,</li>
+<li>post-sale LP purchase activity,</li>
+<li>balance checks,</li>
+<li>minimum holding rules,</li>
+<li>excluded address lists.</li>
+</ul>
+<p>The output is a tracked holder file used by the airdrop execution
+script.</p>
+<p>The airdrop tracker maintains the holder dataset used for later
+distribution preparation.</p>
+</section>
+<section id="airdrop-console" class="level2">
+<h2>13.3 Airdrop Console</h2>
+<p>AirdropConsole is a manual CLI execution tool.</p>
+<p>It can prepare distribution lists based on tracked holder data and
+execute batch airdrops through the PublicSale contract.</p>
+<p>It supports distribution modes such as:</p>
+<ul>
+<li>fixed amount per eligible wallet,</li>
+<li>proportional distribution based on holder balances.</li>
+</ul>
+<p>The script builds recipient and amount arrays, then calls the
+PublicSale contract’s batch airdrop function.</p>
+<p>AirdropConsole is a script-driven execution tool, not a permanent
+daemon.</p>
+</section>
+<section id="airdrop-execution-model" class="level2">
+<h2>13.4 Airdrop Execution Model</h2>
+<p>The airdrop model is:</p>
+<ol type="1">
+<li>holders are tracked,</li>
+<li>eligible list is prepared,</li>
+<li>distribution mode is selected,</li>
+<li>recipients and amounts are calculated,</li>
+<li>airdrop batch is submitted,</li>
+<li>PublicSaleGENc executes the transfer.</li>
+</ol>
+<p>This separates observation from execution.</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr class="header">
+<th>Layer</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>tracker.js</td>
+<td>Tracks eligible holders</td>
+</tr>
+<tr class="even">
+<td>trackedHolders.json</td>
+<td>Stores holder dataset</td>
+</tr>
+<tr class="odd">
+<td>airdropConsole.js</td>
+<td>Builds and submits distribution batch</td>
+</tr>
+<tr class="even">
+<td>PublicSaleGENc</td>
+<td>Executes the airdrop transfer</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section id="airdrop-summary" class="level2">
+<h2>13.5 Airdrop Summary</h2>
+<p>The GENESIScoin airdrop system is a structured distribution
+mechanism.</p>
+<p>It is designed to combine holder tracking, prepared lists and
+contract-executed batch transfers.</p>
+<p>GENESIScoin airdrops are list-based distributions executed through
+PublicSaleGENc using tracked holder data and script-prepared
+batches.</p>
+</section>
+</div></section>
+<section id="asset-manager-v1-1" class="level1" data-chapter="asset-manager-v1-1"><div class="chapter-head"><span class="chapter-num">14</span><h1>Asset Manager v1</h1></div><div class="chapter-body">
+<p>Asset Manager v1 is the fixed-schedule treasury release layer of
+GENESIScoin.</p>
+<p>It controls long-term ecosystem allocations through predefined
+schedules.</p>
+<p>The purpose of Asset Manager v1 is to reduce discretionary treasury
+movement by placing defined allocations inside a contract-controlled
+release structure.</p>
+<p>Asset Manager v1 releases are contract-defined and bot-triggered.</p>
+<section id="asset-manager-v1-purpose" class="level2">
+<h2>14.1 Asset Manager v1 Purpose</h2>
+<p>Asset Manager v1 controls the fixed-schedule allocations for
+ID1–ID6:</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr class="header">
+<th>ID</th>
+<th>Pool</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ID1</td>
+<td>Team GENc</td>
+</tr>
+<tr class="even">
+<td>ID2</td>
+<td>Marketing GENc</td>
+</tr>
+<tr class="odd">
+<td>ID3</td>
+<td>Development GENc</td>
+</tr>
+<tr class="even">
+<td>ID4</td>
+<td>Event / Expo</td>
+</tr>
+<tr class="odd">
+<td>ID5</td>
+<td>Future Project</td>
+</tr>
+<tr class="even">
+<td>ID6</td>
+<td>SBA Core / Reserve</td>
+</tr>
+</tbody>
+</table></div>
+<p>These allocations represent the long-term treasury and ecosystem
+reserve structure of GENESIScoin.</p>
+<p>The total controlled allocation for ID1–ID6 is:</p>
+<p><strong>20,200,000,000 GENc</strong></p>
+</section>
+<section id="full-funding-principle" class="level2">
+<h2>14.2 Full-Funding Principle</h2>
+<p>The Asset Manager v1 model is based on full funding before
+activation.</p>
+<p>Each ID has:</p>
+<ul>
+<li>a defined cap,</li>
+<li>a funded amount,</li>
+<li>a released amount,</li>
+<li>a sealed state,</li>
+<li>a release schedule,</li>
+<li>and a destination/origin wallet.</li>
+</ul>
+<p>The intended safety rule is:</p>
+<p>pools are fully funded and sealed before WasteStart.</p>
+<p>This prevents partial release logic and keeps the contract release
+model deterministic.</p>
+</section>
+<section id="wastestart-anchor" class="level2">
+<h2>14.3 WasteStart Anchor</h2>
+<p>WasteStart is the fixed timestamp anchor for the Asset Manager v1
+release schedules.</p>
+<p>The system flow is:</p>
+<ol type="1">
+<li>PreSale whitelist closes,</li>
+<li>the bot detects the WhitelistClosed timestamp,</li>
+<li>the bot calls setWasteStart,</li>
+<li>WasteStart is recorded,</li>
+<li>all ID1–ID6 release schedules anchor to that timestamp,</li>
+<li>bot checks each ID periodically,</li>
+<li>due tranches are released by contract call.</li>
+</ol>
+<p>WasteStart is set from the PreSale WhitelistClosed timestamp and
+becomes the fixed anchor for Asset Manager v1 release schedules.</p>
+</section>
+<section id="release-execution" class="level2">
+<h2>14.4 Release Execution</h2>
+<p>Releases are performed by an authorized bot.</p>
+<p>The bot checks whether a tranche is due.</p>
+<p>If the tranche is due, the bot calls the release function.</p>
+<p>The contract then:</p>
+<ul>
+<li>verifies WasteStart,</li>
+<li>verifies pool state,</li>
+<li>verifies due timing,</li>
+<li>transfers the defined amount,</li>
+<li>updates released state,</li>
+<li>advances the nextIndex.</li>
+</ul>
+<p>The bot does not choose an arbitrary amount.</p>
+<p>The bot does not choose a new recipient.</p>
+<p>The contract defines the amount and recipient.</p>
+</section>
+<section id="id1id6-release-schedules" class="level2">
+<h2>14.5 ID1–ID6 Release Schedules</h2>
+<section id="id1-team-genc" class="level3">
+<h3>ID1 — Team GENc</h3>
+<div class="tbl-wrap"><table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 40%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Step</th>
+<th style="text-align: right;">Amount</th>
+<th>Timing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>TGE</td>
+<td style="text-align: right;">500,000,000 GENc</td>
+<td>At WasteStart</td>
+</tr>
+<tr class="even">
+<td>Cliff</td>
+<td style="text-align: right;">—</td>
+<td>100 days</td>
+</tr>
+<tr class="odd">
+<td>Scheduled tranches</td>
+<td style="text-align: right;">300,000,000 GENc × 15</td>
+<td>Every 30 days after cliff</td>
+</tr>
+</tbody>
+</table></div>
+<p>Total: 5,000,000,000 GENc</p>
+</section>
+<section id="id2-marketing-genc" class="level3">
+<h3>ID2 — Marketing GENc</h3>
+<div class="tbl-wrap"><table>
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 40%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Step</th>
+<th style="text-align: right;">Amount</th>
+<th>Timing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>TGE</td>
+<td style="text-align: right;">500,000,000 GENc</td>
+<td>At WasteStart</td>
+</tr>
+<tr class="even">
+<td>Cliff</td>
+<td style="text-align: right;">—</td>
+<td>75 days</td>
+</tr>
+<tr class="odd">
+<td>Scheduled tranches</td>
+<td style="text-align: right;">300,000,000 GENc × 15</td>
+<td>Every 30 days after cliff</td>
+</tr>
+</tbody>
+</table></div>
+<p>Total: 5,000,000,000 GENc</p>
+</section>
+<section id="id3-development-genc" class="level3">
+<h3>ID3 — Development GENc</h3>
+<p>ID3 has no TGE release.</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr class="header">
+<th>Step</th>
+<th style="text-align: right;">Amount</th>
+<th>Timing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Release 1</td>
+<td style="text-align: right;">200,000,000 GENc</td>
+<td>90 days after WasteStart</td>
+</tr>
+<tr class="even">
+<td>Release 2</td>
+<td style="text-align: right;">200,000,000 GENc</td>
+<td>50 days after previous release</td>
+</tr>
+<tr class="odd">
+<td>Release 3</td>
+<td style="text-align: right;">100,000,000 GENc</td>
+<td>50 days after previous release</td>
+</tr>
+<tr class="even">
+<td>Release 4</td>
+<td style="text-align: right;">100,000,000 GENc</td>
+<td>50 days after previous release</td>
+</tr>
+<tr class="odd">
+<td>Release 5</td>
+<td style="text-align: right;">100,000,000 GENc</td>
+<td>50 days after previous release</td>
+</tr>
+<tr class="even">
+<td>Release 6</td>
+<td style="text-align: right;">100,000,000 GENc</td>
+<td>50 days after previous release</td>
+</tr>
+<tr class="odd">
+<td>Release 7</td>
+<td style="text-align: right;">200,000,000 GENc</td>
+<td>60 days after previous release</td>
+</tr>
+</tbody>
+</table></div>
+<p>Total: 1,000,000,000 GENc</p>
+</section>
+<section id="id4-event-expo" class="level3">
+<h3>ID4 — Event / Expo</h3>
+<p>ID4 has no TGE release.</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr class="header">
+<th>Step</th>
+<th style="text-align: right;">Amount</th>
+<th>Timing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Release 1</td>
+<td style="text-align: right;">1,000,000,000 GENc</td>
+<td>365 days after WasteStart</td>
+</tr>
+<tr class="even">
+<td>Release 2</td>
+<td style="text-align: right;">1,000,000,000 GENc</td>
+<td>365 days after previous release</td>
+</tr>
+<tr class="odd">
+<td>Release 3</td>
+<td style="text-align: right;">1,000,000,000 GENc</td>
+<td>365 days after previous release</td>
+</tr>
+</tbody>
+</table></div>
+<p>Total: 3,000,000,000 GENc</p>
+</section>
+<section id="id5-future-project" class="level3">
+<h3>ID5 — Future Project</h3>
+<p>ID5 has no TGE release.</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr class="header">
+<th>Step</th>
+<th style="text-align: right;">Amount</th>
+<th>Timing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Release 1</td>
+<td style="text-align: right;">3,100,000,000 GENc</td>
+<td>365 days after WasteStart</td>
+</tr>
+</tbody>
+</table></div>
+<p>Total: 3,100,000,000 GENc</p>
+</section>
+<section id="id6-sba-core-reserve" class="level3">
+<h3>ID6 — SBA Core / Reserve</h3>
+<div class="tbl-wrap"><table>
+<thead>
+<tr class="header">
+<th>Step</th>
+<th style="text-align: right;">Amount</th>
+<th>Timing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>TGE</td>
+<td style="text-align: right;">600,000,000 GENc</td>
+<td>At WasteStart</td>
+</tr>
+<tr class="even">
+<td>Release 1</td>
+<td style="text-align: right;">500,000,000 GENc</td>
+<td>50 days after previous release</td>
+</tr>
+<tr class="odd">
+<td>Release 2</td>
+<td style="text-align: right;">500,000,000 GENc</td>
+<td>50 days after previous release</td>
+</tr>
+<tr class="even">
+<td>Release 3</td>
+<td style="text-align: right;">500,000,000 GENc</td>
+<td>50 days after previous release</td>
+</tr>
+<tr class="odd">
+<td>Release 4</td>
+<td style="text-align: right;">500,000,000 GENc</td>
+<td>50 days after previous release</td>
+</tr>
+<tr class="even">
+<td>Release 5</td>
+<td style="text-align: right;">500,000,000 GENc</td>
+<td>50 days after previous release</td>
+</tr>
+</tbody>
+</table></div>
+<p>Total: 3,100,000,000 GENc</p>
+</section>
+</section>
+<section id="origin-based-release-model" class="level2">
+<h2>14.6 Origin-Based Release Model</h2>
+<p>Asset Manager v1 uses a defined recipient model.</p>
+<p>Each ID has one destination/origin wallet.</p>
+<p>Releases always go to that predefined address.</p>
+<p>This means the movement path is:</p>
+<p>original system allocation → Asset Manager v1 → predefined origin
+wallet by schedule</p>
+<p>The release path is not an open withdrawal system.</p>
+</section>
+<section id="bot-loop" class="level2">
+<h2>14.7 Bot Loop</h2>
+<p>The Asset Manager v1 bot operates as a release trigger.</p>
+<p>The intended loop model is:</p>
+<ol type="1">
+<li>check if WasteStart is set,</li>
+<li>if not set, listen for WhitelistClosed,</li>
+<li>once WasteStart exists, loop through ID1–ID6,</li>
+<li>check whether the next tranche is due,</li>
+<li>call release if due,</li>
+<li>skip if not due,</li>
+<li>repeat periodically.</li>
+</ol>
+<p>The official plan describes a six-hour operational loop for release
+checks.</p>
+<p>The bot checks the schedule periodically and triggers due releases.
+The contract decides whether a release is valid.</p>
+</section>
+<section id="asset-manager-v1-summary" class="level2">
+<h2>14.8 Asset Manager v1 Summary</h2>
+<p>Asset Manager v1 is the fixed treasury release layer of
+GENESIScoin.</p>
+<p>It controls ID1–ID6 allocations through deterministic schedules
+anchored to WasteStart.</p>
+<p>Asset Manager v1 controls fixed-schedule treasury allocations. Pools
+are funded, sealed and released to predefined origin wallets according
+to contract-defined timing, with bot-triggered execution.</p>
+<p>This module separates long-term treasury release from daily
+operational activity and public distribution systems.</p>
+</section>
+</div></section>
+<section id="asset-manager-v2-1" class="level1" data-chapter="asset-manager-v2-1"><div class="chapter-head"><span class="chapter-num">15</span><h1>Asset Manager v2</h1></div><div class="chapter-body">
+<p>Asset Manager v2 is the conditional operational execution controller
+of the GENESIScoin system.</p>
+<p>It is separate from Asset Manager v1.</p>
+<p>Asset Manager v1 controls fixed treasury release schedules.</p>
+<p>Asset Manager v2 controls dynamic operational flows based on stage
+outcomes, approved operations, cliffs and predefined routing paths.</p>
+<p>This makes AMv2 a higher-level execution module than a passive
+reserve wallet.</p>
+<p>It does not only hold GENc.</p>
+<p>It defines how selected GENc pools can move, when they can move and
+where they are routed.</p>
+<section id="amv2-purpose" class="level2">
+<h2>15.1 AMv2 Purpose</h2>
+<p>Asset Manager v2 exists to separate dynamic ecosystem execution from
+fixed treasury vesting.</p>
+<p>It controls operational GENc pools used for:</p>
+<ul>
+<li>stage-based airdrop execution,</li>
+<li>milestone-based ecosystem distribution,</li>
+<li>partner-related operational releases,</li>
+<li>contest and promotional distributions.</li>
+</ul>
+<p>AMv2 should not be described as:</p>
+<ul>
+<li>Asset Manager v1,</li>
+<li>RM01,</li>
+<li>LP Main,</li>
+<li>LP Backup,</li>
+<li>PublicSaleGENc,</li>
+<li>a general treasury wallet,</li>
+<li>or a discretionary token wallet.</li>
+</ul>
+<p>Asset Manager v2 is a contract-controlled operational routing
+module.</p>
+</section>
+<section id="amv2-pool-structure" class="level2">
+<h2>15.2 AMv2 Pool Structure</h2>
+<p>Asset Manager v2 defines four internal pool IDs.</p>
+<div class="tbl-wrap"><table style="width:100%;">
+<colgroup>
+<col style="width: 30%" />
+<col style="width: 23%" />
+<col style="width: 23%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Pool ID</th>
+<th>Pool</th>
+<th>Execution model</th>
+<th>Primary destination</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td>Stage Airdrop Pool</td>
+<td>GENERAL-triggered release or fail path</td>
+<td>Airdrop wallet, or Burn + Dividend wallets on fail</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td>Milestone Pool</td>
+<td>Owner proposal + 2-of-4 multisig approval + execution</td>
+<td>Airdrop wallet</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td>Partners Pool</td>
+<td>Owner proposal + 2-of-4 multisig approval + arm + cliff +
+execution</td>
+<td>Partners wallet</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td>Contest / Promotional Pool</td>
+<td>Owner proposal + 2-of-4 multisig approval + arm + cliff +
+execution</td>
+<td>Airdrop wallet</td>
+</tr>
+</tbody>
+</table></div>
+<p>The Stage Airdrop Pool and Milestone Pool have hardcoded caps:</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr class="header">
+<th>Pool</th>
+<th style="text-align: right;">Cap</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Stage Airdrop Pool</td>
+<td style="text-align: right;">1,500,000,000 GENc</td>
+</tr>
+<tr class="even">
+<td>Milestone Pool</td>
+<td style="text-align: right;">1,000,000,000 GENc</td>
+</tr>
+</tbody>
+</table></div>
+<p>The Partners Pool and Contest / Promotional Pool are funded through
+contract funding actions but do not use the same hardcoded cap model as
+the Stage and Milestone pools.</p>
+<p>For publication, AMv2 pool balances should always be reconciled
+against current on-chain state.</p>
+<p>The current visible AMv2 contract balance is treated as a custody
+snapshot, not as a replacement for the internal pool accounting
+model.</p>
+</section>
+<section id="amv2-accounting-model" class="level2">
+<h2>15.3 AMv2 Accounting Model</h2>
+<p>AMv2 tracks pool state internally.</p>
+<p>Each pool can have:</p>
+<ul>
+<li>funded amount,</li>
+<li>released amount,</li>
+<li>current pool balance.</li>
+</ul>
+<p>This means AMv2 should be read through both views:</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr class="header">
+<th>View</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Contract token balance</td>
+<td>Total visible GENc held by AMv2</td>
+</tr>
+<tr class="even">
+<td>Internal pool balance</td>
+<td>Amount available inside each AMv2 pool</td>
+</tr>
+<tr class="odd">
+<td>Released amount</td>
+<td>Amount already executed from a pool</td>
+</tr>
+<tr class="even">
+<td>Stage / milestone flags</td>
+<td>Records preventing duplicate release</td>
+</tr>
+</tbody>
+</table></div>
+<p>A visible AMv2 token balance alone does not explain the full internal
+state.</p>
+<p>The internal pool accounting determines what can still be
+released.</p>
+</section>
+<section id="stage-airdrop-pool" class="level2">
+<h2>15.4 Stage Airdrop Pool</h2>
+<p>The Stage Airdrop Pool is the AMv2 pool connected to stage
+outcomes.</p>
+<p>It is executed only by the GENERAL role.</p>
+<p>This pool has a total cap of:</p>
+<p><strong>1,500,000,000 GENc</strong></p>
+<p>The stage amounts are fixed:</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Stage</th>
+<th style="text-align: right;">Amount</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">Stage 1</td>
+<td style="text-align: right;">100,000,000 GENc</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">Stage 2</td>
+<td style="text-align: right;">200,000,000 GENc</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">Stage 3</td>
+<td style="text-align: right;">300,000,000 GENc</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">Stage 4</td>
+<td style="text-align: right;">400,000,000 GENc</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">Stage 5</td>
+<td style="text-align: right;">500,000,000 GENc</td>
+</tr>
+</tbody>
+</table></div>
+<p>Each stage can be processed only once.</p>
+<p>AMv2 records whether a stage has already been released or failed.</p>
+<p>This prevents duplicate execution for the same stage.</p>
+</section>
+<section id="stage-pass-path" class="level2">
+<h2>15.5 Stage PASS Path</h2>
+<p>When a stage passes, the GENERAL role triggers the stage release
+path.</p>
+<p>The result is:</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr class="header">
+<th>Outcome</th>
+<th>Routing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Stage PASS</td>
+<td>100% of the stage amount is sent to the Airdrop wallet</td>
+</tr>
+</tbody>
+</table></div>
+<p>This means a successful stage routes the defined stage allocation to
+the Airdrop wallet.</p>
+<p>The contract:</p>
+<ul>
+<li>checks that the stage ID is valid,</li>
+<li>checks that the stage was not already processed,</li>
+<li>checks that the Stage Airdrop Pool has enough balance,</li>
+<li>marks the stage as processed,</li>
+<li>decreases the Stage Airdrop Pool balance,</li>
+<li>increases the released amount,</li>
+<li>transfers the stage amount to the Airdrop wallet,</li>
+<li>emits execution events.</li>
+</ul>
+<p>This is not a manual distribution.</p>
+<p>It is a contract-defined routing path triggered by the authorized
+execution role.</p>
+</section>
+<section id="stage-fail-path" class="level2">
+<h2>15.6 Stage FAIL Path</h2>
+<p>AMv2 also defines a fail path for eligible stages.</p>
+<p>The fail path applies only to:</p>
+<ul>
+<li>Stage 2,</li>
+<li>Stage 3,</li>
+<li>Stage 4.</li>
+</ul>
+<p>Stage 1 and Stage 5 do not use the same fail path.</p>
+<p>When an eligible stage fails, the GENERAL role triggers the fail
+execution path.</p>
+<p>The result is:</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr class="header">
+<th>Outcome</th>
+<th>Routing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Stage FAIL</td>
+<td>50% to Burn wallet and 50% to Dividend wallet</td>
+</tr>
+</tbody>
+</table></div>
+<p>This means failed stage allocation is not simply left idle.</p>
+<p>It is redirected.</p>
+<p>The contract:</p>
+<ul>
+<li>checks that the stage is within the fail-eligible range,</li>
+<li>checks that the stage was not already processed,</li>
+<li>checks that the Stage Airdrop Pool has enough balance,</li>
+<li>marks the stage as processed,</li>
+<li>decreases the Stage Airdrop Pool balance,</li>
+<li>increases the released amount,</li>
+<li>splits the stage amount,</li>
+<li>transfers part to the Burn wallet,</li>
+<li>transfers part to the Dividend wallet,</li>
+<li>emits fail-split and release events.</li>
+</ul>
+<p>The fail path creates a different outcome from a normal release.</p>
+<p>A successful stage routes GENc to the Airdrop wallet.</p>
+<p>A failed eligible stage routes GENc into burn and
+DividendGENc-related distribution paths.</p>
+<p>This is the core reason AMv2 should be described as a conditional
+routing layer.</p>
+</section>
+<section id="stage-routing-summary" class="level2">
+<h2>15.7 Stage Routing Summary</h2>
+<p>AMv2 stage execution can be summarized as:</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr class="header">
+<th>Stage result</th>
+<th>Destination</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>PASS</td>
+<td>Airdrop wallet</td>
+</tr>
+<tr class="even">
+<td>FAIL, Stage 2–4 only</td>
+<td>Burn wallet + Dividend wallet</td>
+</tr>
+<tr class="odd">
+<td>Already processed</td>
+<td>Cannot execute again</td>
+</tr>
+<tr class="even">
+<td>Insufficient pool balance</td>
+<td>Execution rejected</td>
+</tr>
+<tr class="odd">
+<td>Invalid stage path</td>
+<td>Execution rejected</td>
+</tr>
+</tbody>
+</table></div>
+<p>This makes AMv2 reactive to stage outcome.</p>
+<p>It does not treat all stage allocations as simple airdrop
+reserves.</p>
+</section>
+<section id="milestone-pool" class="level2">
+<h2>15.8 Milestone Pool</h2>
+<p>The Milestone Pool is used for milestone-based ecosystem
+distribution.</p>
+<p>It has a total cap of:</p>
+<p><strong>1,000,000,000 GENc</strong></p>
+<p>Milestone releases do not use the GENERAL role.</p>
+<p>They use a proposal-and-approval execution model.</p>
+<p>The valid milestone IDs and amounts are:</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr class="header">
+<th style="text-align: right;">Milestone ID</th>
+<th style="text-align: right;">Amount</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">100</td>
+<td style="text-align: right;">20,000,000 GENc</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">250</td>
+<td style="text-align: right;">60,000,000 GENc</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">500</td>
+<td style="text-align: right;">140,000,000 GENc</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1000</td>
+<td style="text-align: right;">300,000,000 GENc</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">1500</td>
+<td style="text-align: right;">480,000,000 GENc</td>
+</tr>
+</tbody>
+</table></div>
+<p>Total milestone allocation:</p>
+<p><strong>1,000,000,000 GENc</strong></p>
+<p>Each milestone can be released only once.</p>
+<p>The execution flow is:</p>
+<ol type="1">
+<li>owner proposes the milestone release,</li>
+<li>the milestone ID is checked,</li>
+<li>the milestone must not already be released,</li>
+<li>the Milestone Pool must have enough balance,</li>
+<li>two distinct multisig approvals are required,</li>
+<li>the approved operation becomes executable,</li>
+<li>AMv2 transfers the milestone amount to the Airdrop wallet.</li>
+</ol>
+<p>This creates a controlled milestone distribution path.</p>
+<p>It is not an open wallet withdrawal.</p>
+</section>
+<section id="partners-pool" class="level2">
+<h2>15.9 Partners Pool</h2>
+<p>The Partners Pool is used for controlled partner-related execution
+paths.</p>
+<p>It does not release in a single direct step.</p>
+<p>It uses an arm-and-execute model with a cliff.</p>
+<p>The destination for executed Partners Pool releases is the Partners
+wallet:</p>
+<p><strong><span class="addr" data-addr="0x748D87424ee8551AAD6B7150A22438996a039F91" title="Click to copy" role="button" tabindex="0">0x748D87424ee8551AAD6B7150A22438996a039F91</span></strong></p>
+<p>The Partners execution flow is:</p>
+<ol type="1">
+<li>owner proposes a Partners arm operation,</li>
+<li>the proposed amount must be greater than zero,</li>
+<li>the Partners Pool must have enough balance,</li>
+<li>two distinct multisig approvals are required,</li>
+<li>the approved arm operation is executed,</li>
+<li>the selected amount is removed from available pool balance,</li>
+<li>the amount becomes armed,</li>
+<li>a 240-hour cliff starts,</li>
+<li>after the cliff, owner proposes Partners execution,</li>
+<li>two distinct multisig approvals are required again,</li>
+<li>the approved execution transfers the armed amount to the Partners
+wallet.</li>
+</ol>
+<p>The Partners Pool also supports cancellation.</p>
+<p>If an armed Partners operation is cancelled:</p>
+<ul>
+<li>the armed state is cleared,</li>
+<li>the amount returns to the Partners Pool balance,</li>
+<li>no transfer to the Partners wallet happens.</li>
+</ul>
+<p>This means the Partners Pool has three distinct states:</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr class="header">
+<th>State</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Available</td>
+<td>Amount remains inside Partners Pool balance</td>
+</tr>
+<tr class="even">
+<td>Armed</td>
+<td>Amount is reserved and waiting for cliff completion</td>
+</tr>
+<tr class="odd">
+<td>Executed</td>
+<td>Amount is transferred to Partners wallet</td>
+</tr>
+<tr class="even">
+<td>Cancelled</td>
+<td>Armed amount returns to Partners Pool balance</td>
+</tr>
+</tbody>
+</table></div>
+<p>This creates a delayed and approval-gated partner release path.</p>
+</section>
+<section id="contest-promotional-pool" class="level2">
+<h2>15.10 Contest / Promotional Pool</h2>
+<p>The Contest / Promotional Pool supports controlled campaign, contest
+and promotional distributions.</p>
+<p>It uses a similar arm-and-execute model to the Partners Pool, but
+with a shorter cliff.</p>
+<p>The destination for executed Contest / Promotional releases is the
+Airdrop wallet.</p>
+<p>The Contest execution flow is:</p>
+<ol type="1">
+<li>owner proposes a Contest arm operation,</li>
+<li>the proposed amount must be greater than zero,</li>
+<li>the Contest Pool must have enough balance,</li>
+<li>two distinct multisig approvals are required,</li>
+<li>the approved arm operation is executed,</li>
+<li>the selected amount is removed from available pool balance,</li>
+<li>the amount becomes armed,</li>
+<li>a 72-hour cliff starts,</li>
+<li>after the cliff, owner proposes Contest execution,</li>
+<li>two distinct multisig approvals are required again,</li>
+<li>the approved execution transfers the armed amount to the Airdrop
+wallet.</li>
+</ol>
+<p>The Contest Pool also supports cancellation.</p>
+<p>If an armed Contest operation is cancelled:</p>
+<ul>
+<li>the armed state is cleared,</li>
+<li>the amount returns to the Contest Pool balance,</li>
+<li>no transfer to the Airdrop wallet happens.</li>
+</ul>
+<p>This separates campaign-related execution from direct manual
+distribution.</p>
+</section>
+<section id="multisig-approval-model" class="level2">
+<h2>15.11 Multisig Approval Model</h2>
+<p>AMv2 uses a 2-of-4 multisig approval model for proposal-based
+operations.</p>
+<p>This approval model applies to:</p>
+<ul>
+<li>milestone release,</li>
+<li>Partners arm,</li>
+<li>Partners execute,</li>
+<li>Partners cancel,</li>
+<li>Contest arm,</li>
+<li>Contest execute,</li>
+<li>Contest cancel.</li>
+</ul>
+<p>The proposal path is owner-initiated.</p>
+<p>The approval path requires two distinct multisig signers.</p>
+<p>Once an operation has two approvals, execution can occur through the
+contract execution path.</p>
+<p>The execution path checks that:</p>
+<ul>
+<li>the operation exists,</li>
+<li>the operation has not already been executed,</li>
+<li>at least two approvals exist,</li>
+<li>the operation type is valid,</li>
+<li>pool balance and state conditions are satisfied.</li>
+</ul>
+<p>This creates separation between:</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr class="header">
+<th>Step</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Proposal</td>
+<td>Owner creates an operation</td>
+</tr>
+<tr class="even">
+<td>Approval</td>
+<td>Multisig signers approve</td>
+</tr>
+<tr class="odd">
+<td>Execution</td>
+<td>Contract executes the approved operation</td>
+</tr>
+<tr class="even">
+<td>Event record</td>
+<td>Contract emits proof of action</td>
+</tr>
+</tbody>
+</table></div>
+<p>AMv2 should therefore not be described as fully discretionary owner
+control.</p>
+<p>The owner proposes, but selected operations require multisig approval
+before execution.</p>
+</section>
+<section id="amv2-roles-and-destinations" class="level2">
+<h2>15.12 AMv2 Roles and Destinations</h2>
+<p>AMv2 uses defined roles and destination wallets.</p>
+<div class="tbl-wrap"><table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Component</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Owner</td>
+<td>Proposes and funds selected operations</td>
+</tr>
+<tr class="even">
+<td>GENERAL</td>
+<td>Executes Stage Pool release or fail paths</td>
+</tr>
+<tr class="odd">
+<td>Multisig committee</td>
+<td>Approves proposal-based operations</td>
+</tr>
+<tr class="even">
+<td>Airdrop wallet</td>
+<td>Receives stage-pass, milestone and contest execution outputs</td>
+</tr>
+<tr class="odd">
+<td>Partners wallet</td>
+<td>Receives executed partner releases</td>
+</tr>
+<tr class="even">
+<td>Burn wallet</td>
+<td>Receives burn-side stage-fail output</td>
+</tr>
+<tr class="odd">
+<td>Dividend wallet</td>
+<td>Receives dividend-side stage-fail output</td>
+</tr>
+</tbody>
+</table></div>
+<p>The important distinction is that each pool has a different
+destination model.</p>
+<p>AMv2 is not one general-purpose transfer wallet.</p>
+</section>
+<section id="pool-sealing-interpretation" class="level2">
+<h2>15.13 Pool Sealing Interpretation</h2>
+<p>AMv2 contains a pool-sealed view for the capped pools.</p>
+<p>The Stage Airdrop Pool is considered sealed when it is funded to its
+full 1.5B GENc cap.</p>
+<p>The Milestone Pool is considered sealed when it is funded to its full
+1B GENc cap.</p>
+<p>Partners and Contest pools do not return the same sealed state under
+this model.</p>
+<p>This means:</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr class="header">
+<th>Pool</th>
+<th>Seal interpretation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Stage Airdrop Pool</td>
+<td>Sealed when funded to full cap</td>
+</tr>
+<tr class="even">
+<td>Milestone Pool</td>
+<td>Sealed when funded to full cap</td>
+</tr>
+<tr class="odd">
+<td>Partners Pool</td>
+<td>Not sealed by the same cap model</td>
+</tr>
+<tr class="even">
+<td>Contest / Promotional Pool</td>
+<td>Not sealed by the same cap model</td>
+</tr>
+</tbody>
+</table></div>
+<p>The final whitepaper should avoid saying that all AMv2 pools are
+sealed.</p>
+<p>Only the capped pools use that seal interpretation.</p>
+</section>
+<section id="amv2-and-rm01-separation" class="level2">
+<h2>15.14 AMv2 and RM01 Separation</h2>
+<p>AMv2 and RM01 must remain separate in documentation.</p>
+<p>AMv2 contains a Partners Pool that can route GENc to the Partners
+wallet through an approval-gated and cliff-based execution path.</p>
+<p>RM01 is a separate deployed contract with its own:</p>
+<ul>
+<li>pool,</li>
+<li>funding state,</li>
+<li>seal state,</li>
+<li>TGE reference,</li>
+<li>recipient path,</li>
+<li>RM_BOT-triggered schedule.</li>
+</ul>
+<p>AMv2 does not execute RM01 schedules.</p>
+<p>RM01 does not define AMv2 stage, milestone, partners or contest
+logic.</p>
+<p>Allocation-wise, RM01 can belong to the broader Partners allocation
+model.</p>
+<p>Contract-wise, RM01 is separate from AMv2.</p>
+<p>This distinction prevents double-counting and prevents incorrect
+system interpretation.</p>
+</section>
+<section id="amv2-execution-summary" class="level2">
+<h2>15.15 AMv2 Execution Summary</h2>
+<p>Asset Manager v2 has four main execution paths:</p>
+<div class="tbl-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Area</th>
+<th>Execution path</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Stage Airdrop Pool</td>
+<td>GENERAL-triggered pass/fail execution</td>
+<td>Airdrop wallet, or Burn + Dividend wallets</td>
+</tr>
+<tr class="even">
+<td>Milestone Pool</td>
+<td>Owner proposal + 2-of-4 multisig approval + execution</td>
+<td>Airdrop wallet</td>
+</tr>
+<tr class="odd">
+<td>Partners Pool</td>
+<td>Owner proposal + 2-of-4 multisig approval + arm + 240h cliff +
+execution</td>
+<td>Partners wallet</td>
+</tr>
+<tr class="even">
+<td>Contest / Promotional Pool</td>
+<td>Owner proposal + 2-of-4 multisig approval + arm + 72h cliff +
+execution</td>
+<td>Airdrop wallet</td>
+</tr>
+</tbody>
+</table></div>
+<p>This is the core AMv2 model.</p>
+<p>It is a conditional execution controller.</p>
+<p>It combines:</p>
+<ul>
+<li>fixed stage amounts,</li>
+<li>pass/fail routing,</li>
+<li>milestone-based release amounts,</li>
+<li>proposal-based execution,</li>
+<li>multisig approvals,</li>
+<li>cliff-based armed releases,</li>
+<li>defined destination wallets,</li>
+<li>and on-chain event records.</li>
+</ul>
+<p>Asset Manager v2 controls dynamic GENc operational flows through
+contract-defined routing logic. It is not a passive reserve wallet and
+it is not RM01. It is the conditional operational execution layer of the
+GENESIScoin system.</p>
+</section>
+</div></section>
+<section id="rm01-2" class="level1" data-chapter="rm01-2"><div class="chapter-head"><span class="chapter-num">16</span><h1>RM01</h1></div><div class="chapter-body">
+<p>RM01 is a separate strategic release module inside the GENESIScoin
+system.</p>
+<p>It is deployed. It is verified. It was funded with 50,000,000 GENc.
+Its pool was sealed.</p>
+<p>RM01 is not pending.</p>
+<p>RM01 must be described as part of the current deployed system.</p>
+<section id="rm01-purpose" class="level2">
+<h2>16.1 RM01 Purpose</h2>
+<p>RM01 exists to control the first 50,000,000 GENc strategic release
+schedule from the RM01–RM10 reserve.</p>
+<p>The RM01–RM10 reserve is a 500,000,000 GENc sub-allocation inside the
+3,000,000,000 GENc Partners allocation.</p>
+<p>RM01 is therefore not an additional allocation outside the original
+supply model.</p>
+<p>It is the first deployed module in a planned ten-module RM
+sequence:</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr class="header">
+<th>RM Module</th>
+<th style="text-align: right;">Allocation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>RM01</td>
+<td style="text-align: right;">50,000,000 GENc</td>
+</tr>
+<tr class="even">
+<td>RM02</td>
+<td style="text-align: right;">50,000,000 GENc</td>
+</tr>
+<tr class="odd">
+<td>RM03</td>
+<td style="text-align: right;">50,000,000 GENc</td>
+</tr>
+<tr class="even">
+<td>RM04</td>
+<td style="text-align: right;">50,000,000 GENc</td>
+</tr>
+<tr class="odd">
+<td>RM05</td>
+<td style="text-align: right;">50,000,000 GENc</td>
+</tr>
+<tr class="even">
+<td>RM06</td>
+<td style="text-align: right;">50,000,000 GENc</td>
+</tr>
+<tr class="odd">
+<td>RM07</td>
+<td style="text-align: right;">50,000,000 GENc</td>
+</tr>
+<tr class="even">
+<td>RM08</td>
+<td style="text-align: right;">50,000,000 GENc</td>
+</tr>
+<tr class="odd">
+<td>RM09</td>
+<td style="text-align: right;">50,000,000 GENc</td>
+</tr>
+<tr class="even">
+<td>RM10</td>
+<td style="text-align: right;">50,000,000 GENc</td>
+</tr>
+</tbody>
+</table></div>
+<p>Total RM01–RM10 reserve: 500,000,000 GENc.</p>
+<p>It is not a general treasury wallet.</p>
+<p>It is not a liquidity wallet.</p>
+<p>It is not the Asset Manager v2 Partners Pool.</p>
+<p>It is a dedicated release module funded from the reserved RM layer
+inside the Partners allocation, with:</p>
+<ul>
+<li>fixed pool size,</li>
+<li>sealed funding,</li>
+<li>hardcoded recipient path,</li>
+<li>TGE trigger,</li>
+<li>scheduled release logic,</li>
+<li>RM_BOT-triggered execution.</li>
+</ul>
+</section>
+<section id="rm01-identity" class="level2">
+<h2>16.2 RM01 Identity</h2>
+<div class="tbl-wrap"><table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Module</td>
+<td>RM01</td>
+</tr>
+<tr class="even">
+<td>Address</td>
+<td><span class="addr" data-addr="0x40A830b22E4C39D16B8b17e8beD4ED0f7C29E547" title="Click to copy" role="button" tabindex="0">0x40A830b22E4C39D16B8b17e8beD4ED0f7C29E547</span></td>
+</tr>
+<tr class="odd">
+<td>Pool</td>
+<td>50,000,000 GENc</td>
+</tr>
+<tr class="even">
+<td>Allocation source</td>
+<td>RM01–RM10 reserve inside the 3B GENc Partners allocation</td>
+</tr>
+<tr class="odd">
+<td>Funding source</td>
+<td>Partners wallet / Partners allocation</td>
+</tr>
+<tr class="even">
+<td>Status</td>
+<td>Funded and sealed</td>
+</tr>
+<tr class="odd">
+<td>Executor</td>
+<td>RM_BOT</td>
+</tr>
+<tr class="even">
+<td>Release model</td>
+<td>TGE + scheduled releases</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section id="rm01-funding-and-seal" class="level2">
+<h2>16.3 RM01 Funding and Seal</h2>
+<p>RM01 is funded from the Partners wallet / Partners allocation.</p>
+<p>The 50,000,000 GENc RM01 pool belongs to the 500,000,000 GENc
+RM01–RM10 reserve inside the 3,000,000,000 GENc Partners allocation.</p>
+<p>After the full 50,000,000 GENc RM01 allocation is funded, the pool is
+sealed.</p>
+<p>The sealed state means that RM01 is not treated as an open-ended
+funding container.</p>
+<p>It has a defined cap and a defined release structure.</p>
+<p>RM01 is a funded and sealed 50M GENc strategic release module.</p>
+</section>
+<section id="rm01-tge" class="level2">
+<h2>16.4 RM01 TGE</h2>
+<p>RM01 uses a TGE reference connected to the PreSale / whitelist close
+state.</p>
+<p>The execution model is:</p>
+<ol type="1">
+<li>RM01 is funded,</li>
+<li>RM01 is sealed,</li>
+<li>PreSale whitelist close timestamp exists,</li>
+<li>RM_BOT calls SET_TGE,</li>
+<li>RM01 records the TGE timestamp,</li>
+<li>the release schedule begins.</li>
+</ol>
+<p>RM01 TGE is RM_BOT-triggered from the PreSale whitelist-close
+reference.</p>
+</section>
+<section id="rm01-release-schedule" class="level2">
+<h2>16.5 RM01 Release Schedule</h2>
+<p>RM01 controls a total of 50,000,000 GENc.</p>
+<p>The schedule is:</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr class="header">
+<th>Step</th>
+<th style="text-align: right;">Amount</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>TGE</td>
+<td style="text-align: right;">10,000,000 GENc</td>
+</tr>
+<tr class="even">
+<td>Release 1</td>
+<td style="text-align: right;">5,000,000 GENc</td>
+</tr>
+<tr class="odd">
+<td>Release 2</td>
+<td style="text-align: right;">5,000,000 GENc</td>
+</tr>
+<tr class="even">
+<td>Release 3</td>
+<td style="text-align: right;">5,000,000 GENc</td>
+</tr>
+<tr class="odd">
+<td>Release 4</td>
+<td style="text-align: right;">5,000,000 GENc</td>
+</tr>
+<tr class="even">
+<td>Release 5</td>
+<td style="text-align: right;">5,000,000 GENc</td>
+</tr>
+<tr class="odd">
+<td>Release 6</td>
+<td style="text-align: right;">5,000,000 GENc</td>
+</tr>
+<tr class="even">
+<td>Release 7</td>
+<td style="text-align: right;">5,000,000 GENc</td>
+</tr>
+<tr class="odd">
+<td>Release 8</td>
+<td style="text-align: right;">5,000,000 GENc</td>
+</tr>
+</tbody>
+</table></div>
+<p>Total: <strong>50,000,000 GENc</strong></p>
+</section>
+<section id="rm01-execution" class="level2">
+<h2>16.6 RM01 Execution</h2>
+<p>RM01 releases are triggered by RM_BOT.</p>
+<p>The bot reads RM01 state, checks whether a release is due and calls
+the release function when the contract schedule allows it.</p>
+<p>The contract defines:</p>
+<ul>
+<li>whether TGE is set,</li>
+<li>the next release index,</li>
+<li>the next due timestamp,</li>
+<li>the next amount,</li>
+<li>total released amount,</li>
+<li>sealed pool state.</li>
+</ul>
+<p>RM01 releases are contract-defined and RM_BOT-triggered.</p>
+<p>The bot does not create a new schedule. The bot triggers the schedule
+that the contract defines.</p>
+</section>
+<section id="rm01-separation-rule" class="level2">
+<h2>16.7 RM01 Separation Rule</h2>
+<p>RM01 must stay separate in documentation.</p>
+<p>Do not describe RM01 as:</p>
+<ul>
+<li>LP Main,</li>
+<li>LP Backup,</li>
+<li>LP Manager,</li>
+<li>Asset Manager v1,</li>
+<li>Asset Manager v2,</li>
+<li>PublicSale,</li>
+<li>a general partner wallet.</li>
+</ul>
+<p>RM01 is the first standalone 50M GENc strategic release module from
+the 500M GENc RM01–RM10 reserve inside the 3B GENc Partners
+allocation.</p>
+<p>This means RM01 is separate at the contract level, but not separate
+from the Partners allocation at the tokenomics level.</p>
+</section>
+<section id="rm01-summary" class="level2">
+<h2>16.8 RM01 Summary</h2>
+<p>RM01 adds a dedicated strategic release layer to the GENESIScoin
+system.</p>
+<p>It is the first deployed module from the RM01–RM10 reserve.</p>
+<p>The RM01–RM10 reserve equals 500,000,000 GENc and sits inside the
+broader 3,000,000,000 GENc Partners allocation.</p>
+<p>RM01 controls the first 50,000,000 GENc from that reserve through a
+sealed contract module, TGE reference and scheduled release
+execution.</p>
+<p>RM01 is the first deployed, verified, funded and sealed strategic
+release module from the RM01–RM10 reserve inside the Partners
+allocation.</p>
+<p>This prevents double-counting and keeps the allocation model
+consistent.</p>
+</section>
+</div></section>
+<section id="liquidity-layer" class="level1" data-chapter="liquidity-layer"><div class="chapter-head"><span class="chapter-num">17</span><h1>Liquidity Layer</h1></div><div class="chapter-body">
+<p>The GENESIScoin liquidity layer is based on defined liquidity
+allocations and a staged activation path.</p>
+<p>The original allocation model includes two major liquidity
+allocations:</p>
+<ul>
+<li>LP Main,</li>
+<li>LP Backup.</li>
+</ul>
+<p>Together, they represent 20,000,000,000 GENc.</p>
+<p>These allocations are central to the future liquidity and trading
+layer of the system.</p>
+<section id="lp-main" class="level2">
+<h2>17.1 LP Main</h2>
+<p>LP Main is the primary liquidity allocation.</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Allocation</td>
+<td>LP Main</td>
+</tr>
+<tr class="even">
+<td>Amount</td>
+<td>10,000,000,000 GENc</td>
+</tr>
+<tr class="odd">
+<td>Purpose</td>
+<td>Primary liquidity deployment allocation</td>
+</tr>
+<tr class="even">
+<td>Current classification</td>
+<td>Liquidity allocation wallet</td>
+</tr>
+</tbody>
+</table></div>
+<p>LP Main is intended to support the main liquidity path for
+GENESIScoin.</p>
+<p>This may include initial liquidity deployment, trading-pair support
+and primary DEX liquidity structure, depending on the final activation
+path and verifiable transactions.</p>
+</section>
+<section id="lp-backup" class="level2">
+<h2>17.2 LP Backup</h2>
+<p>LP Backup is the secondary liquidity allocation.</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Allocation</td>
+<td>LP Backup</td>
+</tr>
+<tr class="even">
+<td>Amount</td>
+<td>10,000,000,000 GENc</td>
+</tr>
+<tr class="odd">
+<td>Purpose</td>
+<td>Backup / secondary liquidity reserve</td>
+</tr>
+<tr class="even">
+<td>Current classification</td>
+<td>Liquidity allocation wallet</td>
+</tr>
+</tbody>
+</table></div>
+<p>LP Backup exists to support future liquidity expansion, contingency
+liquidity needs or additional liquidity deployment paths.</p>
+</section>
+<section id="liquidity-allocation-vs-active-lp" class="level2">
+<h2>17.3 Liquidity Allocation vs Active LP</h2>
+<p>A liquidity allocation is not the same as an active liquidity
+pair.</p>
+<p>This distinction is critical.</p>
+<div class="tbl-wrap"><table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Term</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>LP Main</td>
+<td>Defined liquidity allocation wallet</td>
+</tr>
+<tr class="even">
+<td>LP Backup</td>
+<td>Defined backup liquidity allocation wallet</td>
+</tr>
+<tr class="odd">
+<td>Active LP pair</td>
+<td>Live DEX pair used for trading</td>
+</tr>
+<tr class="even">
+<td>LP Manager</td>
+<td>Future liquidity governance module</td>
+</tr>
+<tr class="odd">
+<td>Locked liquidity</td>
+<td>A separate custody state that must be proven on-chain</td>
+</tr>
+</tbody>
+</table></div>
+<p>The final whitepaper must not treat these as the same thing.</p>
+<p>LP Main and LP Backup are defined liquidity allocations. Active
+liquidity deployment must be verified through actual liquidity
+transactions and pair state.</p>
+</section>
+<section id="stage-1-liquidity-trading-threshold" class="level2">
+<h2>17.4 Stage 1 Liquidity / Trading Threshold</h2>
+<p>Stage 1 reaching 50% sold is the first major threshold connected to
+the liquidity/trading activation path.</p>
+<p>Stage 1 50% sold creates the structural condition for the
+liquidity/trading activation path.</p>
+</section>
+<section id="lp-manager" class="level2">
+<h2>17.5 LP Manager</h2>
+<p>The LP Manager is the planned liquidity-governance smart-contract
+layer.</p>
+<p>At the current stage, it must be described as future infrastructure
+unless deployed and funded on-chain.</p>
+<p>The LP Manager is planned as a future liquidity-governance
+smart-contract module. It should not be described as controlling LP Main
+or LP Backup until it is deployed and custody transfer is verifiable
+on-chain.</p>
+</section>
+<section id="liquidity-layer-summary" class="level2">
+<h2>17.6 Liquidity Layer Summary</h2>
+<p>The liquidity layer contains:</p>
+<ul>
+<li>LP Main,</li>
+<li>LP Backup,</li>
+<li>staged liquidity/trading activation conditions,</li>
+<li>future LP Manager / liquidity-governance contract
+infrastructure,</li>
+<li>and later active liquidity deployment records.</li>
+</ul>
+<p>GENESIScoin separates liquidity allocation from liquidity execution.
+LP Main and LP Backup define the allocation layer; active liquidity
+deployment and LP Manager custody must be verified when executed
+on-chain.</p>
+</section>
+</div></section>
+<section id="execution-model" class="level1" data-chapter="execution-model"><div class="chapter-head"><span class="chapter-num">18</span><h1>Execution Model</h1></div><div class="chapter-body">
+<p>GENESIScoin uses a hybrid execution model.</p>
+<p>The system combines:</p>
+<ul>
+<li>deterministic smart contracts,</li>
+<li>bot-triggered transactions,</li>
+<li>operator-managed activation,</li>
+<li>public blockchain state,</li>
+<li>and phase-dependent execution.</li>
+</ul>
+<p>Contracts execute. Bots trigger. Operators activate.</p>
+<p>This phrase should be treated as a core documentation rule.</p>
+<section id="contract-layer" class="level2">
+<h2>18.1 Contract Layer</h2>
+<p>The contract layer defines:</p>
+<ul>
+<li>who can call specific functions,</li>
+<li>what state is required,</li>
+<li>when a transfer is valid,</li>
+<li>how pool balances are tracked,</li>
+<li>how release schedules work,</li>
+<li>what happens when a function executes,</li>
+<li>and what events are emitted.</li>
+</ul>
+<p>Contracts are the execution authority.</p>
+<p>They either accept or reject a transaction according to their
+logic.</p>
+</section>
+<section id="bot-layer" class="level2">
+<h2>18.2 Bot Layer</h2>
+<p>The bot layer supports timing and triggering.</p>
+<p>Bots and scripts:</p>
+<ul>
+<li>observe events,</li>
+<li>read contract state,</li>
+<li>monitor timestamps,</li>
+<li>check balances,</li>
+<li>prepare transactions,</li>
+<li>submit calls,</li>
+<li>and maintain local operational files where required.</li>
+</ul>
+<p>Bots do not replace contract rules.</p>
+<p>They trigger functions that contracts allow.</p>
+<p>Bots are transaction triggers for contract-defined logic.</p>
+</section>
+<section id="operator-layer" class="level2">
+<h2>18.3 Operator Layer</h2>
+<p>The operator layer is responsible for infrastructure and
+activation.</p>
+<p>Operators:</p>
+<ul>
+<li>deploy contracts,</li>
+<li>fund pools,</li>
+<li>configure scripts,</li>
+<li>start bots before their activation windows,</li>
+<li>monitor logs,</li>
+<li>maintain RPC access,</li>
+<li>ensure gas availability,</li>
+<li>and manage operational continuity.</li>
+</ul>
+<p>This means the system is not described as fully automatic without
+dependency.</p>
+<p>It is described as:</p>
+<p>contract-enforced, bot-triggered and operator-activated.</p>
+</section>
+<section id="phase-dependent-automation" class="level2">
+<h2>18.4 Phase-Dependent Automation</h2>
+<p>GENESIScoin automation is phase-dependent.</p>
+<p>Not every bot must run permanently.</p>
+<p>Some bots are broadly active during major system phases. Some bots
+are activated one stage before they are needed. Some scripts are manual
+CLI tools. Some processes are cycle-based.</p>
+<p>Example:</p>
+<p>If a bot must act in Stage 5, it may be started in Stage 4 so that it
+is already listening when Stage 5 begins.</p>
+<p>This creates three operational states:</p>
+<ol type="1">
+<li>pre-activation,</li>
+<li>listening,</li>
+<li>trigger execution.</li>
+</ol>
+<p>Bot runtime must be interpreted against the current system phase.</p>
+</section>
+<section id="runtime-interpretation" class="level2">
+<h2>18.5 Runtime Interpretation</h2>
+<p>A stopped bot does not automatically mean that a system path is
+invalid.</p>
+<p>It may mean:</p>
+<ul>
+<li>the bot is outside its activation window,</li>
+<li>the relevant system phase has not started,</li>
+<li>the bot is manual/CLI by design,</li>
+<li>or the process is intentionally inactive until needed.</li>
+</ul>
+<p>However, a bot not running during its required activation window can
+create execution delay.</p>
+<p>A bot being inactive outside its activation window is not evidence of
+system failure. A bot being inactive inside its required execution
+window is an operational risk.</p>
+</section>
+<section id="execution-summary" class="level2">
+<h2>18.6 Execution Summary</h2>
+<p>GENESIScoin should be understood as a layered execution system:</p>
+<div class="tbl-wrap"><table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Layer</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Smart contracts</td>
+<td>Define and execute rules</td>
+</tr>
+<tr class="even">
+<td>Bots / scripts</td>
+<td>Trigger contract functions and maintain observation logic</td>
+</tr>
+<tr class="odd">
+<td>Operators</td>
+<td>Activate and maintain runtime infrastructure</td>
+</tr>
+<tr class="even">
+<td>Public chain</td>
+<td>Provides verifiable state and transaction history</td>
+</tr>
+</tbody>
+</table></div>
+<p>This model is realistic and transparent.</p>
+<p>It avoids false claims of full autonomy while still showing that
+execution is governed by deployed contract logic.</p>
+</section>
+</div></section>
+<section id="risks-and-limitations" class="level1" data-chapter="risks-and-limitations"><div class="chapter-head"><span class="chapter-num">19</span><h1>Risks and Limitations</h1></div><div class="chapter-body">
+<p>This whitepaper describes the GENESIScoin system architecture and
+current execution model.</p>
+<p>It does not remove risk.</p>
+<p>GENESIScoin is a crypto-asset system using smart contracts,
+automation scripts, public-chain infrastructure and staged execution.
+Participation in any crypto-asset system involves risk.</p>
+<p>This section is a public system limitation summary, not a legal
+document.</p>
+<section id="smart-contract-risk" class="level2">
+<h2>19.1 Smart Contract Risk</h2>
+<p>GENESIScoin relies on deployed smart contracts.</p>
+<p>Smart contracts can contain bugs, unintended behavior, integration
+issues or vulnerabilities.</p>
+<p>Verification of source code does not equal an audit and does not
+guarantee safety.</p>
+<p>Verified source improves transparency. It does not eliminate
+technical risk.</p>
+</section>
+<section id="automation-risk" class="level2">
+<h2>19.2 Automation Risk</h2>
+<p>Some GENESIScoin execution paths require bots or scripts to submit
+transactions at the correct time.</p>
+<p>If a bot is offline, misconfigured, unfunded for gas, using an
+incorrect RPC endpoint or started too late, execution may be
+delayed.</p>
+<p>This affects timing, not necessarily the existence of the contract
+function.</p>
+<p>Contract logic can exist even when the trigger process is not
+active.</p>
+</section>
+<section id="oracle-and-external-data-risk" class="level2">
+<h2>19.3 Oracle and External Data Risk</h2>
+<p>The Oracle layer supports price updates, stage transitions, whitelist
+timing, B100D timing, BNB distribution and PublicSale activation.</p>
+<p>If Oracle execution fails, is delayed or uses incorrect
+configuration, system transitions may be delayed or affected.</p>
+<p>Oracle-triggered execution introduces operational dependency.</p>
+</section>
+<section id="tracking-and-file-state-risk" class="level2">
+<h2>19.4 Tracking and File-State Risk</h2>
+<p>Some systems use off-chain tracking files and scripts.</p>
+<p>Examples include:</p>
+<ul>
+<li>airdrop holder tracking,</li>
+<li>dividend holder tracking,</li>
+<li>cycle metadata,</li>
+<li>payout lists,</li>
+<li>bonus daily state,</li>
+<li>release bot state.</li>
+</ul>
+<p>If local files are corrupted, stale or inconsistent, eligibility or
+execution data may require correction or resynchronization.</p>
+<p>Off-chain tracking supports execution but must be maintained
+carefully.</p>
+</section>
+<section id="liquidity-risk" class="level2">
+<h2>19.5 Liquidity Risk</h2>
+<p>Liquidity is not guaranteed.</p>
+<p>LP Main and LP Backup are defined liquidity allocations, but active
+market liquidity depends on actual deployment, pair creation, liquidity
+provisioning and market conditions.</p>
+<p>A liquidity allocation is not the same as guaranteed tradability.</p>
+<p>Liquidity must be verified through actual on-chain liquidity
+deployment.</p>
+</section>
+<section id="lp-manager-pending-status" class="level2">
+<h2>19.6 LP Manager Pending Status</h2>
+<p>The LP Manager is not described as active unless deployed and
+funded.</p>
+<p>Until that happens, it remains future infrastructure.</p>
+<p>Planned infrastructure is not current custody.</p>
+</section>
+<section id="market-and-participation-risk" class="level2">
+<h2>19.7 Market and Participation Risk</h2>
+<p>GENc may experience volatility, low liquidity, no liquidity, low
+demand or complete loss of market value.</p>
+<p>No system architecture guarantees market performance.</p>
+<p>Verifiable execution does not guarantee price, liquidity, adoption or
+outcome.</p>
+</section>
+<section id="no-outcome-guarantee" class="level2">
+<h2>19.8 No Outcome Guarantee</h2>
+<p>GENESIScoin documentation should not be interpreted as a guarantee
+of:</p>
+<ul>
+<li>profit,</li>
+<li>yield,</li>
+<li>trading,</li>
+<li>liquidity,</li>
+<li>exchange listing,</li>
+<li>price appreciation,</li>
+<li>reward continuity,</li>
+<li>or ecosystem success.</li>
+</ul>
+<p>The project standard is Proof Before Promise, not promise before
+execution.</p>
+</section>
+</div></section>
+<section id="closing-statement" class="level1" data-chapter="closing-statement"><div class="chapter-head"><span class="chapter-num">20</span><h1>Closing Statement</h1></div><div class="chapter-body">
+<p>GENESIScoin is built as a modular on-chain system on BNB Smart
+Chain.</p>
+<p>Its architecture separates the ecosystem into distinct execution
+layers:</p>
+<ul>
+<li>the GENESIScoin token as the asset layer,</li>
+<li>PreSaleGENc as the staged initial distribution layer,</li>
+<li>PublicSaleGENc as the post-PreSale distribution layer,</li>
+<li>Asset Manager v1 as the fixed treasury release layer,</li>
+<li>Asset Manager v2 as the conditional operational execution
+controller,</li>
+<li>RM01 as a separate strategic release module,</li>
+<li>LP Main and LP Backup as defined liquidity allocations,</li>
+<li>and a future LP Manager as planned liquidity-governance
+smart-contract infrastructure.</li>
+</ul>
+<p>The system is not presented as trustless by slogan.</p>
+<p>It is presented as verifiable by structure.</p>
+<p>The standard remains:</p>
+<p><strong>Proof Before Promise.</strong></p>
+<p>And the behavior remains:</p>
+<p><strong>Don’t Assume. Verify.</strong></p>
+<p>GENESIScoin exists to show execution before narrative, deployed
+infrastructure before expansion claims, and system logic before
+promises.</p>
+<p>The record should be checked. The contracts should be read. The flows
+should be verified.</p>
+<p>That is the GENESIScoin standard.</p>
+</div></section>
+
+  </div>
+  <footer class="doc-foot">
+    <span>GENESIScoin Whitepaper v2.0 · Proof Before Promise</span>
+    <span>Don't Assume. Verify. · #ProofBeforePromise</span>
+  </footer>
+</main>
+
+<script>
+const TOC=[{"id": "introduction", "num": "1", "title": "Introduction", "subs": []}, {"id": "proof-before-promise", "num": "2", "title": "Proof Before Promise", "subs": []}, {"id": "genesiscoin-overview", "num": "3", "title": "GENESIScoin Overview", "subs": []}, {"id": "token-overview", "num": "4", "title": "Token Overview", "subs": [["token-identity", "4.1 Token Identity"], ["supply-model", "4.2 Supply Model"], ["token-function-inside-the-system", "4.3 Token Function Inside the System"]]}, {"id": "token-fee-and-trading-activation-model", "num": "5", "title": "Token Fee and Trading Activation Model", "subs": []}, {"id": "modular-system-architecture", "num": "6", "title": "Modular System Architecture", "subs": [["genesiscoin-token-contract", "6.1 GENESIScoin Token Contract"], ["presalegenc", "6.2 PreSaleGENc"], ["publicsalegenc", "6.3 PublicSaleGENc"], ["asset-manager-v1", "6.4 Asset Manager v1"], ["asset-manager-v2", "6.5 Asset Manager v2"], ["rm01", "6.6 RM01"], ["liquidity-allocations", "6.7 Liquidity Allocations"], ["automation-layer", "6.8 Automation Layer"], ["architecture-summary", "6.9 Architecture Summary"]]}, {"id": "original-allocation-model", "num": "7", "title": "Original Allocation Model", "subs": [["original-genc-allocation", "7.1 Original GENc Allocation"], ["allocation-by-system-purpose", "7.2 Allocation by System Purpose"], ["deployment-aware-allocation-view", "7.3 Deployment-Aware Allocation View"], ["allocation-vs-custody", "7.4 Allocation vs Custody"], ["allocation-documentation-rule", "7.5 Allocation Documentation Rule"]]}, {"id": "current-deployed-system-state", "num": "8", "title": "Current Deployed System State", "subs": [["deployed-core-modules", "8.1 Deployed Core Modules"], ["current-visible-custody-snapshot", "8.3 Current Visible Custody Snapshot"], ["current-module-roles", "8.4 Current Module Roles"], ["current-system-statement", "8.5 Current System Statement"], ["interpretation-rule", "8.6 Interpretation Rule"], ["publication-check-requirement", "8.7 Publication Check Requirement"]]}, {"id": "presale-system", "num": "9", "title": "PreSale System", "subs": [["presale-purpose", "9.1 PreSale Purpose"], ["stage-model", "9.2 Stage Model"], ["stage-1-initial-threshold", "9.3 Stage 1 \u2014 Initial Threshold"], ["stages-24-timed-or-sold-out-progression", "9.4 Stages 2\u20134 \u2014 Timed or Sold-Out Progression"], ["presale-end-and-whitelist-close", "9.6 PreSale End and Whitelist Close"], ["b100d-connection", "9.7 B100D Connection"], ["oracle-role-in-presale", "9.8 Oracle Role in PreSale"], ["bnb-distribution", "9.9 BNB Distribution"], ["presale-summary", "9.10 PreSale Summary"]]}, {"id": "publicsale-system", "num": "10", "title": "PublicSale System", "subs": [["publicsale-purpose", "10.1 PublicSale Purpose"], ["publicsale-activation", "10.2 PublicSale Activation"], ["daily-bonus-system", "10.3 Daily Bonus System"], ["publicsale-phases", "10.4 PublicSale Phases"], ["dividendgenc-connection", "10.5 DividendGENc Connection"], ["airdrop-connection", "10.6 Airdrop Connection"], ["contract-executed-bot-triggered-model", "10.7 Contract-Executed, Bot-Triggered Model"], ["publicsale-summary", "10.8 PublicSale Summary"]]}, {"id": "b100d-loyalty-system", "num": "11", "title": "B100D Loyalty System", "subs": [["b100d-purpose", "11.1 B100D Purpose"], ["b100d-entry-flow", "11.2 B100D Entry Flow"], ["initialhold", "11.3 InitialHold"], ["b100d-balance-enforcement", "11.4 B100D Balance Enforcement"], ["daily-b100d-payout", "11.5 Daily B100D Payout"], ["final-b100d-bonus", "11.6 Final B100D Bonus"], ["b100d-summary", "11.7 B100D Summary"]]}, {"id": "dividendgenc-system", "num": "12", "title": "DividendGENc System", "subs": [["dividendgenc-purpose", "12.1 DividendGENc Purpose"], ["two-different-reward-layers", "12.2 Two Different Reward Layers"], ["dividendtracker", "12.3 DividendTracker"], ["dividendverifier", "12.4 DividendVerifier"], ["initialhold-and-balance-maintenance", "12.5 InitialHold and Balance Maintenance"], ["adjusted-balance-rule", "12.6 Adjusted Balance Rule"], ["payout-execution", "12.7 Payout Execution"], ["dividendgenc-summary", "12.8 DividendGENc Summary"]]}, {"id": "airdrop-system", "num": "13", "title": "Airdrop System", "subs": [["airdrop-purpose", "13.1 Airdrop Purpose"], ["airdrop-tracker", "13.2 Airdrop Tracker"], ["airdrop-console", "13.3 Airdrop Console"], ["airdrop-execution-model", "13.4 Airdrop Execution Model"], ["airdrop-summary", "13.5 Airdrop Summary"]]}, {"id": "asset-manager-v1-1", "num": "14", "title": "Asset Manager v1", "subs": [["asset-manager-v1-purpose", "14.1 Asset Manager v1 Purpose"], ["full-funding-principle", "14.2 Full-Funding Principle"], ["wastestart-anchor", "14.3 WasteStart Anchor"], ["release-execution", "14.4 Release Execution"], ["id1id6-release-schedules", "14.5 ID1\u2013ID6 Release Schedules"], ["origin-based-release-model", "14.6 Origin-Based Release Model"], ["bot-loop", "14.7 Bot Loop"], ["asset-manager-v1-summary", "14.8 Asset Manager v1 Summary"]]}, {"id": "asset-manager-v2-1", "num": "15", "title": "Asset Manager v2", "subs": [["amv2-purpose", "15.1 AMv2 Purpose"], ["amv2-pool-structure", "15.2 AMv2 Pool Structure"], ["amv2-accounting-model", "15.3 AMv2 Accounting Model"], ["stage-airdrop-pool", "15.4 Stage Airdrop Pool"], ["stage-pass-path", "15.5 Stage PASS Path"], ["stage-fail-path", "15.6 Stage FAIL Path"], ["stage-routing-summary", "15.7 Stage Routing Summary"], ["milestone-pool", "15.8 Milestone Pool"], ["partners-pool", "15.9 Partners Pool"], ["contest-promotional-pool", "15.10 Contest / Promotional Pool"], ["multisig-approval-model", "15.11 Multisig Approval Model"], ["amv2-roles-and-destinations", "15.12 AMv2 Roles and Destinations"], ["pool-sealing-interpretation", "15.13 Pool Sealing Interpretation"], ["amv2-and-rm01-separation", "15.14 AMv2 and RM01 Separation"], ["amv2-execution-summary", "15.15 AMv2 Execution Summary"]]}, {"id": "rm01-2", "num": "16", "title": "RM01", "subs": [["rm01-purpose", "16.1 RM01 Purpose"], ["rm01-identity", "16.2 RM01 Identity"], ["rm01-funding-and-seal", "16.3 RM01 Funding and Seal"], ["rm01-tge", "16.4 RM01 TGE"], ["rm01-release-schedule", "16.5 RM01 Release Schedule"], ["rm01-execution", "16.6 RM01 Execution"], ["rm01-separation-rule", "16.7 RM01 Separation Rule"], ["rm01-summary", "16.8 RM01 Summary"]]}, {"id": "liquidity-layer", "num": "17", "title": "Liquidity Layer", "subs": [["lp-main", "17.1 LP Main"], ["lp-backup", "17.2 LP Backup"], ["liquidity-allocation-vs-active-lp", "17.3 Liquidity Allocation vs Active LP"], ["stage-1-liquidity-trading-threshold", "17.4 Stage 1 Liquidity / Trading Threshold"], ["lp-manager", "17.5 LP Manager"], ["liquidity-layer-summary", "17.6 Liquidity Layer Summary"]]}, {"id": "execution-model", "num": "18", "title": "Execution Model", "subs": [["contract-layer", "18.1 Contract Layer"], ["bot-layer", "18.2 Bot Layer"], ["operator-layer", "18.3 Operator Layer"], ["phase-dependent-automation", "18.4 Phase-Dependent Automation"], ["runtime-interpretation", "18.5 Runtime Interpretation"], ["execution-summary", "18.6 Execution Summary"]]}, {"id": "risks-and-limitations", "num": "19", "title": "Risks and Limitations", "subs": [["smart-contract-risk", "19.1 Smart Contract Risk"], ["automation-risk", "19.2 Automation Risk"], ["oracle-and-external-data-risk", "19.3 Oracle and External Data Risk"], ["tracking-and-file-state-risk", "19.4 Tracking and File-State Risk"], ["liquidity-risk", "19.5 Liquidity Risk"], ["lp-manager-pending-status", "19.6 LP Manager Pending Status"], ["market-and-participation-risk", "19.7 Market and Participation Risk"], ["no-outcome-guarantee", "19.8 No Outcome Guarantee"]]}, {"id": "closing-statement", "num": "20", "title": "Closing Statement", "subs": []}];
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+
+/* progress */
+const prog=$('#progress');
+function onScroll(){
+  const h=document.documentElement, sc=h.scrollTop, mx=h.scrollHeight-h.clientHeight;
+  prog.style.width=(mx>0?sc/mx*100:0)+'%';
+}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+/* scrollspy */
+const chSecs=$$('section.level1');
+const spy=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      const id=e.target.id;
+      $$('.toc-ch').forEach(x=>x.classList.toggle('active',x.dataset.for===id));
+      const a=$('.toc-ch.active'); if(a) a.scrollIntoView({block:'nearest'});
+    }
+  });
+},{rootMargin:'-15% 0px -70% 0px',threshold:0});
+chSecs.forEach(s=>spy.observe(s));
+
+/* subsection spy */
+const subSecs=$$('section.level2');
+const subSpy=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting){
+    $$('.toc-sub a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id));
+  }});
+},{rootMargin:'-20% 0px -70% 0px',threshold:0});
+subSecs.forEach(s=>subSpy.observe(s));
+
+/* collapse chapters */
+$$('.chapter-head').forEach(h=>{
+  h.addEventListener('click',e=>{
+    if(e.target.closest('.addr'))return;
+    h.parentElement.classList.toggle('collapsed');
+  });
+});
+
+/* copy addresses */
+function bindCopy(el){
+  const go=()=>{
+    const a=el.dataset.addr||el.textContent;
+    navigator.clipboard&&navigator.clipboard.writeText(a);
+    const t=el.textContent; el.classList.add('copied'); el.textContent='copied ✓';
+    setTimeout(()=>{el.textContent=t;el.classList.remove('copied')},1000);
+  };
+  el.addEventListener('click',go);
+  el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go()}});
+}
+$$('.addr').forEach(bindCopy);
+
+/* search */
+const box=$('#q');
+let tmr;
+function clearMarks(root){
+  root.querySelectorAll('mark').forEach(m=>{const t=document.createTextNode(m.textContent);m.replaceWith(t);});
+  root.normalize&&root.normalize();
+}
+function walkHighlight(node,rx){
+  let hit=false;
+  const tw=document.createTreeWalker(node,NodeFilter.SHOW_TEXT,{
+    acceptNode:n=>(n.parentElement&&/SCRIPT|STYLE|MARK/.test(n.parentElement.tagName))?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT
+  });
+  const targets=[];let n;while(n=tw.nextNode())if(rx.test(n.nodeValue))targets.push(n);
+  targets.forEach(t=>{
+    hit=true;
+    const frag=document.createDocumentFragment();let last=0;const s=t.nodeValue;rx.lastIndex=0;let m;
+    while(m=rx.exec(s)){
+      frag.append(s.slice(last,m.index));
+      const mk=document.createElement('mark');mk.textContent=m[0];frag.append(mk);last=m.index+m[0].length;
+      if(m.index===rx.lastIndex)rx.lastIndex++;
+    }
+    frag.append(s.slice(last));t.replaceWith(frag);
+  });
+  return hit;
+}
+function runSearch(){
+  const q=box.value.trim();
+  chSecs.forEach(s=>{clearMarks(s);s.classList.remove('has-hit');s.classList.remove('collapsed');});
+  if(q.length<2){document.body.classList.remove('searching');return;}
+  document.body.classList.add('searching');
+  const rx=new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'ig');
+  let any=0;
+  chSecs.forEach(s=>{ if(walkHighlight(s,rx)){s.classList.add('has-hit');any++;} });
+  const he=$('#toc-empty'); if(he) he.style.display=any?'none':'block';
+}
+box.addEventListener('input',()=>{clearTimeout(tmr);tmr=setTimeout(runSearch,140)});
+box.addEventListener('keydown',e=>{if(e.key==='Escape'){box.value='';runSearch();box.blur()}});
+addEventListener('keydown',e=>{if(e.key==='/'&&document.activeElement!==box){e.preventDefault();box.focus()}});
+
+/* mobile nav */
+const mb=$('#menu-btn'),scrim=$('#scrim');
+function closeNav(){document.body.classList.remove('nav-open')}
+mb&&mb.addEventListener('click',()=>document.body.classList.toggle('nav-open'));
+scrim&&scrim.addEventListener('click',closeNav);
+$$('#toc a').forEach(a=>a.addEventListener('click',()=>{if(innerWidth<=920)closeNav()}));
+</script>
+</body>
+</html>
