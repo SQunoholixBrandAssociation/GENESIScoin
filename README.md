@@ -147,8 +147,9 @@ GENESIScoin/
 
 ## Community & Channels
 
-- X (Twitter): [@GENcoinCore](https://x.com/GENcoinCore)
-- Discord: [GENESIScoin Community](https://discord.gg/9q22NAVm)
+- X (GENESIScoin): [@GENcoinCore](https://x.com/GENcoinCore)
+- X (AGORA): [@GENcAGORA](https://x.com/GENcAGORA)
+- X (SBA | D_LAB): [@SQUNOHOLIX](https://x.com/SQUNOHOLIX)
 - Telegram (Announcements): [SBAlaunch](https://t.me/SBAlaunch)
 - Telegram (Discussion): [GENcAgora](https://t.me/GENcAgora)
 - YouTube: [@SQUNOHOLIX_Impact](https://www.youtube.com/@SQUNOHOLIX_Impact)
